@@ -1,0 +1,254 @@
+.agent-demo {
+  padding: 6rem 0;
+  position: relative;
+  background: linear-gradient(180deg, rgba(5, 8, 22, 0) 0%, rgba(5, 8, 22, 0.8) 100%);
+}
+
+.demo-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  animation: fade-in-up 0.8s ease-out;
+}
+
+.demo-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #F9FAFB;
+}
+
+.demo-subtitle {
+  font-size: 1.25rem;
+  color: #9CA3AF;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.demo-content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Agents Panel */
+.agents-panel,
+.timeline-panel {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.panel-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #F9FAFB;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.agents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.agent-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(5, 8, 22, 0.5);
+  border: 1px solid #1E293B;
+  border-radius: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.agent-card.active {
+  border-color: var(--agent-color);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.agent-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #F9FAFB;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.agent-level {
+  font-size: 0.875rem;
+}
+
+.agent-info {
+  flex: 1;
+}
+
+.agent-name {
+  font-weight: 600;
+  color: #F9FAFB;
+  margin-bottom: 0.25rem;
+}
+
+.agent-role {
+  font-size: 0.875rem;
+  color: #6B7280;
+}
+
+.agent-status {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.status-thinking {
+  background: rgba(249, 115, 22, 0.2);
+  color: #F97316;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.status-working {
+  background: rgba(37, 99, 235, 0.2);
+  color: #60A5FA;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.status-completed {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22C55E;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #2563EB 0%, #A855F7 100%);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  animation: fade-in-up 0.5s ease-out backwards;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -1.5rem;
+  top: 0.25rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(5, 8, 22, 0.8);
+}
+
+.timeline-content {
+  padding-left: 1rem;
+}
+
+.timeline-agent {
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-action {
+  color: #9CA3AF;
+  font-size: 0.875rem;
+}
+
+/* Output Preview */
+.output-preview {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  animation: fade-in-up 0.8s ease-out 0.4s backwards;
+}
+
+.output-header {
+  background: rgba(5, 8, 22, 0.8);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.output-icon {
+  font-size: 1.25rem;
+}
+
+.output-title {
+  font-weight: 600;
+  color: #F9FAFB;
+}
+
+.output-body {
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.code-block {
+  margin: 0;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #e5e5e5;
+}
+
+.code-block code {
+  display: block;
+  white-space: pre;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .demo-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .agent-demo {
+    padding: 4rem 0;
+  }
+
+  .demo-title {
+    font-size: 2rem;
+  }
+
+  .agents-panel,
+  .timeline-panel,
+  .output-preview {
+    padding: 1.5rem;
+  }
+
+  .agent-card {
+    padding: 0.75rem;
+  }
+}

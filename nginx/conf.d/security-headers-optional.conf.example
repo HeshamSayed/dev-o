@@ -1,0 +1,37 @@
+# OPTIONAL: Strict Content Security Policy
+#
+# This configuration prevents browser extensions from injecting scripts.
+# WARNING: This will break password managers and other useful extensions!
+#
+# Only enable this in production if you absolutely need to prevent extension injection.
+#
+# To enable:
+# 1. Rename this file to: security-headers-optional.conf
+# 2. Restart nginx: docker-compose restart nginx
+# 3. Test thoroughly with your users' workflow
+#
+# To disable:
+# 1. Rename back to: security-headers-optional.conf.example
+# 2. Restart nginx: docker-compose restart nginx
+
+# Uncomment the line below to enable strict CSP:
+# add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' wss: https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self';" always;
+
+# Alternative: Report-only mode (logs violations without blocking)
+# This is safer for testing - it won't break extensions but will report what would be blocked
+# add_header Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' wss: https:; report-uri /csp-violation-report;" always;
+
+# Notes:
+# - 'unsafe-inline': Required for React inline styles and some libraries
+# - 'unsafe-eval': Required by some JS frameworks (remove if possible)
+# - wss: https:: Required for WebSocket connections
+# - data:: Required for inline images and fonts
+# - https:: Allows loading external resources over HTTPS
+
+# Additional Security Headers (Safe to enable):
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()" always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+# Disable this if you need to embed your site in iframes:
+# add_header X-Frame-Options "DENY" always;

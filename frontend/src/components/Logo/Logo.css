@@ -1,0 +1,144 @@
+.dev-o-logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2px 10px rgba(96, 165, 250, 0.2));
+}
+
+/* Logo Letters - DEV */
+.logo-letter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  filter: drop-shadow(0 2px 8px rgba(96, 165, 250, 0.3));
+  animation: letter-glow 3s ease-in-out infinite;
+}
+
+@keyframes letter-glow {
+  0%, 100% {
+    filter: drop-shadow(0 2px 8px rgba(96, 165, 250, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.5));
+  }
+}
+
+/* Logo Dash */
+.logo-dash {
+  animation: dash-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes dash-pulse {
+  0%, 100% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
+  }
+}
+
+/* Letter O - Outer Ring */
+.o-outer {
+  animation: o-ring-pulse 3s ease-in-out infinite;
+}
+
+@keyframes o-ring-pulse {
+  0%, 100% {
+    stroke-width: 10;
+    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4));
+  }
+  50% {
+    stroke-width: 11;
+    filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.6));
+  }
+}
+
+/* Letter O - Inner Core */
+.o-inner {
+  animation: o-core-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes o-core-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.7));
+  }
+}
+
+/* Letter O - Center Dot */
+.o-center {
+  animation: center-pulse 2s ease-in-out infinite;
+}
+
+@keyframes center-pulse {
+  0%, 100% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Neural Nodes */
+.neural-node {
+  animation: node-pulse 2.5s ease-in-out infinite;
+}
+
+.n1 { animation-delay: 0s; }
+.n2 { animation-delay: 0.3s; }
+.n3 { animation-delay: 0.6s; }
+.n4 { animation-delay: 0.9s; }
+.n5 { animation-delay: 1.2s; }
+.n6 { animation-delay: 1.5s; }
+.n7 { animation-delay: 1.8s; }
+.n8 { animation-delay: 2.1s; }
+
+@keyframes node-pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Neural Links */
+.neural-link {
+  animation: link-flow 2s ease-in-out infinite;
+}
+
+@keyframes link-flow {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.logo-text-main {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.logo-text-sub {
+  font-size: 0.75rem;
+  color: #6b7280;
+  letter-spacing: 0.1em;
+}
