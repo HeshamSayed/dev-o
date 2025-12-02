@@ -1,39 +1,108 @@
+/* Section Divider - Mobile First */
 .section-divider {
   position: relative;
   width: 100%;
+  height: 60px;
   overflow: hidden;
-  line-height: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.divider-svg {
-  position: relative;
   display: block;
-  width: calc(100% + 1.3px);
-  height: 100px;
-  transform-origin: center;
+  pointer-events: none;
 }
 
-.divider-svg.flip {
-  transform: rotateX(180deg) rotateY(0deg);
+.section-divider svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-/* Responsive heights */
-@media (max-width: 1024px) {
-  .divider-svg {
+/* Wave variant */
+.section-divider.wave svg {
+  bottom: 0;
+  left: 0;
+}
+
+.section-divider.wave path {
+  fill: currentColor;
+}
+
+/* Curve variant */
+.section-divider.curve svg {
+  bottom: 0;
+  left: 0;
+}
+
+.section-divider.curve path {
+  fill: currentColor;
+}
+
+/* Tilt variant */
+.section-divider.tilt svg {
+  bottom: 0;
+  left: 0;
+}
+
+.section-divider.tilt path {
+  fill: currentColor;
+}
+
+/* Flip variant (inverts the divider) */
+.section-divider.flip {
+  transform: scaleY(-1);
+}
+
+/* Different sizes for different screen sizes */
+@media (min-width: 640px) {
+  .section-divider {
     height: 80px;
   }
 }
 
-@media (max-width: 768px) {
-  .divider-svg {
-    height: 60px;
+@media (min-width: 768px) {
+  .section-divider {
+    height: 100px;
   }
 }
 
-@media (max-width: 480px) {
-  .divider-svg {
-    height: 50px;
+@media (min-width: 1024px) {
+  .section-divider {
+    height: 120px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .section-divider {
+    height: 140px;
+  }
+}
+
+/* Color variants through parent */
+.section-divider-dark {
+  color: #0B1220;
+}
+
+.section-divider-light {
+  color: #1E293B;
+}
+
+.section-divider-gradient {
+  color: rgba(11, 18, 32, 0.5);
+}
+
+/* Animation for smooth transitions */
+.section-divider {
+  transition: height 0.3s ease;
+}
+
+/* Preserve aspect ratio on ultra-wide screens */
+@media (min-width: 1920px) {
+  .section-divider svg {
+    preserveAspectRatio: none;
+  }
+}
+
+/* Accessibility - Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .section-divider {
+    transition: none;
   }
 }
