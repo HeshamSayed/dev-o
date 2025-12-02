@@ -7,6 +7,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import ProjectWorkspace from './pages/ProjectWorkspace';
 import PricingPage from './pages/PricingPage';
 import ReferralDashboard from './pages/Referrals/ReferralDashboard';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 // Simple signup redirect component
 function SignupRoute() {
@@ -55,7 +56,7 @@ function App() {
           element={
             isChatSubdomain
               ? (isAuthenticated ? <ChatPage /> : <Navigate to="/login" />)
-              : <Navigate to={isAuthenticated ? "/projects" : "/login"} />
+              : (isAuthenticated ? <Navigate to="/projects" /> : <LandingPage />)
           }
         />
       </Routes>
