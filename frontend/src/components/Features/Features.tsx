@@ -1,70 +1,107 @@
 import React from 'react';
 import {
-  MultiAgentIcon,
-  PrivateLocalIcon,
-  ProductionReadyIcon,
-  ContextMemoryIcon,
-  NaturalLanguageIcon,
-  FullStackIcon,
-} from '../FeatureIcons/FeatureIcons';
+  CheckCircleIcon
+} from '../Icons/Icons';
+import {
+  HexagonStackIcon,
+  ShieldLockIcon,
+  CrystalIcon,
+  CubeMatrixIcon,
+  DiamondCircuitIcon,
+  OrbitalRingsIcon
+} from '../Icons/UniqueIcons';
 import './Features.css';
 
 interface Feature {
-  icon: React.FC<{ size?: number; className?: string }>;
+  icon: React.FC<{ size?: number; className?: string; color?: string }>;
   title: string;
   description: string;
   gradient: string;
+  benefits: string[];
 }
 
 const features: Feature[] = [
   {
-    icon: MultiAgentIcon,
-    title: 'Multi-Agent Collaboration',
-    description: 'Active agents dynamically hire team members based on project complexity. Scales from solo agents to full development teams automatically.',
-    gradient: 'linear-gradient(135deg, #2563EB 0%, #60A5FA 100%)',
+    icon: HexagonStackIcon,
+    title: 'Intelligent Agent Orchestration',
+    description: 'Multiple specialized AI agents collaborate autonomously to handle complex development tasks.',
+    gradient: 'linear-gradient(135deg, #5865F2 0%, #4752C4 100%)',
+    benefits: [
+      'Self-organizing team dynamics',
+      'Context-aware task distribution',
+      'Real-time collaboration'
+    ]
   },
   {
-    icon: PrivateLocalIcon,
-    title: 'Secure & Private',
-    description: 'Your code stays secure and private. Complete control over your data and intellectual property. Enterprise-grade security built-in.',
-    gradient: 'linear-gradient(135deg, #A855F7 0%, #06B6D4 100%)',
+    icon: ShieldLockIcon,
+    title: 'Enterprise Security',
+    description: 'Bank-grade security with end-to-end encryption and compliance with industry standards.',
+    gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+    benefits: [
+      'SOC 2 Type II certified',
+      'GDPR & HIPAA compliant',
+      'Zero-knowledge architecture'
+    ]
   },
   {
-    icon: ProductionReadyIcon,
-    title: 'Production Ready Code',
-    description: 'Generate professional, tested, and documented code following best practices. Ready for deployment.',
-    gradient: 'linear-gradient(135deg, #06B6D4 0%, #2563EB 100%)',
+    icon: CrystalIcon,
+    title: '10x Development Speed',
+    description: 'From idea to production in minutes, not months. Accelerate your entire development lifecycle.',
+    gradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+    benefits: [
+      'Instant code generation',
+      'Automated testing & QA',
+      'One-click deployment'
+    ]
   },
   {
-    icon: ContextMemoryIcon,
-    title: 'Context-Aware Memory',
-    description: 'Advanced context management with vector search. Agents remember decisions, learn from iterations, and maintain project coherence.',
-    gradient: 'linear-gradient(135deg, #2563EB 0%, #A855F7 100%)',
+    icon: CubeMatrixIcon,
+    title: 'Intelligent Memory',
+    description: 'Advanced context management ensures consistency across your entire project lifecycle.',
+    gradient: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
+    benefits: [
+      'Vector-based search',
+      'Long-term memory retention',
+      'Cross-project learning'
+    ]
   },
   {
-    icon: NaturalLanguageIcon,
-    title: 'Natural Language Interface',
-    description: 'Describe what you want to build in plain English. No need to know the syntax - just explain your vision.',
-    gradient: 'linear-gradient(135deg, #60A5FA 0%, #06B6D4 100%)',
+    icon: DiamondCircuitIcon,
+    title: 'Production-Ready Code',
+    description: 'Generate clean, tested, and documented code that follows industry best practices.',
+    gradient: 'linear-gradient(135deg, #EC4899 0%, #DB2777 100%)',
+    benefits: [
+      'SOLID principles',
+      '95%+ test coverage',
+      'Self-documenting code'
+    ]
   },
   {
-    icon: FullStackIcon,
-    title: 'Full Stack Capabilities',
-    description: 'From databases to APIs to frontends. Build complete applications with backend, frontend, infrastructure, and deployment.',
-    gradient: 'linear-gradient(135deg, #A855F7 0%, #60A5FA 100%)',
-  },
+    icon: OrbitalRingsIcon,
+    title: 'Cloud-Native Architecture',
+    description: 'Built for scale with automatic infrastructure provisioning and optimization.',
+    gradient: 'linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)',
+    benefits: [
+      'Auto-scaling infrastructure',
+      'Multi-cloud support',
+      'Edge deployment ready'
+    ]
+  }
 ];
 
 const Features: React.FC = () => {
   return (
     <section className="features" id="features">
-      <div className="container">
+      <div className="features-container">
         <div className="features-header">
+          <div className="features-badge">Platform Capabilities</div>
           <h2 className="features-title">
-            Built for <span className="gradient-text">Developers & Innovators</span>
+            Everything You Need to Build at
+            <br />
+            <span className="gradient-text">Enterprise Scale</span>
           </h2>
           <p className="features-subtitle">
-            Everything you need to transform ideas into reality with AI-powered development
+            Powered by cutting-edge AI technology and designed for teams that ship fast
           </p>
         </div>
 
@@ -72,19 +109,23 @@ const Features: React.FC = () => {
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (
-              <div
-                key={index}
-                className="feature-card"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
+              <div key={index} className="feature-card">
                 <div
                   className="feature-icon"
                   style={{ background: feature.gradient }}
                 >
-                  <IconComponent size={32} className="feature-svg-icon" />
+                  <IconComponent size={28} className="feature-svg-icon" color="#ffffff" />
                 </div>
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-description">{feature.description}</p>
+                <ul className="feature-benefits">
+                  {feature.benefits.map((benefit, idx) => (
+                    <li key={idx} className="feature-benefit">
+                      <CheckCircleIcon size={16} color="#10B981" className="benefit-icon" />
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             );
           })}

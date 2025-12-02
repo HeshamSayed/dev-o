@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CodeIcon } from '../Icons/Icons';
 import './AgentDemo.css';
 
 interface Agent {
@@ -135,7 +136,9 @@ const AgentDemo: React.FC = () => {
         {/* Code Output Preview */}
         <div className="output-preview">
           <div className="output-header">
-            <span className="output-icon">📁</span>
+            <span className="output-icon">
+              <CodeIcon size={20} color="#60A5FA" />
+            </span>
             <span className="output-title">Generated Code</span>
           </div>
           <div className="output-body">

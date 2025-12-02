@@ -26,9 +26,6 @@ function App() {
     }
   }, [isAuthenticated]);
 
-  // Check if we're on chat subdomain
-  const isChatSubdomain = window.location.hostname === 'chat.dev-o.ai';
-
   return (
     <BrowserRouter>
       <Routes>
@@ -54,9 +51,7 @@ function App() {
         <Route
           path="/"
           element={
-            isChatSubdomain
-              ? (isAuthenticated ? <ChatPage /> : <Navigate to="/login" />)
-              : (isAuthenticated ? <Navigate to="/projects" /> : <LandingPage />)
+            isAuthenticated ? <Navigate to="/projects" /> : <LandingPage />
           }
         />
       </Routes>
