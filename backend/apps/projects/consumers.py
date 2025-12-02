@@ -1,101 +1,50 @@
-"""
-WebSocket consumer for multi-agent conversations.
+"""Project WebSocket consumer for project mode."""
 
-Handles real-time streaming of multi-agent conversations where agents
-discuss requirements, architecture, and implementation in front of the user.
-"""
 import json
-import asyncio
+import time
 import logging
-from typing import Dict, Any
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import get_user_model
 
-from apps.projects.models import Project
-from apps.agents.engine.conversation_orchestrator import ConversationOrchestrator
+from .models import Project, ProjectFile
+from apps.chat.models import Conversation, Message
+from apps.agents.models import Agent
+from services.agent_service import AgentService
+from services.usage_service import UsageService
 
+User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
-class ProjectExecutionConsumer(AsyncWebsocketConsumer):
-    """
-    WebSocket consumer for multi-agent conversations.
-
-    Receives user messages and orchestrates multi-agent conversations
-    where agents discuss requirements, architecture, and implementation.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.project_id = None
-        self.project = None
-        self.user = None
-        self.conversation_orchestrator: Optional[ConversationOrchestrator] = None
-        self.conversation_task = None
+class ProjectConsumer(AsyncWebsocketConsumer):
+    """WebSocket consumer for project mode with real-time code generation."""
 
     async def connect(self):
         """Handle WebSocket connection."""
-        # Get project ID from URL
-        self.project_id = self.scope['url_route']['kwargs']['project_id']
-
-        # Get user from scope (set by AuthMiddlewareStack)
         self.user = self.scope.get('user')
 
-        # Authenticate
-        import sys
-        sys.stderr.write(f"[CONSUMER DEBUG] User: {self.user}, Authenticated: {self.user.is_authenticated if self.user else False}\n")
-        sys.stderr.flush()
         if not self.user or not self.user.is_authenticated:
-            sys.stderr.write(f"[CONSUMER DEBUG] Rejecting: User not authenticated (code 4001)\n")
-            sys.stderr.flush()
             await self.close(code=4001)
             return
 
-        # Load project
-        try:
-            self.project = await self.get_project(self.project_id)
-            sys.stderr.write(f"[CONSUMER DEBUG] Project loaded: {self.project.name} (ID: {self.project_id})\n")
-            sys.stderr.flush()
-        except ObjectDoesNotExist:
-            sys.stderr.write(f"[CONSUMER DEBUG] Rejecting: Project not found (code 4004)\n")
-            sys.stderr.flush()
+        # Get project ID from URL
+        self.project_id = self.scope['url_route']['kwargs']['project_id']
+
+        # Verify user owns the project
+        self.project = await self.get_project()
+        if not self.project:
             await self.close(code=4004)
             return
 
-        # Check permissions
-        sys.stderr.write(f"[CONSUMER DEBUG] Project owner: {self.project.owner}, Current user: {self.user}\n")
-        sys.stderr.flush()
-        if self.project.owner != self.user:
-            sys.stderr.write(f"[CONSUMER DEBUG] Rejecting: User doesn't own project (code 4003)\n")
-            sys.stderr.flush()
-            await self.close(code=4003)
-            return
-
-        # Accept connection
         await self.accept()
 
-        # Initialize conversation orchestrator
-        self.conversation_orchestrator = ConversationOrchestrator(self.project)
-        await self.conversation_orchestrator.initialize_agents()
-
-        # Send connection success
-        await self.send_event({
-            'type': 'connected',
-            'project_id': str(self.project_id),
-            'project_name': self.project.name,
-            'message': 'Connected! Start chatting with Alex and the team.',
-        })
+        # Send initial project state
+        await self.send_project_state()
 
     async def disconnect(self, close_code):
         """Handle WebSocket disconnection."""
-        # Cancel any running conversation
-        if self.conversation_task and not self.conversation_task.done():
-            self.conversation_task.cancel()
-            try:
-                await self.conversation_task
-            except asyncio.CancelledError:
-                pass
+        pass
 
     async def receive(self, text_data):
         """Handle incoming WebSocket messages."""
@@ -103,98 +52,297 @@ class ProjectExecutionConsumer(AsyncWebsocketConsumer):
             data = json.loads(text_data)
             message_type = data.get('type')
 
-            if message_type == 'user_message':
-                # User sent a message to execute
-                await self.handle_user_message(data.get('content', ''))
-
-            elif message_type == 'user_input':
-                # User provided input in response to agent question
-                await self.handle_user_input(data.get('content', ''))
-
-            elif message_type == 'cancel':
-                # Cancel current execution
-                await self.handle_cancel()
-
+            if message_type == 'project_message':
+                await self.handle_project_message(data)
+            elif message_type == 'get_file':
+                await self.handle_get_file(data)
+            elif message_type == 'ping':
+                await self.send(text_data=json.dumps({'type': 'pong'}))
             else:
-                await self.send_error(f"Unknown message type: {message_type}")
+                await self.send_error(f'Unknown message type: {message_type}')
 
         except json.JSONDecodeError:
-            await self.send_error("Invalid JSON")
+            await self.send_error('Invalid JSON')
         except Exception as e:
-            await self.send_error(f"Error processing message: {str(e)}")
+            await self.send_error(str(e))
 
-    async def handle_user_message(self, message: str):
-        """Handle user message and start multi-agent conversation."""
-        if not message.strip():
-            await self.send_error("Empty message")
+    async def handle_project_message(self, data):
+        """Handle user message in project mode."""
+        message_content = data.get('message')
+        show_thinking = data.get('show_thinking', True)
+
+        logger.info(f"[PROJECT] Received message for project {self.project_id}: {message_content[:100]}...")
+
+        if not message_content:
+            await self.send_error('Message content is required')
             return
 
-        if not self.conversation_orchestrator:
-            await self.send_error("Conversation not initialized")
+        # Check usage limits
+        can_request, used, limit = await self.check_project_limit()
+        if not can_request:
+            logger.warning(f"[PROJECT] Usage limit exceeded for user {self.user.id}")
+            await self.send_limit_error('project', used, limit)
             return
 
-        # Start conversation in background
-        self.conversation_task = asyncio.create_task(
-            self.process_conversation(message)
-        )
+        # Get or create project conversation
+        conversation = await self.get_or_create_conversation()
+        logger.info(f"[PROJECT] Using conversation {conversation.id}")
 
-    async def process_conversation(self, message: str):
-        """Process user message through conversation orchestrator."""
+        # Save user message
+        await self.save_message(conversation, 'user', message_content)
+        logger.info(f"[PROJECT] User message saved")
+
+        # Send acknowledgment
+        await self.send(text_data=json.dumps({
+            'type': 'message_received',
+            'message': message_content
+        }))
+
+        # Get agent service
+        agent_service = AgentService()
+
+        # Select appropriate agent
+        agent = await agent_service.select_agent(self.project, message_content)
+
+        if not agent:
+            logger.error(f"[PROJECT] No agent assigned to project {self.project_id}")
+            await self.send_error('No agent assigned to this project')
+            return
+
+        logger.info(f"[PROJECT] Selected agent: {agent.name} ({agent.type})")
+
+        # Notify which agent is working
+        await self.send(text_data=json.dumps({
+            'type': 'agent_working',
+            'agent': {
+                'id': str(agent.id),
+                'name': agent.name,
+                'type': agent.type
+            }
+        }))
+
+        # Execute agent and stream results
+        full_response = []
+        start_time = time.time()
+
         try:
-            # Stream conversation events
-            async for event in self.conversation_orchestrator.process_user_message(message):
-                await self.send_event(event)
+            logger.info(f"[PROJECT] Starting agent execution...")
+            files_created = []
+            async for event in agent_service.execute_agent(
+                project=self.project,
+                agent=agent,
+                user_message=message_content,
+                conversation=conversation,
+                show_thinking=show_thinking
+            ):
+                logger.debug(f"[PROJECT] Event: {event.get('type')}")
+                await self.send(text_data=json.dumps(event))
 
-        except asyncio.CancelledError:
-            await self.send_event({
-                'type': 'cancelled',
-                'message': 'Conversation cancelled',
-            })
+                if event['type'] == 'token':
+                    full_response.append(event.get('content', ''))
+                elif event['type'] == 'file_created':
+                    logger.info(f"[PROJECT] File created event: {event.get('path')}")
+                    files_created.append(event.get('path'))
+
+            # Save assistant message
+            response_text = ''.join(full_response)
+            logger.info(f"[PROJECT] Saving agent response ({len(response_text)} chars)")
+
+            # Always parse response to remove file tags from chat display
+            parsed = agent_service.parse_ai_response(response_text)
+            logger.info(f"[PROJECT] Parsed {len(parsed['files'])} files from response")
+
+            # Create files if not already created during streaming
+            if not files_created and parsed['files']:
+                logger.info(f"[PROJECT] No files created during stream, creating them now...")
+
+                for file_info in parsed['files']:
+                    logger.info(f"[PROJECT] Creating file: {file_info['path']}")
+                    await agent_service.save_file(
+                        project=self.project,
+                        path=file_info['path'],
+                        content=file_info['content'],
+                        agent=agent
+                    )
+                    logger.info(f"[PROJECT] File created: {file_info['path']}")
+
+                    # Send file_created event
+                    await self.send(text_data=json.dumps({
+                        'type': 'file_created',
+                        'path': file_info['path']
+                    }))
+
+                # Send file tree update
+                context = await agent_service.get_project_context(self.project)
+                await self.send(text_data=json.dumps({
+                    'type': 'file_tree_update',
+                    'tree': context['file_tree']
+                }))
+
+            # Always use clean content (without file tags) for the message
+            response_text = parsed['chat_content']
+            logger.info(f"[PROJECT] Using clean content ({len(response_text)} chars, removed file tags)")
+
+            await self.save_message(
+                conversation,
+                'agent',
+                response_text,
+                agent=agent
+            )
+            logger.info(f"[PROJECT] Agent response saved")
+
+            # Record usage
+            duration_ms = int((time.time() - start_time) * 1000)
+            await self.record_project_usage(
+                project_id=str(self.project.id),
+                duration_ms=duration_ms
+            )
+            logger.info(f"[PROJECT] Usage recorded ({duration_ms}ms)")
+
+            # Send done event
+            await self.send(text_data=json.dumps({'type': 'done'}))
+
         except Exception as e:
-            logger.exception(f"Error in conversation: {e}")
-            await self.send_event({
-                'type': 'error',
-                'error': str(e),
-                'recoverable': False,
-            })
+            logger.exception(f"[PROJECT] Error during agent execution: {e}")
+            await self.send_error(str(e))
 
-    async def handle_user_input(self, response: str):
-        """Handle user input response."""
-        # In a full implementation, this would send the input to the waiting agent
-        # For now, just acknowledge
-        await self.send_event({
-            'type': 'user_input_received',
-            'content': response,
-        })
+    async def handle_get_file(self, data):
+        """Handle request to get file content."""
+        path = data.get('path')
 
-    async def handle_cancel(self):
-        """Handle conversation cancellation."""
-        if self.conversation_task and not self.conversation_task.done():
-            self.conversation_task.cancel()
-            await self.send_event({
-                'type': 'cancelled',
-                'message': 'Conversation cancelled by user',
-            })
+        if not path:
+            await self.send_error('File path is required')
+            return
+
+        file = await self.get_file(path)
+
+        if file:
+            await self.send(text_data=json.dumps({
+                'type': 'file_content',
+                'path': file.path,
+                'content': file.content,
+                'language': file.language
+            }))
         else:
-            await self.send_error("No active conversation to cancel")
+            await self.send_error(f'File not found: {path}')
 
-    async def send_event(self, event: Dict[str, Any]):
-        """Send event to WebSocket with immediate flush."""
-        await self.send(text_data=json.dumps(event))
-        # Force immediate send by awaiting (no buffering)
-        await asyncio.sleep(0)  # Yield control to ensure send completes
+    async def send_project_state(self):
+        """Send current project state to client."""
+        files = await self.get_project_files()
+        conversation = await self.get_or_create_conversation()
+        messages = await self.get_conversation_messages(conversation)
 
-    async def send_error(self, error: str):
-        """Send error event."""
-        await self.send_event({
+        tree = await database_sync_to_async(self.project.get_file_tree)()
+
+        await self.send(text_data=json.dumps({
+            'type': 'project_state',
+            'project': {
+                'id': str(self.project.id),
+                'name': self.project.name,
+                'description': self.project.description,
+                'status': self.project.status,
+                'file_tree': tree,
+            },
+            'files': [
+                {'path': f.path, 'language': f.language}
+                for f in files
+            ],
+            'messages': [
+                {
+                    'id': str(m.id),
+                    'role': m.role,
+                    'content': m.content,
+                    'agent': m.agent.name if m.agent else None,
+                    'created_at': m.created_at.isoformat()
+                }
+                for m in messages
+            ]
+        }))
+
+    async def send_error(self, error_message):
+        """Send error message to client."""
+        await self.send(text_data=json.dumps({
             'type': 'error',
-            'error': error,
-            'recoverable': True,
-        })
+            'error': error_message
+        }))
 
-    # Database operations (sync_to_async wrapped)
+    # Database operations
 
     @database_sync_to_async
-    def get_project(self, project_id):
-        """Get project from database."""
-        return Project.objects.select_related('owner').get(id=project_id)
+    def get_project(self):
+        try:
+            return Project.objects.get(id=self.project_id, user=self.user)
+        except Project.DoesNotExist:
+            return None
+
+    @database_sync_to_async
+    def get_project_files(self):
+        return list(self.project.files.all().order_by('path'))
+
+    @database_sync_to_async
+    def get_file(self, path):
+        try:
+            return self.project.files.get(path=path)
+        except ProjectFile.DoesNotExist:
+            return None
+
+    @database_sync_to_async
+    def get_or_create_conversation(self):
+        conversation, _ = Conversation.objects.get_or_create(
+            user=self.user,
+            project=self.project,
+            is_project_chat=True,
+            defaults={'title': f'Chat - {self.project.name}'}
+        )
+        return conversation
+
+    @database_sync_to_async
+    def get_conversation_messages(self, conversation):
+        return list(conversation.messages.select_related('agent').order_by('created_at')[:100])
+
+    @database_sync_to_async
+    def save_message(self, conversation, role, content, agent=None):
+        return Message.objects.create(
+            conversation=conversation,
+            role=role,
+            content=content,
+            agent=agent
+        )
+
+    # Usage tracking operations
+
+    @database_sync_to_async
+    def check_project_limit(self):
+        """Check if user can make project request."""
+        return UsageService.check_project_request_limit(self.user)
+
+    @database_sync_to_async
+    def record_project_usage(self, project_id, duration_ms=0):
+        """Record project request usage."""
+        return UsageService.record_project_request(
+            user=self.user,
+            project_id=project_id,
+            duration_ms=duration_ms,
+            model_used='default'
+        )
+
+    async def send_limit_error(self, limit_type, used, limit):
+        """Send limit exceeded error with usage info."""
+        usage_summary = await self.get_usage_summary()
+        await self.send(text_data=json.dumps({
+            'type': 'limit_exceeded',
+            'limit_type': limit_type,
+            'used': used,
+            'limit': limit,
+            'window_info': {
+                'minutes_until_reset': usage_summary['window']['minutes_until_reset']
+            },
+            'message': f'You have reached your {limit_type} limit ({used}/{limit}). '
+                      f'Resets in {usage_summary["window"]["minutes_until_reset"]} minutes. '
+                      f'Upgrade to Pro for higher limits!'
+        }))
+
+    @database_sync_to_async
+    def get_usage_summary(self):
+        """Get current usage summary."""
+        return UsageService.get_usage_summary(self.user)

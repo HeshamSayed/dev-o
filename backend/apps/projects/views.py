@@ -1,294 +1,82 @@
-"""
-Project APIViews
+"""Project views."""
 
-Project management endpoints.
-"""
-
-from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.http import HttpResponse
+import zipfile
+import io
 
-from .models import Project, ProjectCheckpoint
+from .models import Project, ProjectFile
 from .serializers import (
     ProjectSerializer,
-    ProjectDetailSerializer,
-    ProjectCreateSerializer,
-    ProjectStatusSerializer,
-    ProjectCheckpointSerializer,
-    ProjectCheckpointListSerializer
+    ProjectFileSerializer,
+    CreateProjectSerializer
 )
-from apps.agents.models import AgentInstance, AgentStatus
-from apps.tasks.models import Task, TaskStatus
 
 
-class ProjectListView(APIView):
-    """
-    Project list endpoint.
-
-    GET /api/projects/ - List user's projects
-    POST /api/projects/ - Create new project
-    """
+class ProjectViewSet(viewsets.ModelViewSet):
+    """ViewSet for managing projects."""
 
     permission_classes = [IsAuthenticated]
+    serializer_class = ProjectSerializer
 
-    def get(self, request):
-        """List user's projects."""
-        projects = Project.objects.filter(
-            owner=request.user
-        ).order_by('-created_at')
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)
 
-        serializer = ProjectSerializer(projects, many=True, context={'request': request})
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateProjectSerializer
+        return ProjectSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    @action(detail=True, methods=['get'])
+    def files(self, request, pk=None):
+        """List all files in a project."""
+        project = self.get_object()
+        files = project.files.all()
+        serializer = ProjectFileSerializer(files, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
-        """Create new project."""
-        # Check subscription limits
-        user_projects = Project.objects.filter(owner=request.user).count()
-        max_projects = request.user.subscription.max_projects
-
-        # -1 means unlimited
-        if max_projects >= 0 and user_projects >= max_projects:
-            return Response({
-                'error': f'Maximum project limit reached ({max_projects}). Upgrade subscription.'
-            }, status=status.HTTP_403_FORBIDDEN)
-
-        serializer = ProjectCreateSerializer(
-            data=request.data,
-            context={'request': request}
-        )
-
-        if serializer.is_valid():
-            project = serializer.save()
-            return Response(
-                ProjectDetailSerializer(project, context={'request': request}).data,
-                status=status.HTTP_201_CREATED
-            )
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ProjectDetailView(APIView):
-    """
-    Project detail endpoint.
-
-    GET /api/projects/{id}/ - Get project details
-    PATCH /api/projects/{id}/ - Update project
-    DELETE /api/projects/{id}/ - Delete project
-    """
-
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self, request, pk):
-        """Get project if user has access."""
+    @action(detail=True, methods=['get'], url_path='files/(?P<file_path>.+)')
+    def file_content(self, request, pk=None, file_path=None):
+        """Get specific file content."""
+        project = self.get_object()
         try:
-            return Project.objects.get(id=pk, owner=request.user)
-        except Project.DoesNotExist:
-            return None
-
-    def get(self, request, pk):
-        """Get project details."""
-        project = self.get_object(request, pk)
-
-        if not project:
-            return Response({
-                'error': 'Project not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = ProjectDetailSerializer(project, context={'request': request})
-        return Response(serializer.data)
-
-    def patch(self, request, pk):
-        """Update project."""
-        project = self.get_object(request, pk)
-
-        if not project:
-            return Response({
-                'error': 'Project not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = ProjectSerializer(
-            project,
-            data=request.data,
-            partial=True,
-            context={'request': request}
-        )
-
-        if serializer.is_valid():
-            serializer.save()
+            file = project.files.get(path=file_path)
+            serializer = ProjectFileSerializer(file)
             return Response(serializer.data)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        """Delete project."""
-        project = self.get_object(request, pk)
-
-        if not project:
-            return Response({
-                'error': 'Project not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        project.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class ProjectStatusView(APIView):
-    """
-    Project status endpoint.
-
-    GET /api/projects/{id}/status/ - Get real-time project status
-    """
-
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, pk):
-        """Get project status."""
-        try:
-            project = Project.objects.get(id=pk, owner=request.user)
-        except Project.DoesNotExist:
-            return Response({
-                'error': 'Project not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        # Get active agents
-        active_agents = AgentInstance.objects.filter(
-            project=project,
-            status__in=[AgentStatus.WORKING, AgentStatus.WAITING_INPUT]
-        ).count()
-
-        # Get task counts
-        pending_tasks = Task.objects.filter(
-            project=project,
-            status__in=[TaskStatus.TODO, TaskStatus.BACKLOG, TaskStatus.ASSIGNED]
-        ).count()
-
-        completed_tasks = Task.objects.filter(
-            project=project,
-            status=TaskStatus.COMPLETED
-        ).count()
-
-        # Get recent activity
-        from apps.context.services.event_store import EventStore
-        recent_events = EventStore.get_project_timeline(project, limit=10)
-
-        data = {
-            'status': project.status,
-            'active_agents': active_agents,
-            'pending_tasks': pending_tasks,
-            'completed_tasks': completed_tasks,
-            'recent_activity': recent_events
-        }
-
-        serializer = ProjectStatusSerializer(data)
-        return Response(serializer.data)
-
-
-class ProjectCheckpointListView(APIView):
-    """
-    Project checkpoint list endpoint.
-
-    GET /api/projects/{id}/checkpoints/ - List checkpoints
-    POST /api/projects/{id}/checkpoints/ - Create checkpoint
-    """
-
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, pk):
-        """List project checkpoints."""
-        try:
-            project = Project.objects.get(id=pk, owner=request.user)
-        except Project.DoesNotExist:
-            return Response({
-                'error': 'Project not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        checkpoints = ProjectCheckpoint.objects.filter(
-            project=project
-        ).order_by('-created_at')
-
-        serializer = ProjectCheckpointListSerializer(checkpoints, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, pk):
-        """Create project checkpoint."""
-        try:
-            project = Project.objects.get(id=pk, owner=request.user)
-        except Project.DoesNotExist:
-            return Response({
-                'error': 'Project not found'
-            }, status=status.HTTP_404_NOT_FOUND)
-
-        # Build state snapshot
-        state_snapshot = {
-            'project_status': project.status,
-            'manifest': project.manifest,
-            'agents': list(AgentInstance.objects.filter(project=project).values(
-                'id', 'agent_type__name', 'status', 'working_memory'
-            )),
-            'tasks_summary': {
-                'total': Task.objects.filter(project=project).count(),
-                'completed': Task.objects.filter(project=project, status=TaskStatus.COMPLETED).count(),
-                'pending': Task.objects.filter(project=project, status__in=[TaskStatus.TODO, TaskStatus.BACKLOG, TaskStatus.ASSIGNED]).count()
-            }
-        }
-
-        checkpoint_data = {
-            'project': str(project.id),
-            'name': request.data.get('name', f'Checkpoint {ProjectCheckpoint.objects.filter(project=project).count() + 1}'),
-            'description': request.data.get('description', ''),
-            'state_snapshot': state_snapshot,
-            'created_by': str(request.user.id),
-            'is_auto': False
-        }
-
-        serializer = ProjectCheckpointSerializer(data=checkpoint_data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ProjectCheckpointDetailView(APIView):
-    """
-    Project checkpoint detail endpoint.
-
-    GET /api/projects/{project_id}/checkpoints/{id}/ - Get checkpoint
-    DELETE /api/projects/{project_id}/checkpoints/{id}/ - Delete checkpoint
-    """
-
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, project_id, checkpoint_id):
-        """Get checkpoint details."""
-        try:
-            checkpoint = ProjectCheckpoint.objects.get(
-                id=checkpoint_id,
-                project_id=project_id,
-                project__owner=request.user
+        except ProjectFile.DoesNotExist:
+            return Response(
+                {'error': 'File not found'},
+                status=status.HTTP_404_NOT_FOUND
             )
-        except ProjectCheckpoint.DoesNotExist:
-            return Response({
-                'error': 'Checkpoint not found'
-            }, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ProjectCheckpointSerializer(checkpoint)
-        return Response(serializer.data)
+    @action(detail=True, methods=['get'])
+    def download(self, request, pk=None):
+        """Download project as ZIP file."""
+        project = self.get_object()
+        files = project.files.all()
 
-    def delete(self, request, project_id, checkpoint_id):
-        """Delete checkpoint."""
-        try:
-            checkpoint = ProjectCheckpoint.objects.get(
-                id=checkpoint_id,
-                project_id=project_id,
-                project__owner=request.user
-            )
-        except ProjectCheckpoint.DoesNotExist:
-            return Response({
-                'error': 'Checkpoint not found'
-            }, status=status.HTTP_404_NOT_FOUND)
+        # Create ZIP in memory
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+            for file in files:
+                zf.writestr(file.path, file.content)
 
-        checkpoint.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        buffer.seek(0)
+
+        response = HttpResponse(buffer.read(), content_type='application/zip')
+        response['Content-Disposition'] = f'attachment; filename="{project.name}.zip"'
+        return response
+
+    @action(detail=True, methods=['post'])
+    def complete(self, request, pk=None):
+        """Mark project as completed."""
+        project = self.get_object()
+        project.status = 'completed'
+        project.save()
+        return Response({'status': 'completed'})
