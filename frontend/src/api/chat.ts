@@ -31,8 +31,4 @@ export const chatApi = {
 
   // Delete conversation
   deleteConversation: (id: string) => api.delete(`/conversations/${id}/`),
-
-  // Update conversation title
-  updateConversation: (id: string, title: string) =>
-    api.patch<Conversation>(`/conversations/${id}/`, { title }),
 };

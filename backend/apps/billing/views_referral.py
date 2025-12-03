@@ -13,7 +13,6 @@ from apps.billing.serializers_referral import (
     ReferralCodeSerializer,
     ReferralSerializer,
     ReferralRewardSerializer,
-    ReferralStatsSerializer,
     TrackReferralSerializer,
 )
 from apps.billing.utils import get_client_ip

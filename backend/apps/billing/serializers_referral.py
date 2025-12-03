@@ -98,20 +98,6 @@ class ReferralRewardSerializer(serializers.ModelSerializer):
         return delta.days
 
 
-class ReferralStatsSerializer(serializers.Serializer):
-    """Serializer for referral statistics."""
-
-    code = serializers.CharField()
-    referral_link = serializers.CharField()
-    clicks = serializers.IntegerField()
-    signups = serializers.IntegerField()
-    conversions = serializers.IntegerField()
-    active_rewards = serializers.IntegerField()
-    total_rewards = serializers.IntegerField()
-    conversion_rate = serializers.FloatField()
-    rewards = ReferralRewardSerializer(many=True)
-
-
 class TrackReferralSerializer(serializers.Serializer):
     """Serializer for tracking referral clicks."""
 

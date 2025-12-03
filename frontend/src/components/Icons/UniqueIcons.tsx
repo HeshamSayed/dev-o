@@ -36,15 +36,6 @@ export const CrystalIcon: React.FC<IconProps> = ({ className, size = 24, color =
   </svg>
 );
 
-// Unique Infinity Loop for Continuous Integration
-export const InfinityLoopIcon: React.FC<IconProps> = ({ className, size = 24, color = 'currentColor' }) => (
-  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5.5 12C5.5 10 3.5 8 1.5 10C-0.5 12 -0.5 12 1.5 14C3.5 16 5.5 14 5.5 12ZM5.5 12C5.5 12 7 10 9 10C11 10 12 12 12 12C12 12 13 10 15 10C17 10 18.5 12 18.5 12C18.5 10 20.5 8 22.5 10C24.5 12 24.5 12 22.5 14C20.5 16 18.5 14 18.5 12" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <circle cx="6" cy="12" r="2" fill={color} fillOpacity="0.3"/>
-    <circle cx="18" cy="12" r="2" fill={color} fillOpacity="0.3"/>
-  </svg>
-);
-
 // Unique Cube Matrix for Memory/Database
 export const CubeMatrixIcon: React.FC<IconProps> = ({ className, size = 24, color = 'currentColor' }) => (
   <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,33 +86,5 @@ export const PulseWaveIcon: React.FC<IconProps> = ({ className, size = 24, color
     <circle cx="9" cy="6" r="1.5" fill={color}/>
     <circle cx="12" cy="18" r="1.5" fill={color}/>
     <circle cx="15" cy="8" r="1.5" fill={color}/>
-  </svg>
-);
-
-// Unique Pyramid for Hierarchy
-export const PyramidIcon: React.FC<IconProps> = ({ className, size = 24, color = 'currentColor' }) => (
-  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2L22 20H2L12 2Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M12 2L12 20M2 20L17 8M22 20L7 8" stroke={color} strokeWidth="1" strokeOpacity="0.3"/>
-    <path d="M12 8L16 14H8L12 8Z" fill={color} fillOpacity="0.2" stroke={color} strokeWidth="1"/>
-  </svg>
-);
-
-// Unique Star Burst for Features
-export const StarBurstIcon: React.FC<IconProps> = ({ className, size = 24, color = 'currentColor' }) => (
-  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2L13.5 8.5L20 7L15.5 11.5L21 16L14 14.5L12 22L10 14.5L3 16L8.5 11.5L4 7L10.5 8.5L12 2Z" fill={color} fillOpacity="0.1" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <circle cx="12" cy="12" r="3" fill={color} fillOpacity="0.3" stroke={color} strokeWidth="1.5"/>
-  </svg>
-);
-
-// Unique Flow Arrows for Process
-export const FlowArrowsIcon: React.FC<IconProps> = ({ className, size = 24, color = 'currentColor' }) => (
-  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 7H15L12 4M21 17H9L12 20" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M15 7C15 7 18 7 18 10V14C18 17 15 17 15 17" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
-    <path d="M9 17C9 17 6 17 6 14V10C6 7 9 7 9 7" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
-    <circle cx="3" cy="7" r="2" fill={color} fillOpacity="0.2" stroke={color} strokeWidth="1.5"/>
-    <circle cx="21" cy="17" r="2" fill={color} fillOpacity="0.2" stroke={color} strokeWidth="1.5"/>
   </svg>
 );

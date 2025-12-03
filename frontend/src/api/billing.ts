@@ -35,22 +35,6 @@ export interface Plan {
   is_active: boolean;
 }
 
-export interface Subscription {
-  id: string;
-  user: string;
-  plan: Plan;
-  status: 'active' | 'cancelled' | 'expired' | 'past_due' | 'trialing';
-  billing_cycle: 'monthly' | 'yearly';
-  stripe_subscription_id?: string;
-  stripe_customer_id?: string;
-  current_period_start: string;
-  current_period_end: string;
-  trial_end?: string;
-  cancelled_at?: string;
-  created_at: string;
-  updated_at: string;
-}
-
 export interface UsageSummary {
   plan: {
     name: string;
@@ -80,20 +64,6 @@ export interface UsageSummary {
   };
 }
 
-export interface UsageTracker {
-  id: string;
-  user: string;
-  window_start: string;
-  window_end: string;
-  chat_messages_used: number;
-  chat_tokens_used: number;
-  project_requests_used: number;
-  project_tokens_used: number;
-  storage_used_bytes: number;
-  created_at: string;
-  updated_at: string;
-}
-
 export const billingAPI = {
   /**
    * Get all available pricing plans.
@@ -106,65 +76,10 @@ export const billingAPI = {
   },
 
   /**
-   * Get specific plan by ID.
-   */
-  async getPlan(id: string): Promise<Plan> {
-    const response = await apiClient.get(`/billing/plans/${id}/`);
-    return response.data;
-  },
-
-  /**
-   * Get current user's subscription.
-   */
-  async getCurrentSubscription(): Promise<Subscription | null> {
-    const response = await apiClient.get('/billing/subscriptions/current/');
-    return response.data.subscription || null;
-  },
-
-  /**
-   * Create new subscription.
-   */
-  async createSubscription(planId: string, billingCycle: 'monthly' | 'yearly'): Promise<Subscription> {
-    const response = await apiClient.post('/billing/subscriptions/', {
-      plan_id: planId,
-      billing_cycle: billingCycle,
-    });
-    return response.data;
-  },
-
-  /**
    * Get current usage summary with limits and time until reset.
    */
   async getUsageSummary(): Promise<UsageSummary> {
     const response = await apiClient.get('/billing/usage/summary/');
-    return response.data;
-  },
-
-  /**
-   * Get usage for current 2-hour window.
-   */
-  async getCurrentWindow(): Promise<UsageTracker> {
-    const response = await apiClient.get('/billing/usage/current_window/');
-    return response.data;
-  },
-
-  /**
-   * Get usage history.
-   */
-  async getUsageHistory(days: number = 7, limit: number = 50): Promise<UsageTracker[]> {
-    const response = await apiClient.get('/billing/usage/history/', {
-      params: { days, limit },
-    });
-    return response.data;
-  },
-
-  /**
-   * Get detailed usage logs.
-   */
-  async getUsageLogs(days: number = 7, type?: string): Promise<any[]> {
-    const response = await apiClient.get('/billing/logs/', {
-      params: { days, type },
-    });
     return response.data;
   },
 };

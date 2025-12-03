@@ -3,8 +3,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from .models import Agent, AgentAssignment
-from .serializers import AgentSerializer, AgentAssignmentSerializer
+from .models import Agent
+from .serializers import AgentSerializer
 
 
 class AgentViewSet(viewsets.ReadOnlyModelViewSet):

@@ -4,16 +4,6 @@
 
 import api from './client';
 
-export interface ReferralCode {
-  id: string;
-  code: string;
-  referral_link: string;
-  clicks: number;
-  signups: number;
-  conversions: number;
-  created_at: string;
-}
-
 export interface Referral {
   id: string;
   referrer_email: string;
@@ -56,34 +46,10 @@ export interface BonusQuota {
 }
 
 /**
- * Get user's referral code
- */
-export const getMyReferralCode = async (): Promise<ReferralCode> => {
-  const response = await api.get('/billing/referrals/my_code/');
-  return response.data;
-};
-
-/**
  * Get comprehensive referral stats
  */
 export const getReferralStats = async (): Promise<ReferralStats> => {
   const response = await api.get('/billing/referrals/stats/');
-  return response.data;
-};
-
-/**
- * Get all referrals made by user
- */
-export const getReferrals = async (): Promise<Referral[]> => {
-  const response = await api.get('/billing/referrals/');
-  return response.data;
-};
-
-/**
- * Get all rewards for user
- */
-export const getRewards = async (): Promise<ReferralReward[]> => {
-  const response = await api.get('/billing/rewards/');
   return response.data;
 };
 
