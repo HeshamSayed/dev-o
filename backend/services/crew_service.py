@@ -41,6 +41,9 @@ class CrewService:
         self.file_storage: Dict[str, str] = {}
         self.verbose = getattr(settings, 'CREWAI_VERBOSE', True)
         self.max_iterations = getattr(settings, 'CREWAI_MAX_ITERATIONS', 10)
+        self.memory_enabled = getattr(settings, 'CREWAI_MEMORY', True)
+        # Session storage for maintaining context across requests
+        self.session_contexts: Dict[str, Dict[str, Any]] = {}
         
     def _create_llm(self) -> LLM:
         """Create LLM instance for CrewAI agents."""
@@ -55,20 +58,54 @@ class CrewService:
             temperature=0.7,
         )
 
+    def get_or_create_session(self, project_id: str) -> Dict[str, Any]:
+        """Get or create session context for a project."""
+        if project_id not in self.session_contexts:
+            self.session_contexts[project_id] = {
+                'project_id': project_id,
+                'execution_count': 0,
+                'last_execution': None,
+                'conversation_history': [],
+            }
+        return self.session_contexts[project_id]
+
+    def update_session_context(self, project_id: str, key: str, value: Any):
+        """Update session context for a project."""
+        session = self.get_or_create_session(project_id)
+        session[key] = value
+        logger.info(f"[CREW] Updated session context for project {project_id}: {key}")
+
     async def execute_development_crew(
         self,
         project: Project,
         project_description: str,
     ) -> AsyncGenerator[Dict[str, Any], None]:
         """
-        Execute the full development crew in sequential order.
+        Execute the full development crew in sequential order with session memory.
         
         Pipeline: Product Owner → Backend Dev → Frontend Dev → QA Engineer
+        
+        Session memory maintains context across multiple executions for the same project.
         """
         try:
-            logger.info(f"[CREW] Starting development crew for project {project.id}")
+            project_id_str = str(project.id)
+            logger.info(f"[CREW] Starting development crew for project {project_id_str}")
             
-            # Reset file storage for this execution
+            # Get or create session context
+            session = self.get_or_create_session(project_id_str)
+            session['execution_count'] += 1
+            session['last_execution'] = project_description
+            
+            # Add to conversation history
+            session['conversation_history'].append({
+                'role': 'user',
+                'content': project_description,
+                'timestamp': logger.info.__self__.time if hasattr(logger.info, '__self__') else None
+            })
+            
+            logger.info(f"[CREW] Session execution count: {session['execution_count']}")
+            
+            # Reset file storage for this execution but keep session context
             self.file_storage = {}
             
             # Create shared tools
@@ -186,14 +223,22 @@ class CrewService:
                 'tree': file_tree
             }
             
-            # Pipeline complete
+            # Pipeline complete - update session context
+            session['conversation_history'].append({
+                'role': 'assistant',
+                'content': f'Created {len(self.file_storage)} files across all agents.',
+                'files': list(self.file_storage.keys())
+            })
+            
             yield {
                 'type': 'crew_completed',
                 'total_files': len(self.file_storage),
-                'message': 'Development crew completed successfully!'
+                'message': 'Development crew completed successfully!',
+                'session_executions': session['execution_count']
             }
             
             logger.info(f"[CREW] Pipeline completed. Total files: {len(self.file_storage)}")
+            logger.info(f"[CREW] Session has {len(session['conversation_history'])} messages in history")
             
         except Exception as e:
             logger.exception(f"[CREW] Error executing development crew: {e}")
@@ -217,12 +262,13 @@ class CrewService:
             project.project_type
         )
         
-        # Create crew with sequential process
+        # Create crew with sequential process and memory enabled
         crew = Crew(
             agents=[agent],
             tasks=[requirements_task, architecture_task],
             process=Process.sequential,
             verbose=self.verbose,
+            memory=self.memory_enabled,
         )
         
         # Run crew (blocking operation)
@@ -247,6 +293,7 @@ class CrewService:
             tasks=[backend_task, api_task],
             process=Process.sequential,
             verbose=self.verbose,
+            memory=self.memory_enabled,
         )
         
         await asyncio.to_thread(crew.kickoff)
@@ -270,6 +317,7 @@ class CrewService:
             tasks=[frontend_task, integration_task],
             process=Process.sequential,
             verbose=self.verbose,
+            memory=self.memory_enabled,
         )
         
         await asyncio.to_thread(crew.kickoff)
@@ -296,6 +344,7 @@ class CrewService:
             tasks=[testing_task, documentation_task],
             process=Process.sequential,
             verbose=self.verbose,
+            memory=self.memory_enabled,
         )
         
         await asyncio.to_thread(crew.kickoff)

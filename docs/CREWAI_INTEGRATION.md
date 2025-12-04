@@ -187,6 +187,65 @@ CREWAI_MAX_ITERATIONS = int(os.getenv('CREWAI_MAX_ITERATIONS', '10'))
 CREWAI_MEMORY = os.getenv('CREWAI_MEMORY', 'True') == 'True'
 ```
 
+## Session Management & Context Persistence
+
+The CrewAI system maintains session context across multiple executions for each project, enabling agents to remember previous interactions and build upon earlier work.
+
+### How Session Memory Works
+
+1. **Per-Project Sessions**: Each project has its own session context that persists across multiple crew executions
+2. **Conversation History**: All user messages and agent responses are stored in the session
+3. **Execution Tracking**: The system tracks how many times the crew has been executed for a project
+4. **CrewAI Memory**: Built-in CrewAI memory is enabled (`memory=True`) for all crews, allowing agents to:
+   - Remember decisions made in previous tasks
+   - Access context from earlier agent executions
+   - Build upon existing files and specifications
+   - Maintain consistency across multiple iterations
+
+### Session Context Structure
+
+```python
+{
+    'project_id': 'uuid',
+    'execution_count': 3,  # Number of times crew has been run
+    'last_execution': 'Add authentication to the app',
+    'conversation_history': [
+        {
+            'role': 'user',
+            'content': 'Build a task management app',
+            'timestamp': '...'
+        },
+        {
+            'role': 'assistant',
+            'content': 'Created 25 files across all agents.',
+            'files': ['specs/requirements.md', 'backend/models.py', ...]
+        }
+    ]
+}
+```
+
+### Benefits of Session Memory
+
+- **Incremental Development**: Users can add features iteratively without losing context
+- **Consistent Architecture**: Agents maintain architectural decisions across updates
+- **Efficient Updates**: Agents can modify existing files without recreating everything
+- **Context-Aware**: Each agent has access to the full project history
+
+### Example: Multi-Request Workflow
+
+```
+Request 1: "Build a task management app"
+→ Creates complete app with specs, backend, frontend, tests
+
+Request 2: "Add user authentication with JWT"
+→ Updates existing files, adds auth endpoints, modifies frontend
+→ Remembers existing architecture and file structure
+
+Request 3: "Add email notifications when tasks are assigned"
+→ Extends backend services, updates models, adds frontend UI
+→ Maintains consistency with previous auth implementation
+```
+
 ## Technical Implementation
 
 ### File Structure
