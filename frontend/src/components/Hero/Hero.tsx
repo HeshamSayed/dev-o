@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LightningIcon } from '../Icons/Icons';
+import heroImage from './Hero Section.jpeg';
 import './Hero.css';
 
 const Hero: React.FC = () => {
@@ -15,6 +16,9 @@ const Hero: React.FC = () => {
 
   return (
     <section className="hero">
+      <div className="hero-background">
+        <img src={heroImage} alt="DEV-O AI Platform" />
+      </div>
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-badge">
