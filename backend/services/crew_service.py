@@ -1,0 +1,340 @@
+"""CrewAI orchestration service for multi-agent development team."""
+
+import logging
+from typing import Dict, Any, List, AsyncGenerator
+from django.conf import settings
+from crewai import Crew, Process, LLM
+from channels.db import database_sync_to_async
+import asyncio
+
+from apps.projects.models import Project, ProjectFile
+from .agents.tools.file_tools import create_file_tools
+from .agents.product_owner import (
+    create_product_owner_agent,
+    create_requirements_analysis_task,
+    create_architecture_design_task,
+)
+from .agents.backend_dev import (
+    create_backend_developer_agent,
+    create_backend_implementation_task,
+    create_backend_api_task,
+)
+from .agents.frontend_dev import (
+    create_frontend_developer_agent,
+    create_frontend_implementation_task,
+    create_frontend_integration_task,
+)
+from .agents.qa_engineer import (
+    create_qa_engineer_agent,
+    create_testing_task,
+    create_documentation_task,
+)
+
+logger = logging.getLogger(__name__)
+
+
+class CrewService:
+    """Service for orchestrating CrewAI multi-agent team."""
+
+    def __init__(self):
+        """Initialize CrewAI service."""
+        self.file_storage: Dict[str, str] = {}
+        self.verbose = settings.CREWAI_VERBOSE if hasattr(settings, 'CREWAI_VERBOSE') else True
+        self.max_iterations = settings.CREWAI_MAX_ITERATIONS if hasattr(settings, 'CREWAI_MAX_ITERATIONS') else 10
+        
+    def _create_llm(self) -> LLM:
+        """Create LLM instance for CrewAI agents."""
+        # Use CrewAI's native LLM integration with OpenAI-compatible API
+        ai_service_config = settings.AI_SERVICE
+        
+        # CrewAI supports OpenAI-compatible APIs
+        return LLM(
+            model=ai_service_config.get('DEFAULT_MODEL', 'gpt-4'),
+            base_url=ai_service_config.get('BASE_URL'),
+            api_key=ai_service_config.get('API_KEY', 'dummy-key'),
+            temperature=0.7,
+        )
+
+    async def execute_development_crew(
+        self,
+        project: Project,
+        project_description: str,
+    ) -> AsyncGenerator[Dict[str, Any], None]:
+        """
+        Execute the full development crew in sequential order.
+        
+        Pipeline: Product Owner → Backend Dev → Frontend Dev → QA Engineer
+        """
+        try:
+            logger.info(f"[CREW] Starting development crew for project {project.id}")
+            
+            # Reset file storage for this execution
+            self.file_storage = {}
+            
+            # Create shared tools
+            tools = create_file_tools(self.file_storage)
+            
+            # Create LLM
+            llm = self._create_llm()
+            
+            # Create agents
+            product_owner = create_product_owner_agent(llm, tools)
+            backend_dev = create_backend_developer_agent(llm, tools)
+            frontend_dev = create_frontend_developer_agent(llm, tools)
+            qa_engineer = create_qa_engineer_agent(llm, tools)
+            
+            logger.info("[CREW] Agents created successfully")
+            
+            # Yield agent initialization
+            yield {
+                'type': 'crew_init',
+                'agents': [
+                    {'name': 'Product Owner', 'status': 'initialized'},
+                    {'name': 'Backend Developer', 'status': 'initialized'},
+                    {'name': 'Frontend Developer', 'status': 'initialized'},
+                    {'name': 'QA Engineer', 'status': 'initialized'},
+                ]
+            }
+            
+            # Execute Product Owner phase
+            yield {'type': 'agent_started', 'agent': 'Product Owner'}
+            logger.info("[CREW] Starting Product Owner phase...")
+            
+            await self._execute_product_owner(
+                product_owner,
+                project,
+                project_description,
+            )
+            
+            # Save files created by Product Owner
+            await self._save_files_to_project(project, None)
+            
+            yield {
+                'type': 'agent_completed',
+                'agent': 'Product Owner',
+                'files_created': len([f for f in self.file_storage.keys() if f.startswith('specs/')])
+            }
+            logger.info(f"[CREW] Product Owner completed. Files: {len(self.file_storage)}")
+            
+            # Execute Backend Developer phase
+            yield {'type': 'agent_started', 'agent': 'Backend Developer'}
+            logger.info("[CREW] Starting Backend Developer phase...")
+            
+            backend_files_before = len(self.file_storage)
+            await self._execute_backend_developer(
+                backend_dev,
+                project,
+            )
+            
+            # Save backend files
+            await self._save_files_to_project(project, None)
+            
+            backend_files_created = len(self.file_storage) - backend_files_before
+            yield {
+                'type': 'agent_completed',
+                'agent': 'Backend Developer',
+                'files_created': backend_files_created
+            }
+            logger.info(f"[CREW] Backend Developer completed. New files: {backend_files_created}")
+            
+            # Execute Frontend Developer phase
+            yield {'type': 'agent_started', 'agent': 'Frontend Developer'}
+            logger.info("[CREW] Starting Frontend Developer phase...")
+            
+            frontend_files_before = len(self.file_storage)
+            await self._execute_frontend_developer(
+                frontend_dev,
+                project,
+            )
+            
+            # Save frontend files
+            await self._save_files_to_project(project, None)
+            
+            frontend_files_created = len(self.file_storage) - frontend_files_before
+            yield {
+                'type': 'agent_completed',
+                'agent': 'Frontend Developer',
+                'files_created': frontend_files_created
+            }
+            logger.info(f"[CREW] Frontend Developer completed. New files: {frontend_files_created}")
+            
+            # Execute QA Engineer phase
+            yield {'type': 'agent_started', 'agent': 'QA Engineer'}
+            logger.info("[CREW] Starting QA Engineer phase...")
+            
+            qa_files_before = len(self.file_storage)
+            await self._execute_qa_engineer(
+                qa_engineer,
+                project,
+            )
+            
+            # Save QA files
+            await self._save_files_to_project(project, None)
+            
+            qa_files_created = len(self.file_storage) - qa_files_before
+            yield {
+                'type': 'agent_completed',
+                'agent': 'QA Engineer',
+                'files_created': qa_files_created
+            }
+            logger.info(f"[CREW] QA Engineer completed. New files: {qa_files_created}")
+            
+            # Send file tree update
+            file_tree = await self._get_file_tree(project)
+            yield {
+                'type': 'file_tree_update',
+                'tree': file_tree
+            }
+            
+            # Pipeline complete
+            yield {
+                'type': 'crew_completed',
+                'total_files': len(self.file_storage),
+                'message': 'Development crew completed successfully!'
+            }
+            
+            logger.info(f"[CREW] Pipeline completed. Total files: {len(self.file_storage)}")
+            
+        except Exception as e:
+            logger.exception(f"[CREW] Error executing development crew: {e}")
+            yield {'type': 'error', 'error': str(e)}
+
+    async def _execute_product_owner(
+        self,
+        agent,
+        project: Project,
+        project_description: str,
+    ):
+        """Execute Product Owner tasks."""
+        # Create tasks
+        requirements_task = create_requirements_analysis_task(
+            agent,
+            project_description,
+            project.project_type
+        )
+        architecture_task = create_architecture_design_task(
+            agent,
+            project.project_type
+        )
+        
+        # Create crew with sequential process
+        crew = Crew(
+            agents=[agent],
+            tasks=[requirements_task, architecture_task],
+            process=Process.sequential,
+            verbose=self.verbose,
+        )
+        
+        # Run crew (blocking operation)
+        await asyncio.to_thread(crew.kickoff)
+        
+        logger.info("[CREW] Product Owner crew execution completed")
+
+    async def _execute_backend_developer(
+        self,
+        agent,
+        project: Project,
+    ):
+        """Execute Backend Developer tasks."""
+        backend_task = create_backend_implementation_task(
+            agent,
+            project.project_type
+        )
+        api_task = create_backend_api_task(agent)
+        
+        crew = Crew(
+            agents=[agent],
+            tasks=[backend_task, api_task],
+            process=Process.sequential,
+            verbose=self.verbose,
+        )
+        
+        await asyncio.to_thread(crew.kickoff)
+        
+        logger.info("[CREW] Backend Developer crew execution completed")
+
+    async def _execute_frontend_developer(
+        self,
+        agent,
+        project: Project,
+    ):
+        """Execute Frontend Developer tasks."""
+        frontend_task = create_frontend_implementation_task(
+            agent,
+            project.project_type
+        )
+        integration_task = create_frontend_integration_task(agent)
+        
+        crew = Crew(
+            agents=[agent],
+            tasks=[frontend_task, integration_task],
+            process=Process.sequential,
+            verbose=self.verbose,
+        )
+        
+        await asyncio.to_thread(crew.kickoff)
+        
+        logger.info("[CREW] Frontend Developer crew execution completed")
+
+    async def _execute_qa_engineer(
+        self,
+        agent,
+        project: Project,
+    ):
+        """Execute QA Engineer tasks."""
+        testing_task = create_testing_task(
+            agent,
+            project.project_type
+        )
+        documentation_task = create_documentation_task(
+            agent,
+            project.project_type
+        )
+        
+        crew = Crew(
+            agents=[agent],
+            tasks=[testing_task, documentation_task],
+            process=Process.sequential,
+            verbose=self.verbose,
+        )
+        
+        await asyncio.to_thread(crew.kickoff)
+        
+        logger.info("[CREW] QA Engineer crew execution completed")
+
+    @database_sync_to_async
+    def _save_files_to_project(self, project: Project, agent) -> List[ProjectFile]:
+        """Save files from storage to project."""
+        saved_files = []
+        
+        for path, content in self.file_storage.items():
+            # Check if file already exists in DB
+            existing_file = ProjectFile.objects.filter(
+                project=project,
+                path=path
+            ).first()
+            
+            if existing_file:
+                # Update existing file
+                existing_file.content = content
+                existing_file.version += 1
+                existing_file.save()
+                saved_files.append(existing_file)
+                logger.debug(f"[CREW] Updated file: {path}")
+            else:
+                # Create new file
+                file = ProjectFile.objects.create(
+                    project=project,
+                    path=path,
+                    content=content,
+                    created_by_agent=agent,
+                )
+                saved_files.append(file)
+                logger.debug(f"[CREW] Created file: {path}")
+        
+        return saved_files
+
+    @database_sync_to_async
+    def _get_file_tree(self, project: Project) -> Dict[str, Any]:
+        """Get project file tree."""
+        return project.get_file_tree()
