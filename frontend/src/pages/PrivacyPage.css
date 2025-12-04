@@ -1,0 +1,566 @@
+.privacy-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0a0a0f 0%, #1a1a2e 100%);
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  position: relative;
+}
+
+/* Navigation */
+.privacy-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  background: rgba(10, 10, 15, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.privacy-nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.privacy-logo {
+  display: flex;
+  align-items: center;
+}
+
+.privacy-logo-image {
+  height: 40px;
+  width: auto;
+}
+
+.privacy-nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.privacy-nav-links a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.privacy-nav-links a:hover {
+  color: #ffffff;
+}
+
+.privacy-nav-cta {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.privacy-nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+}
+
+/* Hero Section */
+.privacy-hero {
+  padding: 10rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.privacy-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.privacy-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.privacy-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.privacy-hero-badge svg {
+  width: 18px;
+  height: 18px;
+}
+
+.privacy-hero h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.privacy-hero p {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.privacy-hero-note {
+  font-size: 1rem !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-style: italic;
+}
+
+/* Table of Contents */
+.privacy-toc {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  z-index: 50;
+}
+
+.privacy-toc h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+}
+
+.privacy-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.privacy-toc li {
+  margin-bottom: 0.5rem;
+}
+
+.privacy-toc button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  padding: 0.25rem 0;
+  transition: color 0.3s ease;
+}
+
+.privacy-toc button:hover {
+  color: #a5b4fc;
+}
+
+/* Main Content */
+.privacy-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.privacy-section {
+  background: rgba(255, 255, 255, 0.03);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.privacy-section h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.privacy-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #a5b4fc;
+  margin: 2rem 0 1rem;
+}
+
+.privacy-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.privacy-section p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.privacy-section ul {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.privacy-section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+.privacy-section a {
+  color: #a5b4fc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.privacy-section a:hover {
+  color: #c4b5fd;
+  text-decoration: underline;
+}
+
+/* Company Info Box */
+.company-info {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.company-info p {
+  margin-bottom: 0.25rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Contact Emails */
+.contact-emails {
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.contact-emails a {
+  color: #a5b4fc;
+  font-weight: 600;
+}
+
+.contact-emails span {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Information Categories */
+.info-categories li {
+  margin-bottom: 0.75rem;
+}
+
+.info-categories li strong {
+  color: #ffffff;
+}
+
+/* Use Cases */
+.use-cases {
+  display: grid;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.use-case {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.use-case h4 {
+  color: #a5b4fc;
+  margin-bottom: 1rem;
+}
+
+.use-case ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.use-case li {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+}
+
+/* Legal Bases List */
+.legal-bases-list li {
+  margin-bottom: 0.75rem;
+}
+
+.legal-bases-list li strong {
+  color: #ffffff;
+}
+
+/* Important Notice */
+.important-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.important-notice svg {
+  flex-shrink: 0;
+  color: #4ade80;
+}
+
+.important-notice p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Note */
+.note {
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid #6366f1;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Rights List */
+.rights-list li {
+  margin-bottom: 0.75rem;
+}
+
+.rights-list li strong {
+  color: #ffffff;
+}
+
+/* Contact Section */
+.contact-section .contact-info {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.contact-emails-box,
+.contact-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.contact-emails-box svg,
+.contact-address svg {
+  flex-shrink: 0;
+  color: #a5b4fc;
+}
+
+.contact-emails-box a {
+  color: #a5b4fc;
+  font-weight: 600;
+}
+
+.contact-address p {
+  margin-bottom: 0.25rem;
+}
+
+/* Closing Section */
+.privacy-closing {
+  text-align: center;
+  padding: 3rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  margin-top: 2rem;
+}
+
+.privacy-closing h2 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.privacy-closing p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.5rem;
+}
+
+.closing-message {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.6) !important;
+  margin-top: 1rem;
+}
+
+/* Footer */
+.privacy-footer {
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4rem 2rem 2rem;
+}
+
+.privacy-footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+}
+
+.privacy-footer-brand p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.privacy-footer-logo img {
+  height: 36px;
+  width: auto;
+}
+
+.privacy-footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.footer-link-group h4 {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footer-link-group a {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.footer-link-group a:hover {
+  color: #a5b4fc;
+}
+
+.privacy-footer-bottom {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.privacy-footer-bottom p {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .privacy-toc {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .privacy-nav-links {
+    display: none;
+  }
+
+  .privacy-hero {
+    padding: 8rem 1.5rem 3rem;
+  }
+
+  .privacy-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .privacy-hero p {
+    font-size: 1.1rem;
+  }
+
+  .privacy-main {
+    padding: 0 1.5rem 3rem;
+  }
+
+  .privacy-section {
+    padding: 1.5rem;
+  }
+
+  .privacy-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .use-cases {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .privacy-footer-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-emails-box,
+  .contact-address {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .privacy-hero h1 {
+    font-size: 2rem;
+  }
+
+  .privacy-section {
+    padding: 1.25rem;
+  }
+
+  .privacy-footer-links {
+    grid-template-columns: 1fr;
+  }
+}

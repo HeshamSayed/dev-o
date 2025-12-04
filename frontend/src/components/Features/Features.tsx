@@ -93,18 +93,6 @@ const Features: React.FC = () => {
   return (
     <section className="features" id="features">
       <div className="features-container">
-        <div className="features-header">
-          <div className="features-badge">Platform Capabilities</div>
-          <h2 className="features-title">
-            Everything You Need to Build at
-            <br />
-            <span className="gradient-text">Enterprise Scale</span>
-          </h2>
-          <p className="features-subtitle">
-            Powered by cutting-edge AI technology and designed for teams that ship fast
-          </p>
-        </div>
-
         <div className="features-grid">
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
