@@ -77,13 +77,6 @@ class ProjectFile(models.Model):
     path = models.CharField(max_length=500)  # e.g., "backend/models.py"
     content = models.TextField()
     language = models.CharField(max_length=50, blank=True)  # python, typescript, etc.
-    created_by_agent = models.ForeignKey(
-        'agents.Agent',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='created_files'
-    )
     version = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
