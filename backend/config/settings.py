@@ -171,12 +171,14 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-# AI Service Configuration
+# AI Service Configuration (External Mistral 7B Inference Service)
 AI_SERVICE = {
-    'BASE_URL': os.getenv('AI_SERVICE_URL', 'http://localhost:8000'),
+    'BASE_URL': os.getenv('AI_SERVICE_URL', 'http://34.136.165.200:7000'),
     'API_KEY': os.getenv('AI_SERVICE_API_KEY', ''),
-    'DEFAULT_MODEL': os.getenv('AI_SERVICE_MODEL', 'deepseek-coder'),
+    'DEFAULT_MODEL': os.getenv('AI_SERVICE_MODEL', 'mistral-7b'),
     'TIMEOUT': int(os.getenv('AI_SERVICE_TIMEOUT', '120')),
+    'MAX_INPUT_TOKENS': int(os.getenv('AI_SERVICE_MAX_INPUT_TOKENS', '4096')),
+    'MAX_OUTPUT_TOKENS': int(os.getenv('AI_SERVICE_MAX_OUTPUT_TOKENS', '2048')),
 }
 
 # CrewAI Configuration

@@ -48,15 +48,18 @@ class CrewService:
         
     def _create_llm(self) -> LLM:
         """Create LLM instance for CrewAI agents."""
-        # Use CrewAI's native LLM integration with OpenAI-compatible API
+        # Use CrewAI's native LLM integration with external Mistral 7B service
         ai_service_config = settings.AI_SERVICE
         
         # CrewAI supports OpenAI-compatible APIs
+        # Configure with token limits for Mistral 7B model
         return LLM(
-            model=ai_service_config.get('DEFAULT_MODEL', 'gpt-4'),
-            base_url=ai_service_config.get('BASE_URL'),
+            model=ai_service_config.get('DEFAULT_MODEL', 'mistral-7b'),
+            base_url=ai_service_config.get('BASE_URL', 'http://34.136.165.200:7000'),
             api_key=ai_service_config.get('API_KEY', 'dummy-key'),
             temperature=0.7,
+            max_tokens=ai_service_config.get('MAX_OUTPUT_TOKENS', 2048),
+            timeout=ai_service_config.get('TIMEOUT', 120),
         )
 
     def get_or_create_session(self, project_id: str) -> Dict[str, Any]:
