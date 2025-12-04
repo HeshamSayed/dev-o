@@ -6,7 +6,8 @@ AI-powered development platform with intelligent agents for software development
 
 - **AI Chat Interface**: Interactive chat with AI agents for development assistance
 - **Project Management**: Create and manage development projects
-- **Multi-Agent System**: Specialized agents for different development tasks
+- **CrewAI Multi-Agent System**: Sequential pipeline of specialized agents (Product Owner, Backend Dev, Frontend Dev, QA Engineer) that generate complete production-ready applications
+- **Single-Agent Mode**: Use individual specialized agents for specific tasks
 - **Referral Program**: Share DEV-O with friends and earn bonus quotas
 - **Subscription Plans**: Flexible pricing with free and paid tiers
 
@@ -66,6 +67,17 @@ docker-compose exec backend python manage.py migrate
 # Create superuser
 docker-compose exec backend python manage.py createsuperuser
 ```
+
+## CrewAI Multi-Agent System
+
+DEV-O includes a powerful multi-agent system powered by CrewAI v1.6.1:
+
+- **Sequential Pipeline**: Product Owner → Backend Developer → Frontend Developer → QA Engineer
+- **Complete Applications**: Generate fully production-ready applications
+- **Real-time Streaming**: Watch agents work in real-time via WebSocket
+- **File Management**: All generated files saved to project workspace
+
+See [docs/CREWAI_INTEGRATION.md](docs/CREWAI_INTEGRATION.md) for detailed documentation.
 
 ## Production Deployment
 
