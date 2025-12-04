@@ -38,7 +38,7 @@ class CreateProjectSerializer(serializers.Serializer):
     def create(self, validated_data):
         user = self.context['request'].user
 
-        # Create project
+        # Create project (CrewAI handles agents internally)
         project = Project.objects.create(
             user=user,
             name=validated_data['name'],

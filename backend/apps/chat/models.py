@@ -61,6 +61,9 @@ class Message(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     content = models.TextField()
 
+    # Agent name for project mode (CrewAI agents)
+    agent_name = models.CharField(max_length=100, blank=True, null=True)
+
     # AI thinking (shown if user enables it)
     thinking = models.TextField(blank=True, null=True)
 
