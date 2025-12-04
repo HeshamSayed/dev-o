@@ -23,6 +23,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [referralTracked, setReferralTracked] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
   // Track referral click on page load
   useEffect(() => {
@@ -45,6 +46,12 @@ export default function LoginPage() {
     }
   };
 
+  useEffect(() => {
+    if (isLogin) {
+      setAcceptTerms(false);
+    }
+  }, [isLogin]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -52,6 +59,11 @@ export default function LoginPage() {
     // Validate confirm password for registration
     if (!isLogin && password !== confirmPassword) {
       setError('Passwords do not match');
+      return;
+    }
+
+    if (!isLogin && !acceptTerms) {
+      setError('Please accept the terms & policies to continue');
       return;
     }
 
@@ -96,6 +108,10 @@ export default function LoginPage() {
             </button>
           </div>
 
+          <p className="login-subtitle">
+            {isLogin ? 'Welcome back to DEV-O' : 'Create your DEV-O workspace'}
+          </p>
+
           {error && <div className="error-message">{error}</div>}
 
           <input
@@ -135,13 +151,34 @@ export default function LoginPage() {
           />
 
           {!isLogin && (
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required={!isLogin}
-            />
+            <>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required={!isLogin}
+              />
+
+              <label className="terms-checkbox">
+                <input
+                  type="checkbox"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                />
+                <span>
+                  I agree to the{' '}
+                  <a href="/terms" target="_blank" rel="noreferrer">
+                    Terms
+                  </a>{' '}
+                  &
+                  {' '}
+                  <a href="/privacy" target="_blank" rel="noreferrer">
+                    Privacy Policy
+                  </a>
+                </span>
+              </label>
+            </>
           )}
 
           <button type="submit" className="submit-btn" disabled={loading}>
