@@ -326,46 +326,7 @@
   color: #9CA3AF;
 }
 
-/* CrewAI Multi-Agent Mode Styles */
-.header-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.mode-toggle {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.mode-toggle.single-mode {
-  background: rgba(37, 99, 235, 0.1);
-  color: #60A5FA;
-  border-color: rgba(37, 99, 235, 0.2);
-}
-
-.mode-toggle.single-mode:hover {
-  background: rgba(37, 99, 235, 0.2);
-  border-color: rgba(37, 99, 235, 0.3);
-}
-
-.mode-toggle.crew-mode {
-  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
-  color: #F9FAFB;
-  border-color: #059669;
-}
-
-.mode-toggle.crew-mode:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
-}
-
-/* CrewAI Agent Progress Display */
+/* CrewAI Multi-Agent Display */
 .crew-progress {
   padding: 1rem;
   background: rgba(5, 150, 105, 0.05);

@@ -38,8 +38,7 @@ export default function ProjectWorkspace() {
   const [streamingFile, setStreamingFile] = useState<{ path: string; content: string } | null>(null);
   const [editorContent, setEditorContent] = useState<string>('');
 
-  // CrewAI Multi-Agent Mode
-  const [useCrewAI, setUseCrewAI] = useState(false);
+  // CrewAI Multi-Agent State
   const [crewAgents, setCrewAgents] = useState<Array<{ name: string; status: 'pending' | 'working' | 'completed' }>>([]);
   const [currentAgent, setCurrentAgent] = useState<string | null>(null);
 
@@ -270,11 +269,9 @@ export default function ProjectWorkspace() {
     setInput('');
     setLoading(true);
 
-    // Send appropriate message type based on mode
-    const messageType = useCrewAI ? 'crew_message' : 'project_message';
-    
+    // Always use CrewAI multi-agent mode
     wsRef.current?.send(JSON.stringify({
-      type: messageType,
+      type: 'crew_message',
       message: input.trim(),
       show_thinking: true,
     }));
@@ -395,25 +392,16 @@ export default function ProjectWorkspace() {
 
         <div className="chat-panel">
           <div className="chat-panel-header">
-            <h3>Project Chat</h3>
-            <div className="header-controls">
-              <button 
-                className={`mode-toggle ${useCrewAI ? 'crew-mode' : 'single-mode'}`}
-                onClick={() => setUseCrewAI(!useCrewAI)}
-                title={useCrewAI ? 'Switch to Single-Agent Mode' : 'Switch to Multi-Agent Mode'}
-              >
-                {useCrewAI ? '👥 Multi-Agent' : '🤖 Single-Agent'}
-              </button>
-              {wsConnected ? (
-                <span className="status-connected">🟢 Connected</span>
-              ) : (
-                <span className="status-disconnected">🔴 Disconnected</span>
-              )}
-            </div>
+            <h3>AI Development Team</h3>
+            {wsConnected ? (
+              <span className="status-connected">🟢 Connected</span>
+            ) : (
+              <span className="status-disconnected">🔴 Disconnected</span>
+            )}
           </div>
 
           {/* CrewAI Agent Progress Display */}
-          {useCrewAI && crewAgents.length > 0 && (
+          {crewAgents.length > 0 && (
             <div className="crew-progress">
               <div className="crew-progress-title">Multi-Agent Pipeline</div>
               <div className="crew-agents">
