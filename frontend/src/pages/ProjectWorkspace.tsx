@@ -38,6 +38,11 @@ export default function ProjectWorkspace() {
   const [streamingFile, setStreamingFile] = useState<{ path: string; content: string } | null>(null);
   const [editorContent, setEditorContent] = useState<string>('');
 
+  // CrewAI Multi-Agent Mode
+  const [useCrewAI, setUseCrewAI] = useState(false);
+  const [crewAgents, setCrewAgents] = useState<Array<{ name: string; status: 'pending' | 'working' | 'completed' }>>([]);
+  const [currentAgent, setCurrentAgent] = useState<string | null>(null);
+
   const wsRef = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileParserRef = useRef<FileStreamParser>(new FileStreamParser());
@@ -90,10 +95,54 @@ export default function ProjectWorkspace() {
           fetchFiles();
         }
         break;
-      case 'agent_working':
+      case 'crew_init':
+        // Initialize CrewAI agent pipeline
+        if (data.agents) {
+          setCrewAgents(data.agents.map((a: any) => ({ name: a.name, status: 'pending' })));
+          setMessages(prev => [...prev, {
+            role: 'system',
+            content: '🚀 Initializing CrewAI Multi-Agent System...\n• Product Owner\n• Backend Developer\n• Frontend Developer\n• QA Engineer',
+          }]);
+        }
+        break;
+      case 'agent_started':
+        // Mark agent as working
+        const startedAgentName = typeof data.agent === 'string' ? data.agent : data.agent?.name;
+        setCurrentAgent(startedAgentName || null);
+        setCrewAgents(prev => prev.map(a => 
+          a.name === startedAgentName ? { ...a, status: 'working' } : a
+        ));
         setMessages(prev => [...prev, {
           role: 'system',
-          content: `${data.agent.name} is working on your request...`,
+          content: `🔧 ${startedAgentName} started working...`,
+        }]);
+        break;
+      case 'agent_completed':
+        // Mark agent as completed
+        const completedAgentName = typeof data.agent === 'string' ? data.agent : data.agent?.name;
+        setCrewAgents(prev => prev.map(a => 
+          a.name === completedAgentName ? { ...a, status: 'completed' } : a
+        ));
+        setMessages(prev => [...prev, {
+          role: 'system',
+          content: `✅ ${completedAgentName} completed! Created ${data.files_created || 0} file(s).`,
+        }]);
+        setCurrentAgent(null);
+        break;
+      case 'crew_completed':
+        setLoading(false);
+        setCrewAgents([]);
+        setCurrentAgent(null);
+        setMessages(prev => [...prev, {
+          role: 'system',
+          content: `🎉 ${data.message || 'CrewAI pipeline completed successfully!'}\nTotal files: ${data.total_files || 0}`,
+        }]);
+        break;
+      case 'agent_working':
+        const workingAgentName = typeof data.agent === 'string' ? data.agent : data.agent?.name;
+        setMessages(prev => [...prev, {
+          role: 'system',
+          content: `${workingAgentName || 'Agent'} is working on your request...`,
         }]);
         // Reset file parser for new response
         fileParserRef.current.reset();
@@ -215,8 +264,11 @@ export default function ProjectWorkspace() {
     setInput('');
     setLoading(true);
 
+    // Send appropriate message type based on mode
+    const messageType = useCrewAI ? 'crew_message' : 'project_message';
+    
     wsRef.current?.send(JSON.stringify({
-      type: 'project_message',
+      type: messageType,
       message: input.trim(),
       show_thinking: true,
     }));
@@ -338,12 +390,48 @@ export default function ProjectWorkspace() {
         <div className="chat-panel">
           <div className="chat-panel-header">
             <h3>Project Chat</h3>
-            {wsConnected ? (
-              <span className="status-connected">🟢 Connected</span>
-            ) : (
-              <span className="status-disconnected">🔴 Disconnected</span>
-            )}
+            <div className="header-controls">
+              <button 
+                className={`mode-toggle ${useCrewAI ? 'crew-mode' : 'single-mode'}`}
+                onClick={() => setUseCrewAI(!useCrewAI)}
+                title={useCrewAI ? 'Switch to Single-Agent Mode' : 'Switch to Multi-Agent Mode'}
+              >
+                {useCrewAI ? '👥 Multi-Agent' : '🤖 Single-Agent'}
+              </button>
+              {wsConnected ? (
+                <span className="status-connected">🟢 Connected</span>
+              ) : (
+                <span className="status-disconnected">🔴 Disconnected</span>
+              )}
+            </div>
           </div>
+
+          {/* CrewAI Agent Progress Display */}
+          {useCrewAI && crewAgents.length > 0 && (
+            <div className="crew-progress">
+              <div className="crew-progress-title">Multi-Agent Pipeline</div>
+              <div className="crew-agents">
+                {crewAgents.map((agent, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`crew-agent crew-agent-${agent.status}`}
+                  >
+                    <div className="agent-icon">
+                      {agent.status === 'completed' ? '✅' : 
+                       agent.status === 'working' ? '⚙️' : '⏳'}
+                    </div>
+                    <div className="agent-info">
+                      <div className="agent-name">{agent.name}</div>
+                      <div className="agent-status">
+                        {agent.status === 'completed' ? 'Completed' : 
+                         agent.status === 'working' ? 'Working...' : 'Pending'}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="chat-messages">
             {messages.map((msg, idx) => (
