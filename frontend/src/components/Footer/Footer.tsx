@@ -36,8 +36,6 @@ const Footer: React.FC = () => {
           <div className="footer-section">
             <h3>Resources</h3>
             <ul>
-              <li><a href="#">API Reference</a></li>
-              <li><a href="#">Guides</a></li>
               <li><Link to="/blog">Blog</Link></li>
               <li><a href="#">Community</a></li>
               <li><a href="#">Support</a></li>
