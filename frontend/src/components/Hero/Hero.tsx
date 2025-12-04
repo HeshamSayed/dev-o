@@ -21,12 +21,7 @@ const Hero: React.FC = () => {
       </div>
       <div className="hero-container">
         <div className="hero-content">
-          <div className="hero-badge">
-            <div className="hero-badge-icon">
-              <LightningIcon size={12} color="#fff" />
-            </div>
-            <span className="hero-badge-text">AI-Powered Development Platform</span>
-          </div>
+          
 
           <h1 className="hero-title">
             Build Software at the

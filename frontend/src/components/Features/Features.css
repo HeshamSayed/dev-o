@@ -42,11 +42,6 @@
 }
 
 /* Professional Header */
-.features-header {
-  text-align: center;
-  margin-bottom: 80px;
-  animation: fadeInUp 0.8s ease-out;
-}
 
 .features-badge {
   display: inline-flex;
@@ -189,7 +184,9 @@
 .feature-svg-icon {
   position: relative;
   z-index: 1;
-  filter: drop-shadow(0 0 12px currentColor);
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
 /* Feature Content */
@@ -231,7 +228,9 @@
 
 .benefit-icon {
   flex-shrink: 0;
-  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
 }
 
 /* Animations */
