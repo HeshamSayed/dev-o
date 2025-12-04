@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
+import logoImage from '../Logo/DEV-O_Logo.png';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer: React.FC = () => {
           {/* Brand Section */}
           <div className="footer-brand">
             <Link to="/" className="footer-logo">
-              <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="footer-logo-image" />
+              <img src={logoImage} alt="DEV-O" className="footer-logo-image" />
             </Link>
             <p className="footer-description">
               Accelerate your development workflow with intelligent AI agents that
