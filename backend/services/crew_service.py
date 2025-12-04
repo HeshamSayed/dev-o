@@ -39,8 +39,8 @@ class CrewService:
     def __init__(self):
         """Initialize CrewAI service."""
         self.file_storage: Dict[str, str] = {}
-        self.verbose = settings.CREWAI_VERBOSE if hasattr(settings, 'CREWAI_VERBOSE') else True
-        self.max_iterations = settings.CREWAI_MAX_ITERATIONS if hasattr(settings, 'CREWAI_MAX_ITERATIONS') else 10
+        self.verbose = getattr(settings, 'CREWAI_VERBOSE', True)
+        self.max_iterations = getattr(settings, 'CREWAI_MAX_ITERATIONS', 10)
         
     def _create_llm(self) -> LLM:
         """Create LLM instance for CrewAI agents."""
@@ -107,7 +107,7 @@ class CrewService:
             )
             
             # Save files created by Product Owner
-            await self._save_files_to_project(project, None)
+            await self._save_files_to_project(project)
             
             yield {
                 'type': 'agent_completed',
@@ -127,7 +127,7 @@ class CrewService:
             )
             
             # Save backend files
-            await self._save_files_to_project(project, None)
+            await self._save_files_to_project(project)
             
             backend_files_created = len(self.file_storage) - backend_files_before
             yield {
@@ -148,7 +148,7 @@ class CrewService:
             )
             
             # Save frontend files
-            await self._save_files_to_project(project, None)
+            await self._save_files_to_project(project)
             
             frontend_files_created = len(self.file_storage) - frontend_files_before
             yield {
@@ -169,7 +169,7 @@ class CrewService:
             )
             
             # Save QA files
-            await self._save_files_to_project(project, None)
+            await self._save_files_to_project(project)
             
             qa_files_created = len(self.file_storage) - qa_files_before
             yield {
@@ -303,7 +303,7 @@ class CrewService:
         logger.info("[CREW] QA Engineer crew execution completed")
 
     @database_sync_to_async
-    def _save_files_to_project(self, project: Project, agent) -> List[ProjectFile]:
+    def _save_files_to_project(self, project: Project) -> List[ProjectFile]:
         """Save files from storage to project."""
         saved_files = []
         
@@ -322,12 +322,11 @@ class CrewService:
                 saved_files.append(existing_file)
                 logger.debug(f"[CREW] Updated file: {path}")
             else:
-                # Create new file
+                # Create new file (agent tracking done separately if needed)
                 file = ProjectFile.objects.create(
                     project=project,
                     path=path,
                     content=content,
-                    created_by_agent=agent,
                 )
                 saved_files.append(file)
                 logger.debug(f"[CREW] Created file: {path}")
