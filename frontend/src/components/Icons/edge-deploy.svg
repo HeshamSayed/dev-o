@@ -1,0 +1,9 @@
+<!-- edge-deployment-ready.svg -->
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"></circle>
+  <circle cx="12" cy="5" r="1.1" fill="currentColor"></circle>
+  <circle cx="18" cy="12" r="1.1" fill="currentColor"></circle>
+  <circle cx="12" cy="19" r="1.1" fill="currentColor"></circle>
+  <circle cx="6" cy="12" r="1.1" fill="currentColor"></circle>
+  <path d="M12 5.8V10M17.2 12H13M12 18.2V14M6.8 12H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
+</svg>
