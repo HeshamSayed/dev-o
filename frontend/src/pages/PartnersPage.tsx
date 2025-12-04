@@ -206,7 +206,7 @@ const PartnersPage = () => {
   };
 
   return (
-    <div className="partners-page">
+    <div className="partners-page wavy-scroll">
       {/* Navigation */}
       <nav className="partners-nav">
         <div className="partners-nav-container">

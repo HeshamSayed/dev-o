@@ -1,3 +1,5 @@
+@import './styles/wavy-scroll.css';
+
 /* CSS Reset and Base Styles - Mobile First */
 * {
   margin: 0;
@@ -10,6 +12,12 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+}
+
+@supports (text-size-adjust: 100%) {
+  html {
+    text-size-adjust: 100%;
+  }
 }
 
 body {

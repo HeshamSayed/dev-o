@@ -257,7 +257,7 @@ const BellIcon = () => (
 
 const CareersPage: React.FC = () => {
   return (
-    <div className="careers-page">
+    <div className="careers-page wavy-scroll">
       {/* Navigation */}
       <nav className="careers-nav">
         <Link to="/" className="careers-nav-logo">

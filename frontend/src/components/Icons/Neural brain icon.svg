@@ -1,0 +1,11 @@
+<!-- ai-digital-experience.svg -->
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Brain outline -->
+  <path d="M9 4C7 4 5.5 5.4 5.5 7.5C4 8 3 9.4 3 11C3 12.9 4.5 14.3 6 14.4V14.5C6 17 8 19 10.5 19" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round"></path>
+  <path d="M15 4C17 4 18.5 5.4 18.5 7.5C20 8 21 9.4 21 11C21 12.9 19.5 14.3 18 14.4V14.5C18 17 16 19 13.5 19" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round"></path>
+  <!-- Connections -->
+  <circle cx="9" cy="8" r="1" fill="#FFFFFF"></circle>
+  <circle cx="15" cy="8" r="1" fill="#FFFFFF"></circle>
+  <circle cx="12" cy="12" r="1.2" fill="#FFFFFF"></circle>
+  <path d="M9 8L12 12L15 8" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></path>
+</svg>

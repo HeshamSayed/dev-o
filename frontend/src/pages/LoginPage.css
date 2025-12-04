@@ -4,6 +4,7 @@
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(135deg, #0B1220 0%, #1E293B 100%);
+  padding: 1.5rem;
 }
 
 .login-container {
@@ -13,7 +14,24 @@
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(37, 99, 235, 0.2);
   border-radius: 1rem;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  box-shadow: 0 30px 60px rgba(3, 7, 18, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.25), transparent 60%);
+  pointer-events: none;
+}
+
+.login-container > * {
+  position: relative;
+  z-index: 1;
 }
 
 .login-header {
@@ -39,6 +57,13 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.login-subtitle {
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
+  color: #94A3B8;
+  font-size: 0.9rem;
 }
 
 .form-tabs {
@@ -121,4 +146,40 @@
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #CBD5F5;
+  line-height: 1.4;
+}
+
+.terms-checkbox input {
+  margin-top: 0.15rem;
+  width: 16px;
+  height: 16px;
+  accent-color: #2563EB;
+  cursor: pointer;
+}
+
+.terms-checkbox a {
+  color: #60A5FA;
+  text-decoration: none;
+}
+
+.terms-checkbox a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1.75rem;
+  }
+
+  .login-form {
+    gap: 0.75rem;
+  }
 }

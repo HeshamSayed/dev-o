@@ -169,7 +169,7 @@ DEV-O is developed by Bionicverse Inc. (USA), a company operating at the interse
   const description80Word = `DEV-O is a Digital Engineering Virtual Orchestrator from Bionicverse Inc. that helps organizations become truly AI-native in how they build and operate software. Instead of replacing tools, DEV-O connects code, tickets, CI/CD, observability, and incident systems into one orchestrated environment. Its knowledge graph and AI agents support faster incident response, safer releases, better visibility for leadership, and human-in-command automation across engineering workflows.`;
 
   return (
-    <div className="press-page">
+    <div className="press-page wavy-scroll">
       {/* Navigation */}
       <nav className="press-nav">
         <Link to="/" className="press-nav-logo">

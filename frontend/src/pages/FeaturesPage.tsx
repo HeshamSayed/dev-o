@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
+import VisionIcon from '../components/Icons/context-aware.svg';
+import DecideIcon from '../components/Icons/DECIDE—AI_Lightning Intelligence.svg';
+import ActIcon from '../components/Icons/ACT—Target _Precision.svg';
+import LearnIcon from '../components/Icons/LEARN—Growth _Trend Graph.svg';
+import UseCaseIncidentIcon from '../components/Icons/Incident & Reliability Co-Pilot.svg';
+import UseCaseCommandCenterIcon from '../components/Icons/Command Center.svg';
+import UseCaseAIWorkflowIcon from '../components/Icons/AI-assisted workflows.svg';
+import RoboticsExpertiseIcon from '../components/Icons/Robotic arm icon.svg';
+import NeuralExpertiseIcon from '../components/Icons/Neural brain icon.svg';
+import MissionCriticalExpertiseIcon from '../components/Icons/Gear system icon.svg';
 import './FeaturesPage.css';
 
 interface FeatureSection {
@@ -16,27 +26,46 @@ interface FeatureSection {
   icon: React.ReactNode;
 }
 
+interface HighLevelValue {
+  iconSrc: string;
+  title: string;
+  description: string;
+}
+
+interface UseCaseFlow {
+  start: string;
+  then: string;
+  iconSrc: string;
+  alt: string;
+}
+
+interface ExpertiseHighlight {
+  label: string;
+  iconSrc: string;
+  alt: string;
+}
+
 const FeaturesPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('workspace');
 
-  const highLevelValues = [
+  const highLevelValues: HighLevelValue[] = [
     {
-      icon: '👁️',
+      iconSrc: VisionIcon,
       title: 'See',
       description: 'Your entire engineering landscape in one place – services, teams, incidents, deployments, risks, and more.'
     },
     {
-      icon: '⚡',
+      iconSrc: DecideIcon,
       title: 'Decide',
       description: 'Faster with AI-grounded insights built on a living engineering knowledge graph.'
     },
     {
-      icon: '🎯',
+      iconSrc: ActIcon,
       title: 'Act',
       description: 'Through orchestrated workflows where AI agents, automations, and humans work together.'
     },
     {
-      icon: '📈',
+      iconSrc: LearnIcon,
       title: 'Learn',
       description: 'Continuously as incidents, changes, and decisions enrich the system.'
     }
@@ -317,28 +346,49 @@ const FeaturesPage: React.FC = () => {
     }
   ];
 
-  const useCases = [
+  const useCases: UseCaseFlow[] = [
     {
       start: 'Incident & Reliability Co-Pilot',
       then: 'Delivery & Change Orchestration',
-      icon: '🚨'
+      iconSrc: UseCaseIncidentIcon,
+      alt: 'Incident and reliability capability icon'
     },
     {
       start: 'Command Center for engineering leadership',
       then: 'Onboarding and knowledge tools for teams',
-      icon: '📊'
+      iconSrc: UseCaseCommandCenterIcon,
+      alt: 'Command center capability icon'
     },
     {
       start: 'AI-assisted workflows in one domain',
       then: 'Gradually add more agents and automations',
-      icon: '🤖'
+      iconSrc: UseCaseAIWorkflowIcon,
+      alt: 'AI-assisted workflows capability icon'
+    }
+  ];
+
+  const expertiseHighlights: ExpertiseHighlight[] = [
+    {
+      label: 'Robotics and automation',
+      iconSrc: RoboticsExpertiseIcon,
+      alt: 'Robotics and automation icon'
+    },
+    {
+      label: 'AI and digital experience',
+      iconSrc: NeuralExpertiseIcon,
+      alt: 'AI and digital experience icon'
+    },
+    {
+      label: 'Complex, mission-critical systems',
+      iconSrc: MissionCriticalExpertiseIcon,
+      alt: 'Complex mission critical systems icon'
     }
   ];
 
   const navigate = useNavigate();
 
   return (
-    <div className="features-page">
+    <div className="features-page wavy-scroll">
       {/* Navigation Header */}
       <header className="features-header">
         <div className="features-header-container">
@@ -386,7 +436,9 @@ const FeaturesPage: React.FC = () => {
           <div className="value-grid">
             {highLevelValues.map((value, index) => (
               <div key={index} className="value-card">
-                <span className="value-icon">{value.icon}</span>
+                <div className="value-icon">
+                  <img src={value.iconSrc} alt={`${value.title} icon`} loading="lazy" />
+                </div>
                 <h3 className="value-title">{value.title}</h3>
                 <p className="value-description">{value.description}</p>
               </div>
@@ -472,7 +524,9 @@ const FeaturesPage: React.FC = () => {
           <div className="use-cases-grid">
             {useCases.map((useCase, index) => (
               <div key={index} className="use-case-card">
-                <span className="use-case-icon">{useCase.icon}</span>
+                <div className="use-case-icon">
+                  <img src={useCase.iconSrc} alt={useCase.alt} loading="lazy" />
+                </div>
                 <div className="use-case-flow">
                   <div className="use-case-step">
                     <span className="step-label">Start with</span>
@@ -503,9 +557,12 @@ const FeaturesPage: React.FC = () => {
               DEV-O is created and operated by Bionicverse Inc. (USA), bringing together expertise in:
             </p>
             <div className="expertise-tags">
-              <span className="expertise-tag">🤖 Robotics and automation</span>
-              <span className="expertise-tag">🧠 AI and digital experience</span>
-              <span className="expertise-tag">⚙️ Complex, mission-critical systems</span>
+              {expertiseHighlights.map((item) => (
+                <span key={item.label} className="expertise-tag">
+                  <img src={item.iconSrc} alt={item.alt} loading="lazy" />
+                  {item.label}
+                </span>
+              ))}
             </div>
             <p className="powered-by-vision">
               Together, we're building a platform that helps organizations become truly <strong>bionic</strong> – 
