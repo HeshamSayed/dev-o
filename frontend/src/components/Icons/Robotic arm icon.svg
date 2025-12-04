@@ -1,0 +1,11 @@
+<!-- robotics-automation.svg -->
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Base -->
+  <rect x="4" y="18" width="16" height="2" rx="1" fill="#FFFFFF"></rect>
+  <!-- Arm body -->
+  <path d="M8 18V12L13 9L16 11" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+  <!-- Joint -->
+  <circle cx="13" cy="9" r="1.6" stroke="#FFFFFF" stroke-width="1.5"></circle>
+  <!-- Gripper -->
+  <path d="M16 11L18 9M16 11L18 13" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round"></path>
+</svg>

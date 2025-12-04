@@ -210,6 +210,12 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.social-link img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
 .social-link:hover {
   background: linear-gradient(135deg, rgba(88, 101, 242, 0.1), rgba(168, 85, 247, 0.05));
   border-color: rgba(88, 101, 242, 0.3);
