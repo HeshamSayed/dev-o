@@ -121,7 +121,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="contact-page">
+    <div className="contact-page wavy-scroll">
       {/* Navigation */}
       <nav className="contact-nav">
         <div className="contact-nav-container">

@@ -183,7 +183,7 @@ const BlogPage: React.FC = () => {
   ];
 
   return (
-    <div className="blog-page">
+    <div className="blog-page wavy-scroll">
       {/* Navigation Header */}
       <header className="blog-header-nav">
         <div className="blog-header-container">

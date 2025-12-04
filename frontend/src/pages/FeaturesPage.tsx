@@ -338,7 +338,7 @@ const FeaturesPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="features-page">
+    <div className="features-page wavy-scroll">
       {/* Navigation Header */}
       <header className="features-header">
         <div className="features-header-container">

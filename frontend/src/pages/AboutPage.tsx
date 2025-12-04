@@ -104,7 +104,7 @@ const TrendingUpIcon = () => (
 
 const AboutPage = () => {
   return (
-    <div className="about-page">
+    <div className="about-page wavy-scroll">
       {/* Navigation */}
       <nav className="about-nav">
         <div className="about-nav-container">

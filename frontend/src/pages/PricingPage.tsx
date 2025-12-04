@@ -71,7 +71,7 @@ const PricingPage: React.FC = () => {
   }
 
   return (
-    <div className="pricing-page">
+    <div className="pricing-page wavy-scroll">
       <div className="pricing-header">
         <Logo size={60} />
         <h1>Choose Your Plan</h1>
