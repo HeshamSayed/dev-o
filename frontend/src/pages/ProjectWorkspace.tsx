@@ -47,6 +47,12 @@ export default function ProjectWorkspace() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileParserRef = useRef<FileStreamParser>(new FileStreamParser());
 
+  // Helper function to extract agent name from various formats
+  const getAgentName = (agent: string | { name: string } | undefined): string => {
+    if (!agent) return 'Agent';
+    return typeof agent === 'string' ? agent : agent.name;
+  };
+
   useEffect(() => {
     fetchProject();
     connectWebSocket();
@@ -107,8 +113,8 @@ export default function ProjectWorkspace() {
         break;
       case 'agent_started':
         // Mark agent as working
-        const startedAgentName = typeof data.agent === 'string' ? data.agent : data.agent?.name;
-        setCurrentAgent(startedAgentName || null);
+        const startedAgentName = getAgentName(data.agent);
+        setCurrentAgent(startedAgentName);
         setCrewAgents(prev => prev.map(a => 
           a.name === startedAgentName ? { ...a, status: 'working' } : a
         ));
@@ -119,7 +125,7 @@ export default function ProjectWorkspace() {
         break;
       case 'agent_completed':
         // Mark agent as completed
-        const completedAgentName = typeof data.agent === 'string' ? data.agent : data.agent?.name;
+        const completedAgentName = getAgentName(data.agent);
         setCrewAgents(prev => prev.map(a => 
           a.name === completedAgentName ? { ...a, status: 'completed' } : a
         ));
@@ -139,10 +145,10 @@ export default function ProjectWorkspace() {
         }]);
         break;
       case 'agent_working':
-        const workingAgentName = typeof data.agent === 'string' ? data.agent : data.agent?.name;
+        const workingAgentName = getAgentName(data.agent);
         setMessages(prev => [...prev, {
           role: 'system',
-          content: `${workingAgentName || 'Agent'} is working on your request...`,
+          content: `${workingAgentName} is working on your request...`,
         }]);
         // Reset file parser for new response
         fileParserRef.current.reset();

@@ -2,6 +2,7 @@
 
 import logging
 from typing import Dict, Any, List, AsyncGenerator
+from datetime import datetime
 from django.conf import settings
 from crewai import Crew, Process, LLM
 from channels.db import database_sync_to_async
@@ -100,7 +101,7 @@ class CrewService:
             session['conversation_history'].append({
                 'role': 'user',
                 'content': project_description,
-                'timestamp': logger.info.__self__.time if hasattr(logger.info, '__self__') else None
+                'timestamp': datetime.now().isoformat()
             })
             
             logger.info(f"[CREW] Session execution count: {session['execution_count']}")
