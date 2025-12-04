@@ -9,35 +9,34 @@ import IntelligentMemoryIcon from '../Icons/intelligent-memory.svg';
 import ProductionCodeIcon from '../Icons/production-code.svg';
 import CloudNativeIcon from '../Icons/cloud-native.svg';
 
-// Import Benefit SVG icons - Agent Orchestration
-import SelfOrganizingIcon from '../Icons/self-organizing.svg';
-import ContextAwareIcon from '../Icons/context-aware.svg';
-import RealTimeCollabIcon from '../Icons/realtime-collab.svg';
+// Import Benefit SVG icons (white versions) - Agent Orchestration
+import SelfOrganizingIcon from '../Icons/self-organizing-white.svg';
+import ContextAwareIcon from '../Icons/context-aware-white.svg';
+import RealTimeCollabIcon from '../Icons/realtime-collab-white.svg';
 
-// Import Benefit SVG icons - Enterprise Security
-import SOC2Icon from '../Icons/soc2-certified.svg';
-import GDPRIcon from '../Icons/gdpr-hipaa.svg';
-import ZeroKnowledgeIcon from '../Icons/zero-knowledge.svg';
+// Import Benefit SVG icons (white versions) - Enterprise Security
+import GDPRIcon from '../Icons/gdpr-hipaa-white.svg';
+import ZeroKnowledgeIcon from '../Icons/zero-knowledge-white.svg';
 
-// Import Benefit SVG icons - Development Speed
-import InstantCodeGenIcon from '../Icons/instant-codegen.svg';
-import AutomatedTestingIcon from '../Icons/automated-testing.svg';
-import OneClickDeployIcon from '../Icons/one-click-deploy.svg';
+// Import Benefit SVG icons (white versions) - Development Speed
+import InstantCodeGenIcon from '../Icons/instant-codegen-white.svg';
+import AutomatedTestingIcon from '../Icons/automated-testing-white.svg';
+import OneClickDeployIcon from '../Icons/one-click-deploy-white.svg';
 
-// Import Benefit SVG icons - Intelligent Memory
-import VectorSearchIcon from '../Icons/vector-search.svg';
-import LongTermMemoryIcon from '../Icons/long-term-memory.svg';
-import CrossProjectIcon from '../Icons/cross-project.svg';
+// Import Benefit SVG icons (white versions) - Intelligent Memory
+import VectorSearchIcon from '../Icons/vector-search-white.svg';
+import LongTermMemoryIcon from '../Icons/long-term-memory-white.svg';
+import CrossProjectIcon from '../Icons/cross-project-white.svg';
 
-// Import Benefit SVG icons - Production-Ready Code
-import SOLIDIcon from '../Icons/solid-principles.svg';
-import TestCoverageIcon from '../Icons/test-coverage.svg';
-import SelfDocumentingIcon from '../Icons/self-documenting.svg';
+// Import Benefit SVG icons (white versions) - Production-Ready Code
+import SOLIDIcon from '../Icons/solid-principles-white.svg';
+import TestCoverageIcon from '../Icons/test-coverage-white.svg';
+import SelfDocumentingIcon from '../Icons/self-documenting-white.svg';
 
-// Import Benefit SVG icons - Cloud-Native
-import AutoScalingIcon from '../Icons/auto-scaling.svg';
-import MultiCloudIcon from '../Icons/multi-cloud.svg';
-import EdgeDeployIcon from '../Icons/edge-deploy.svg';
+// Import Benefit SVG icons (white versions) - Cloud-Native
+import AutoScalingIcon from '../Icons/auto-scaling-white.svg';
+import MultiCloudIcon from '../Icons/multi-cloud-white.svg';
+import EdgeDeployIcon from '../Icons/edge-deploy-white.svg';
 
 interface Benefit {
   text: string;
@@ -70,7 +69,6 @@ const features: Feature[] = [
     description: 'Bank-grade security with end-to-end encryption and compliance with industry standards.',
     gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
     benefits: [
-      { text: 'SOC 2 Type II certified', icon: SOC2Icon },
       { text: 'GDPR & HIPAA compliant', icon: GDPRIcon },
       { text: 'Zero-knowledge architecture', icon: ZeroKnowledgeIcon }
     ]
