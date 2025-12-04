@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     # Local apps
     'apps.chat',
     'apps.projects',
-    'apps.agents',
     'apps.memory',
     'apps.billing',
 ]

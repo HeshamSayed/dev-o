@@ -1,7 +1,6 @@
 """Project WebSocket consumer for project mode."""
 
 import json
-import time
 import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
@@ -9,8 +8,6 @@ from django.contrib.auth import get_user_model
 
 from .models import Project, ProjectFile
 from apps.chat.models import Conversation, Message
-from apps.agents.models import Agent
-from services.agent_service import AgentService
 from services.usage_service import UsageService
 
 User = get_user_model()
@@ -18,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 class ProjectConsumer(AsyncWebsocketConsumer):
-    """WebSocket consumer for project mode with real-time code generation."""
+    """WebSocket consumer for project mode."""
 
     async def connect(self):
         """Handle WebSocket connection."""
@@ -52,9 +49,7 @@ class ProjectConsumer(AsyncWebsocketConsumer):
             data = json.loads(text_data)
             message_type = data.get('type')
 
-            if message_type == 'project_message':
-                await self.handle_project_message(data)
-            elif message_type == 'get_file':
+            if message_type == 'get_file':
                 await self.handle_get_file(data)
             elif message_type == 'ping':
                 await self.send(text_data=json.dumps({'type': 'pong'}))
@@ -64,146 +59,6 @@ class ProjectConsumer(AsyncWebsocketConsumer):
         except json.JSONDecodeError:
             await self.send_error('Invalid JSON')
         except Exception as e:
-            await self.send_error(str(e))
-
-    async def handle_project_message(self, data):
-        """Handle user message in project mode."""
-        message_content = data.get('message')
-        show_thinking = data.get('show_thinking', True)
-
-        logger.info(f"[PROJECT] Received message for project {self.project_id}: {message_content[:100]}...")
-
-        if not message_content:
-            await self.send_error('Message content is required')
-            return
-
-        # Check usage limits
-        can_request, used, limit = await self.check_project_limit()
-        if not can_request:
-            logger.warning(f"[PROJECT] Usage limit exceeded for user {self.user.id}")
-            await self.send_limit_error('project', used, limit)
-            return
-
-        # Get or create project conversation
-        conversation = await self.get_or_create_conversation()
-        logger.info(f"[PROJECT] Using conversation {conversation.id}")
-
-        # Save user message
-        await self.save_message(conversation, 'user', message_content)
-        logger.info(f"[PROJECT] User message saved")
-
-        # Send acknowledgment
-        await self.send(text_data=json.dumps({
-            'type': 'message_received',
-            'message': message_content
-        }))
-
-        # Get agent service
-        agent_service = AgentService()
-
-        # Select appropriate agent
-        agent = await agent_service.select_agent(self.project, message_content)
-
-        if not agent:
-            logger.error(f"[PROJECT] No agent assigned to project {self.project_id}")
-            await self.send_error('No agent assigned to this project')
-            return
-
-        logger.info(f"[PROJECT] Selected agent: {agent.name} ({agent.type})")
-
-        # Notify which agent is working
-        await self.send(text_data=json.dumps({
-            'type': 'agent_working',
-            'agent': {
-                'id': str(agent.id),
-                'name': agent.name,
-                'type': agent.type
-            }
-        }))
-
-        # Execute agent and stream results
-        full_response = []
-        start_time = time.time()
-
-        try:
-            logger.info(f"[PROJECT] Starting agent execution...")
-            files_created = []
-            async for event in agent_service.execute_agent(
-                project=self.project,
-                agent=agent,
-                user_message=message_content,
-                conversation=conversation,
-                show_thinking=show_thinking
-            ):
-                logger.debug(f"[PROJECT] Event: {event.get('type')}")
-                await self.send(text_data=json.dumps(event))
-
-                if event['type'] == 'token':
-                    full_response.append(event.get('content', ''))
-                elif event['type'] == 'file_created':
-                    logger.info(f"[PROJECT] File created event: {event.get('path')}")
-                    files_created.append(event.get('path'))
-
-            # Save assistant message
-            response_text = ''.join(full_response)
-            logger.info(f"[PROJECT] Saving agent response ({len(response_text)} chars)")
-
-            # Always parse response to remove file tags from chat display
-            parsed = agent_service.parse_ai_response(response_text)
-            logger.info(f"[PROJECT] Parsed {len(parsed['files'])} files from response")
-
-            # Create files if not already created during streaming
-            if not files_created and parsed['files']:
-                logger.info(f"[PROJECT] No files created during stream, creating them now...")
-
-                for file_info in parsed['files']:
-                    logger.info(f"[PROJECT] Creating file: {file_info['path']}")
-                    await agent_service.save_file(
-                        project=self.project,
-                        path=file_info['path'],
-                        content=file_info['content'],
-                        agent=agent
-                    )
-                    logger.info(f"[PROJECT] File created: {file_info['path']}")
-
-                    # Send file_created event
-                    await self.send(text_data=json.dumps({
-                        'type': 'file_created',
-                        'path': file_info['path']
-                    }))
-
-                # Send file tree update
-                context = await agent_service.get_project_context(self.project)
-                await self.send(text_data=json.dumps({
-                    'type': 'file_tree_update',
-                    'tree': context['file_tree']
-                }))
-
-            # Always use clean content (without file tags) for the message
-            response_text = parsed['chat_content']
-            logger.info(f"[PROJECT] Using clean content ({len(response_text)} chars, removed file tags)")
-
-            await self.save_message(
-                conversation,
-                'agent',
-                response_text,
-                agent=agent
-            )
-            logger.info(f"[PROJECT] Agent response saved")
-
-            # Record usage
-            duration_ms = int((time.time() - start_time) * 1000)
-            await self.record_project_usage(
-                project_id=str(self.project.id),
-                duration_ms=duration_ms
-            )
-            logger.info(f"[PROJECT] Usage recorded ({duration_ms}ms)")
-
-            # Send done event
-            await self.send(text_data=json.dumps({'type': 'done'}))
-
-        except Exception as e:
-            logger.exception(f"[PROJECT] Error during agent execution: {e}")
             await self.send_error(str(e))
 
     async def handle_get_file(self, data):
@@ -252,7 +107,6 @@ class ProjectConsumer(AsyncWebsocketConsumer):
                     'id': str(m.id),
                     'role': m.role,
                     'content': m.content,
-                    'agent': m.agent.name if m.agent else None,
                     'created_at': m.created_at.isoformat()
                 }
                 for m in messages
@@ -298,51 +152,12 @@ class ProjectConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def get_conversation_messages(self, conversation):
-        return list(conversation.messages.select_related('agent').order_by('created_at')[:100])
+        return list(conversation.messages.order_by('created_at')[:100])
 
     @database_sync_to_async
-    def save_message(self, conversation, role, content, agent=None):
+    def save_message(self, conversation, role, content):
         return Message.objects.create(
             conversation=conversation,
             role=role,
-            content=content,
-            agent=agent
+            content=content
         )
-
-    # Usage tracking operations
-
-    @database_sync_to_async
-    def check_project_limit(self):
-        """Check if user can make project request."""
-        return UsageService.check_project_request_limit(self.user)
-
-    @database_sync_to_async
-    def record_project_usage(self, project_id, duration_ms=0):
-        """Record project request usage."""
-        return UsageService.record_project_request(
-            user=self.user,
-            project_id=project_id,
-            duration_ms=duration_ms,
-            model_used='default'
-        )
-
-    async def send_limit_error(self, limit_type, used, limit):
-        """Send limit exceeded error with usage info."""
-        usage_summary = await self.get_usage_summary()
-        await self.send(text_data=json.dumps({
-            'type': 'limit_exceeded',
-            'limit_type': limit_type,
-            'used': used,
-            'limit': limit,
-            'window_info': {
-                'minutes_until_reset': usage_summary['window']['minutes_until_reset']
-            },
-            'message': f'You have reached your {limit_type} limit ({used}/{limit}). '
-                      f'Resets in {usage_summary["window"]["minutes_until_reset"]} minutes. '
-                      f'Upgrade to Pro for higher limits!'
-        }))
-
-    @database_sync_to_async
-    def get_usage_summary(self):
-        """Get current usage summary."""
-        return UsageService.get_usage_summary(self.user)

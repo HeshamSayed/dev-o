@@ -7,14 +7,12 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from apps.users import views as user_views
 from apps.chat import views as chat_views
 from apps.projects import views as project_views
-from apps.agents import views as agent_views
 
 # API Router
 router = routers.DefaultRouter()
 router.register(r'users', user_views.UserViewSet, basename='user')
 router.register(r'conversations', chat_views.ConversationViewSet, basename='conversation')
 router.register(r'projects', project_views.ProjectViewSet, basename='project')
-router.register(r'agents', agent_views.AgentViewSet, basename='agent')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +26,5 @@ urlpatterns = [
     path('api/v1/auth/', include('apps.users.urls')),
     path('api/v1/', include('apps.chat.urls')),
     path('api/v1/', include('apps.projects.urls')),
-    path('api/v1/', include('apps.agents.urls')),
     path('api/v1/billing/', include('apps.billing.urls')),
 ]
