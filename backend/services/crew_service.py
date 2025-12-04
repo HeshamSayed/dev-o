@@ -67,6 +67,9 @@ class CrewService:
                 'execution_count': 0,
                 'last_execution': None,
                 'conversation_history': [],
+                'completed_agents': [],  # Track which agents completed successfully
+                'last_error': None,  # Store last error for continuation
+                'can_continue': False,  # Flag to indicate if continuation is possible
             }
         return self.session_contexts[project_id]
 
@@ -80,6 +83,7 @@ class CrewService:
         self,
         project: Project,
         project_description: str,
+        continue_from_last: bool = False,
     ) -> AsyncGenerator[Dict[str, Any], None]:
         """
         Execute the full development crew in sequential order with session memory.
@@ -87,6 +91,11 @@ class CrewService:
         Pipeline: Product Owner → Backend Dev → Frontend Dev → QA Engineer
         
         Session memory maintains context across multiple executions for the same project.
+        
+        Args:
+            project: The project to work on
+            project_description: User's request/description
+            continue_from_last: If True, continue from the last failed agent instead of starting over
         """
         try:
             project_id_str = str(project.id)
@@ -96,12 +105,27 @@ class CrewService:
             session = self.get_or_create_session(project_id_str)
             session['execution_count'] += 1
             session['last_execution'] = project_description
+            session['can_continue'] = False  # Reset continuation flag
+            session['last_error'] = None  # Clear previous errors
+            
+            # Determine starting point
+            if continue_from_last and session.get('completed_agents'):
+                logger.info(f"[CREW] Continuing from last failed agent. Completed: {session['completed_agents']}")
+                yield {
+                    'type': 'crew_continuation',
+                    'message': f"Continuing from where we left off. Completed agents: {', '.join(session['completed_agents'])}",
+                    'completed_agents': session['completed_agents']
+                }
+            else:
+                # Starting fresh - clear completed agents
+                session['completed_agents'] = []
             
             # Add to conversation history
             session['conversation_history'].append({
                 'role': 'user',
                 'content': project_description,
-                'timestamp': datetime.now().isoformat()
+                'timestamp': datetime.now().isoformat(),
+                'continuation': continue_from_last
             })
             
             logger.info(f"[CREW] Session execution count: {session['execution_count']}")
@@ -123,99 +147,77 @@ class CrewService:
             
             logger.info("[CREW] Agents created successfully")
             
+            # Define agent pipeline
+            agents_pipeline = [
+                ('Product Owner', product_owner, self._execute_product_owner, [project, project_description]),
+                ('Backend Developer', backend_dev, self._execute_backend_developer, [project]),
+                ('Frontend Developer', frontend_dev, self._execute_frontend_developer, [project]),
+                ('QA Engineer', qa_engineer, self._execute_qa_engineer, [project]),
+            ]
+            
             # Yield agent initialization
             yield {
                 'type': 'crew_init',
                 'agents': [
-                    {'name': 'Product Owner', 'status': 'initialized'},
-                    {'name': 'Backend Developer', 'status': 'initialized'},
-                    {'name': 'Frontend Developer', 'status': 'initialized'},
-                    {'name': 'QA Engineer', 'status': 'initialized'},
+                    {'name': name, 'status': 'completed' if name in session['completed_agents'] else 'initialized'}
+                    for name, _, _, _ in agents_pipeline
                 ]
             }
             
-            # Execute Product Owner phase
-            yield {'type': 'agent_started', 'agent': 'Product Owner'}
-            logger.info("[CREW] Starting Product Owner phase...")
-            
-            await self._execute_product_owner(
-                product_owner,
-                project,
-                project_description,
-            )
-            
-            # Save files created by Product Owner
-            await self._save_files_to_project(project)
-            
-            yield {
-                'type': 'agent_completed',
-                'agent': 'Product Owner',
-                'files_created': len([f for f in self.file_storage.keys() if f.startswith('specs/')])
-            }
-            logger.info(f"[CREW] Product Owner completed. Files: {len(self.file_storage)}")
-            
-            # Execute Backend Developer phase
-            yield {'type': 'agent_started', 'agent': 'Backend Developer'}
-            logger.info("[CREW] Starting Backend Developer phase...")
-            
-            backend_files_before = len(self.file_storage)
-            await self._execute_backend_developer(
-                backend_dev,
-                project,
-            )
-            
-            # Save backend files
-            await self._save_files_to_project(project)
-            
-            backend_files_created = len(self.file_storage) - backend_files_before
-            yield {
-                'type': 'agent_completed',
-                'agent': 'Backend Developer',
-                'files_created': backend_files_created
-            }
-            logger.info(f"[CREW] Backend Developer completed. New files: {backend_files_created}")
-            
-            # Execute Frontend Developer phase
-            yield {'type': 'agent_started', 'agent': 'Frontend Developer'}
-            logger.info("[CREW] Starting Frontend Developer phase...")
-            
-            frontend_files_before = len(self.file_storage)
-            await self._execute_frontend_developer(
-                frontend_dev,
-                project,
-            )
-            
-            # Save frontend files
-            await self._save_files_to_project(project)
-            
-            frontend_files_created = len(self.file_storage) - frontend_files_before
-            yield {
-                'type': 'agent_completed',
-                'agent': 'Frontend Developer',
-                'files_created': frontend_files_created
-            }
-            logger.info(f"[CREW] Frontend Developer completed. New files: {frontend_files_created}")
-            
-            # Execute QA Engineer phase
-            yield {'type': 'agent_started', 'agent': 'QA Engineer'}
-            logger.info("[CREW] Starting QA Engineer phase...")
-            
-            qa_files_before = len(self.file_storage)
-            await self._execute_qa_engineer(
-                qa_engineer,
-                project,
-            )
-            
-            # Save QA files
-            await self._save_files_to_project(project)
-            
-            qa_files_created = len(self.file_storage) - qa_files_before
-            yield {
-                'type': 'agent_completed',
-                'agent': 'QA Engineer',
-                'files_created': qa_files_created
-            }
-            logger.info(f"[CREW] QA Engineer completed. New files: {qa_files_created}")
+            # Execute agents in sequence
+            for agent_name, agent, execute_func, args in agents_pipeline:
+                # Skip if already completed (continuation scenario)
+                if agent_name in session['completed_agents']:
+                    logger.info(f"[CREW] Skipping {agent_name} - already completed")
+                    continue
+                
+                try:
+                    # Signal agent starting
+                    yield {'type': 'agent_started', 'agent': agent_name}
+                    logger.info(f"[CREW] Starting {agent_name} phase...")
+                    
+                    files_before = len(self.file_storage)
+                    
+                    # Execute the agent
+                    await execute_func(agent, *args)
+                    
+                    # Save files created by this agent
+                    await self._save_files_to_project(project)
+                    
+                    files_created = len(self.file_storage) - files_before
+                    
+                    # Mark agent as completed
+                    session['completed_agents'].append(agent_name)
+                    
+                    yield {
+                        'type': 'agent_completed',
+                        'agent': agent_name,
+                        'files_created': files_created
+                    }
+                    logger.info(f"[CREW] {agent_name} completed. New files: {files_created}")
+                    
+                except Exception as agent_error:
+                    # Agent failed - store error and enable continuation
+                    session['last_error'] = {
+                        'agent': agent_name,
+                        'error': str(agent_error),
+                        'timestamp': datetime.now().isoformat()
+                    }
+                    session['can_continue'] = True
+                    
+                    logger.exception(f"[CREW] {agent_name} failed: {agent_error}")
+                    
+                    # Notify about failure with continuation option
+                    yield {
+                        'type': 'agent_failed',
+                        'agent': agent_name,
+                        'error': str(agent_error),
+                        'can_continue': True,
+                        'completed_agents': session['completed_agents']
+                    }
+                    
+                    # Stop execution - user can continue later
+                    raise
             
             # Send file tree update
             file_tree = await self._get_file_tree(project)
@@ -243,7 +245,19 @@ class CrewService:
             
         except Exception as e:
             logger.exception(f"[CREW] Error executing development crew: {e}")
-            yield {'type': 'error', 'error': str(e)}
+            
+            # Check if this is a continuation-eligible error
+            if session.get('can_continue'):
+                yield {
+                    'type': 'error',
+                    'error': str(e),
+                    'can_continue': True,
+                    'completed_agents': session.get('completed_agents', []),
+                    'failed_agent': session.get('last_error', {}).get('agent'),
+                    'continuation_message': 'The pipeline can be continued from where it failed. Send another request to resume.'
+                }
+            else:
+                yield {'type': 'error', 'error': str(e)}
 
     async def _execute_product_owner(
         self,

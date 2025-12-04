@@ -39,8 +39,10 @@ export default function ProjectWorkspace() {
   const [editorContent, setEditorContent] = useState<string>('');
 
   // CrewAI Multi-Agent State
-  const [crewAgents, setCrewAgents] = useState<Array<{ name: string; status: 'pending' | 'working' | 'completed' }>>([]);
+  const [crewAgents, setCrewAgents] = useState<Array<{ name: string; status: 'pending' | 'working' | 'completed' | 'failed' }>>([]);
   const [currentAgent, setCurrentAgent] = useState<string | null>(null);
+  const [canContinue, setCanContinue] = useState(false);
+  const [failedAgent, setFailedAgent] = useState<string | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -134,10 +136,33 @@ export default function ProjectWorkspace() {
         }]);
         setCurrentAgent(null);
         break;
+      case 'crew_continuation':
+        // Pipeline is continuing from a previous failure
+        setMessages(prev => [...prev, {
+          role: 'system',
+          content: `🔄 ${data.message}\nResuming pipeline...`,
+        }]);
+        break;
+      case 'agent_failed':
+        // Agent failed - show error and continuation option
+        const failedAgentName = getAgentName(data.agent);
+        setFailedAgent(failedAgentName);
+        setCanContinue(data.can_continue || false);
+        setCrewAgents(prev => prev.map(a => 
+          a.name === failedAgentName ? { ...a, status: 'failed' } : a
+        ));
+        setMessages(prev => [...prev, {
+          role: 'system',
+          content: `❌ ${failedAgentName} failed: ${data.error}\n\n${data.can_continue ? '💡 You can continue from where it failed by sending another request.' : ''}`,
+        }]);
+        setLoading(false);
+        break;
       case 'crew_completed':
         setLoading(false);
         setCrewAgents([]);
         setCurrentAgent(null);
+        setCanContinue(false);
+        setFailedAgent(null);
         setMessages(prev => [...prev, {
           role: 'system',
           content: `🎉 ${data.message || 'CrewAI pipeline completed successfully!'}\nTotal files: ${data.total_files || 0}`,
@@ -229,7 +254,16 @@ export default function ProjectWorkspace() {
         break;
       case 'error':
         setLoading(false);
-        setMessages(prev => [...prev, { role: 'system', content: `Error: ${data.error}` }]);
+        if (data.can_continue) {
+          setCanContinue(true);
+          setFailedAgent(data.failed_agent || null);
+          setMessages(prev => [...prev, { 
+            role: 'system', 
+            content: `❌ Error: ${data.error}\n\n${data.continuation_message || 'You can continue from where it failed.'}` 
+          }]);
+        } else {
+          setMessages(prev => [...prev, { role: 'system', content: `Error: ${data.error}` }]);
+        }
         break;
     }
   };
@@ -270,11 +304,19 @@ export default function ProjectWorkspace() {
     setLoading(true);
 
     // Always use CrewAI multi-agent mode
+    // If canContinue is true, signal backend to continue from last failed agent
     wsRef.current?.send(JSON.stringify({
       type: 'crew_message',
       message: input.trim(),
       show_thinking: true,
+      continue: canContinue,  // Tell backend to continue if possible
     }));
+    
+    // Reset continuation flag after sending
+    if (canContinue) {
+      setCanContinue(false);
+      setFailedAgent(null);
+    }
   };
 
   const renderFileTree = (tree: any, path: string = '') => {
@@ -412,18 +454,31 @@ export default function ProjectWorkspace() {
                   >
                     <div className="agent-icon">
                       {agent.status === 'completed' ? '✅' : 
-                       agent.status === 'working' ? '⚙️' : '⏳'}
+                       agent.status === 'working' ? '⚙️' : 
+                       agent.status === 'failed' ? '❌' : '⏳'}
                     </div>
                     <div className="agent-info">
                       <div className="agent-name">{agent.name}</div>
                       <div className="agent-status">
                         {agent.status === 'completed' ? 'Completed' : 
-                         agent.status === 'working' ? 'Working...' : 'Pending'}
+                         agent.status === 'working' ? 'Working...' : 
+                         agent.status === 'failed' ? 'Failed' : 'Pending'}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
+              {canContinue && (
+                <button 
+                  className="continue-button"
+                  onClick={() => {
+                    setInput('continue');
+                    handleSubmit(new Event('submit') as any);
+                  }}
+                >
+                  🔄 Continue from {failedAgent || 'last checkpoint'}
+                </button>
+              )}
             </div>
           )}
 

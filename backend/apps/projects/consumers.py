@@ -212,8 +212,9 @@ class ProjectConsumer(AsyncWebsocketConsumer):
     async def handle_crew_message(self, data):
         """Handle user message for CrewAI multi-agent pipeline."""
         message_content = data.get('message')
+        continue_from_last = data.get('continue', False)  # Support continuation
 
-        logger.info(f"[CREW] Received crew message for project {self.project_id}: {message_content[:100]}...")
+        logger.info(f"[CREW] Received crew message for project {self.project_id}: {message_content[:100]}... (continue={continue_from_last})")
 
         if not message_content:
             await self.send_error('Message content is required')
@@ -250,6 +251,7 @@ class ProjectConsumer(AsyncWebsocketConsumer):
             async for event in crew_service.execute_development_crew(
                 project=self.project,
                 project_description=message_content,
+                continue_from_last=continue_from_last,
             ):
                 logger.debug(f"[CREW] Event: {event.get('type')}")
                 await self.send(text_data=json.dumps(event))

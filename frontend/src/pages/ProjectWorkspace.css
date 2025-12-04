@@ -376,6 +376,11 @@
   background: rgba(16, 185, 129, 0.1);
 }
 
+.crew-agent-failed {
+  border-left-color: #EF4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -418,4 +423,28 @@
 
 .crew-agent-completed .agent-status {
   color: #10B981;
+}
+
+.crew-agent-failed .agent-status {
+  color: #EF4444;
+}
+
+/* Continue Button */
+.continue-button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  border: none;
+  border-radius: 0.5rem;
+  color: #F9FAFB;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.continue-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
