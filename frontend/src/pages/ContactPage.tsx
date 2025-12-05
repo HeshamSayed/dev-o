@@ -58,7 +58,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="contact-page wavy-scroll">
+    <div className="contact-page">
       {/* Navigation */}
       <nav className="contact-nav">
         <div className="contact-nav-container">
@@ -78,10 +78,6 @@ const ContactPage = () => {
       {/* Hero Section */}
       <section className="contact-hero">
         <div className="contact-hero-content">
-          <div className="contact-hero-badge">
-            <PageIcon name="chat" size={22} />
-            <span>Contact</span>
-          </div>
           <h1>We'd Love to Hear from You</h1>
           <p>
             Whether you want to explore DEV-O for your organization, discuss a partnership, 

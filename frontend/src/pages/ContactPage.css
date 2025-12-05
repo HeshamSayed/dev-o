@@ -1,6 +1,6 @@
 .contact-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #0a0a0f 0%, #1a1a2e 100%);
+  background: linear-gradient(180deg, #050816 0%, #0a0f1e 100%);
   color: #ffffff;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   position: relative;
@@ -55,7 +55,7 @@
 }
 
 .contact-nav-cta {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2 0%, #A855F7 100%);
   color: #ffffff;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
@@ -100,7 +100,7 @@
   align-items: center;
   gap: 0.5rem;
   background: rgba(99, 102, 241, 0.2);
-  color: #a5b4fc;
+  color: #7C8EFF;
   padding: 0.5rem 1rem;
   border-radius: 50px;
   font-size: 0.9rem;
@@ -117,7 +117,7 @@
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7C8EFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -220,7 +220,7 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #6366f1;
+  border-color: #5865F2;
   background: rgba(99, 102, 241, 0.1);
 }
 
@@ -235,7 +235,7 @@
 }
 
 .form-group select option {
-  background: #1a1a2e;
+  background: #0a0f1e;
   color: #ffffff;
 }
 
@@ -262,7 +262,7 @@
 .radio-label input[type="radio"] {
   width: 18px;
   height: 18px;
-  accent-color: #6366f1;
+  accent-color: #5865F2;
 }
 
 .radio-label span {
@@ -297,7 +297,7 @@
 }
 
 .file-input-wrapper:hover .file-input-display {
-  border-color: #6366f1;
+  border-color: #5865F2;
   background: rgba(99, 102, 241, 0.05);
 }
 
@@ -316,7 +316,7 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2 0%, #A855F7 100%);
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -338,7 +338,7 @@
 }
 
 .submit-btn.submitting {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #4338ca 0%, #9333ea 100%);
 }
 
 .submit-btn.success {
@@ -398,7 +398,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a5b4fc;
+  color: #7C8EFF;
   margin-bottom: 1rem;
 }
 
@@ -424,7 +424,7 @@
 
 .email-link {
   display: inline-block;
-  color: #a5b4fc;
+  color: #7C8EFF;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.3s ease;
@@ -461,7 +461,7 @@
 }
 
 .support-card-header svg {
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .support-card.security .support-card-header svg {
@@ -482,7 +482,7 @@
 
 .support-email {
   display: inline-block;
-  color: #a5b4fc;
+  color: #7C8EFF;
   font-weight: 600;
   font-size: 1.1rem;
   text-decoration: none;
@@ -517,7 +517,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a5b4fc;
+  color: #7C8EFF;
   margin: 0 auto 1rem;
 }
 
@@ -579,7 +579,7 @@
 }
 
 .meeting-card svg {
-  color: #a5b4fc;
+  color: #7C8EFF;
   margin-bottom: 1rem;
 }
 
@@ -713,7 +713,7 @@
 }
 
 .footer-link-group a:hover {
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .contact-footer-bottom {

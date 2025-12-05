@@ -5,7 +5,7 @@ import './CareersPage.css';
 
 const CareersPage: React.FC = () => {
   return (
-    <div className="careers-page wavy-scroll">
+    <div className="careers-page">
       {/* Navigation */}
       <nav className="careers-nav">
         <Link to="/" className="careers-nav-logo">

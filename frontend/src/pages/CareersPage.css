@@ -1,7 +1,7 @@
 /* Careers Page Styles */
 .careers-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+  background: linear-gradient(135deg, #050816 0%, #0a0f1e 50%, #050816 100%);
   color: #ffffff;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .careers-nav-cta {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2 0%, #A855F7 100%);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   color: #ffffff !important;
@@ -74,7 +74,7 @@
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7C8EFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -108,12 +108,12 @@
 
 .careers-hero-tagline {
   font-style: italic;
-  color: #a5b4fc !important;
+  color: #7C8EFF !important;
 }
 
 .careers-hero-cta {
   display: inline-block;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2 0%, #A855F7 100%);
   color: #ffffff;
   text-decoration: none;
   padding: 1rem 2.5rem;
@@ -189,7 +189,7 @@
   font-weight: 700;
   text-align: center;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7C8EFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -237,7 +237,7 @@
   margin: 0 auto 1rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 16px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-pillar-icon svg {
@@ -301,7 +301,7 @@
   margin-bottom: 0.75rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 12px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-work-icon svg {
@@ -324,7 +324,7 @@
 
 .careers-callout {
   background: rgba(99, 102, 241, 0.1);
-  border-left: 4px solid #6366f1;
+  border-left: 4px solid #5865F2;
   padding: 1.5rem 2rem;
   border-radius: 0 12px 12px 0;
 }
@@ -364,7 +364,7 @@
   width: 60px;
   height: 60px;
   min-width: 60px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2 0%, #A855F7 100%);
   border-radius: 12px;
   font-size: 1.5rem;
   font-weight: 700;
@@ -378,7 +378,7 @@
 }
 
 .careers-principle-tagline {
-  color: #a5b4fc;
+  color: #7C8EFF;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   font-style: italic;
@@ -402,7 +402,7 @@
   content: "→";
   position: absolute;
   left: 0;
-  color: #6366f1;
+  color: #5865F2;
 }
 
 /* Teams Grid */
@@ -441,7 +441,7 @@
   margin-bottom: 1rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 14px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-team-icon svg {
@@ -474,7 +474,7 @@
   content: "•";
   position: absolute;
   left: 0;
-  color: #6366f1;
+  color: #5865F2;
   font-weight: bold;
 }
 
@@ -509,7 +509,7 @@
   margin: 0 auto 1rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 14px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-growth-icon svg {
@@ -591,7 +591,7 @@
   min-width: 40px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 10px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-dei-icon svg {
@@ -644,7 +644,7 @@
   margin: 0 auto 1rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 14px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-balance-icon svg {
@@ -705,7 +705,7 @@
   min-width: 40px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 10px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-trait-icon svg {
@@ -747,7 +747,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(180deg, #5865F2 0%, #A855F7 100%);
 }
 
 .careers-hiring-step {
@@ -768,7 +768,7 @@
   width: 60px;
   height: 60px;
   min-width: 60px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2 0%, #A855F7 100%);
   border-radius: 50%;
   font-size: 1.25rem;
   font-weight: 700;
@@ -799,7 +799,7 @@
 
 .careers-hiring-note {
   background: rgba(99, 102, 241, 0.1);
-  border-left: 4px solid #6366f1;
+  border-left: 4px solid #5865F2;
   padding: 1.5rem 2rem;
   border-radius: 0 12px 12px 0;
   max-width: 700px;
@@ -844,7 +844,7 @@
   min-width: 48px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
   border-radius: 12px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-why-icon svg {
@@ -904,7 +904,7 @@
   margin: 0 auto 1rem;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
   border-radius: 14px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .careers-role-icon svg {
@@ -927,7 +927,7 @@
 
 .careers-role-link {
   display: inline-block;
-  color: #a5b4fc;
+  color: #7C8EFF;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
