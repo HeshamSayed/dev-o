@@ -61,6 +61,12 @@ const ReferralDashboard: React.FC = () => {
     }
   };
 
+  const referralEmailLink = stats?.referral_link
+    ? `mailto:?subject=Join%20me%20on%20DEV-O&body=${encodeURIComponent(
+        `I'm using DEV-O to orchestrate my engineering work. Here's a link so you can try it (and we both get rewards): ${stats.referral_link}`
+      )}`
+    : undefined;
+
   const getRewardTypeLabel = (type: string): string => {
     const labels: Record<string, string> = {
       extra_messages: 'Extra Messages',
@@ -162,6 +168,7 @@ const ReferralDashboard: React.FC = () => {
               value={stats?.referral_link || ''}
               readOnly
               className="link-input"
+              aria-label="Referral link"
             />
             <button onClick={copyReferralLink} className="btn-copy">
               {copied ? 'Copied!' : 'Copy Link'}
@@ -303,7 +310,26 @@ const ReferralDashboard: React.FC = () => {
       {/* No Referrals Yet */}
       {(!stats?.referrals || stats.referrals.length === 0) && (
         <div className="no-referrals">
-          <p>No referrals yet. Start sharing your referral link to earn rewards!</p>
+          <div className="no-referrals-icon">🎯</div>
+          <h3>Kick off your referral streak</h3>
+          <p className="no-referrals-message">
+            No referrals yet. Start sharing your referral link to earn rewards!
+          </p>
+          <ul className="no-referrals-perks">
+            <li>+5 bonus messages for every successful signup</li>
+            <li>+25 project requests when a friend upgrades</li>
+            <li>Priority access to upcoming referral raffles</li>
+          </ul>
+          <div className="no-referrals-actions">
+            <button type="button" className="no-referrals-btn" onClick={copyReferralLink}>
+              Copy referral link
+            </button>
+            {referralEmailLink && (
+              <a href={referralEmailLink} className="no-referrals-btn secondary">
+                Invite via email
+              </a>
+            )}
+          </div>
         </div>
       )}
 

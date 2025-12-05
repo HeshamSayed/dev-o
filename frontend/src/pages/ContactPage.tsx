@@ -1,70 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PageIcon } from '../components/Icons/PageIcon';
 import './ContactPage.css';
-
-// SVG Icon Components
-const MailIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-    <polyline points="22,6 12,13 2,6"/>
-  </svg>
-);
-
-const MapPinIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-    <circle cx="12" cy="10" r="3"/>
-  </svg>
-);
-
-const MessageIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-);
-
-const ShieldIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-  </svg>
-);
-
-const GlobeIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"/>
-    <line x1="2" y1="12" x2="22" y2="12"/>
-    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-  </svg>
-);
-
-const CalendarIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-    <line x1="16" y1="2" x2="16" y2="6"/>
-    <line x1="8" y1="2" x2="8" y2="6"/>
-    <line x1="3" y1="10" x2="21" y2="10"/>
-  </svg>
-);
-
-const HeadphonesIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
-    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
-  </svg>
-);
-
-const SendIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="22" y1="2" x2="11" y2="13"/>
-    <polygon points="22,2 15,22 11,13 2,9"/>
-  </svg>
-);
-
-const PaperclipIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-  </svg>
-);
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -142,7 +79,7 @@ const ContactPage = () => {
       <section className="contact-hero">
         <div className="contact-hero-content">
           <div className="contact-hero-badge">
-            <MessageIcon />
+            <PageIcon name="chat" size={22} />
             <span>Contact</span>
           </div>
           <h1>We'd Love to Hear from You</h1>
@@ -305,7 +242,7 @@ const ContactPage = () => {
                     accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
                   />
                   <div className="file-input-display">
-                    <PaperclipIcon />
+                    <PageIcon name="paperclip" size={18} />
                     <span>{formData.attachment ? formData.attachment.name : 'Upload RFPs, diagrams, briefs...'}</span>
                   </div>
                 </div>
@@ -324,7 +261,7 @@ const ContactPage = () => {
                   <span>Message Sent!</span>
                 ) : (
                   <>
-                    <SendIcon />
+                    <PageIcon name="send" size={18} />
                     <span>Send Message</span>
                   </>
                 )}
@@ -347,7 +284,7 @@ const ContactPage = () => {
           <div className="email-grid">
             <div className="email-card">
               <div className="email-card-icon">
-                <MailIcon />
+                <PageIcon name="mail" size={20} />
               </div>
               <h3>General Inquiries</h3>
               <p>For anything that doesn't fit a specific bucket or you're not sure where to start.</p>
@@ -356,7 +293,7 @@ const ContactPage = () => {
 
             <div className="email-card">
               <div className="email-card-icon sales">
-                <MailIcon />
+                <PageIcon name="mail" size={20} />
               </div>
               <h3>Sales & Product Exploration</h3>
               <p>For organizations interested in piloting or deploying DEV-O.</p>
@@ -365,7 +302,7 @@ const ContactPage = () => {
 
             <div className="email-card">
               <div className="email-card-icon tech">
-                <MailIcon />
+                <PageIcon name="mail" size={20} />
               </div>
               <h3>Platform, Technical & Integration</h3>
               <p>For questions about architecture, integrations, data, or technical fit.</p>
@@ -374,7 +311,7 @@ const ContactPage = () => {
 
             <div className="email-card">
               <div className="email-card-icon partners">
-                <MailIcon />
+                <PageIcon name="mail" size={20} />
               </div>
               <h3>Partnerships & Alliances</h3>
               <p>For technology partners, integrators, resellers, and strategic alliances.</p>
@@ -383,7 +320,7 @@ const ContactPage = () => {
 
             <div className="email-card">
               <div className="email-card-icon careers">
-                <MailIcon />
+                <PageIcon name="mail" size={20} />
               </div>
               <h3>Careers & Talent</h3>
               <p>For questions about open roles, hiring, and speculative applications.</p>
@@ -392,7 +329,7 @@ const ContactPage = () => {
 
             <div className="email-card">
               <div className="email-card-icon press">
-                <MailIcon />
+                <PageIcon name="mail" size={20} />
               </div>
               <h3>Media, Press & Speaking</h3>
               <p>For press inquiries, interviews, and events.</p>
@@ -411,7 +348,7 @@ const ContactPage = () => {
           <div className="support-grid">
             <div className="support-card">
               <div className="support-card-header">
-                <HeadphonesIcon />
+                <PageIcon name="headphones" size={22} />
                 <h3>Customer Support</h3>
               </div>
               <p>
@@ -424,7 +361,7 @@ const ContactPage = () => {
 
             <div className="support-card security">
               <div className="support-card-header">
-                <ShieldIcon />
+                <PageIcon name="shield" size={22} />
                 <h3>Security & Vulnerability Disclosure</h3>
               </div>
               <p>
@@ -448,7 +385,7 @@ const ContactPage = () => {
           <div className="locations-grid">
             <div className="location-card">
               <div className="location-icon">
-                <MapPinIcon />
+                <PageIcon name="map" size={24} />
               </div>
               <h3>United States</h3>
               <p>Bionicverse Inc. (USA)</p>
@@ -457,7 +394,7 @@ const ContactPage = () => {
 
             <div className="location-card">
               <div className="location-icon">
-                <MapPinIcon />
+                <PageIcon name="map" size={24} />
               </div>
               <h3>MENA / Africa</h3>
               <p>Regional Operations</p>
@@ -466,7 +403,7 @@ const ContactPage = () => {
 
             <div className="location-card">
               <div className="location-icon">
-                <GlobeIcon />
+                <PageIcon name="globe" size={24} />
               </div>
               <h3>Europe & Beyond</h3>
               <p>Global Network</p>
@@ -495,25 +432,25 @@ const ContactPage = () => {
 
           <div className="meeting-grid">
             <div className="meeting-card">
-              <CalendarIcon />
+              <PageIcon name="calendar" size={24} />
               <h3>Discovery Calls</h3>
               <p>To understand your current engineering stack and challenges.</p>
             </div>
 
             <div className="meeting-card">
-              <CalendarIcon />
+              <PageIcon name="calendar" size={24} />
               <h3>Product Walkthroughs</h3>
               <p>High-level overviews of DEV-O's capabilities and roadmap.</p>
             </div>
 
             <div className="meeting-card">
-              <CalendarIcon />
+              <PageIcon name="calendar" size={24} />
               <h3>Technical Deep Dives</h3>
               <p>Architecture, integrations, data, and security discussions.</p>
             </div>
 
             <div className="meeting-card">
-              <CalendarIcon />
+              <PageIcon name="calendar" size={24} />
               <h3>Pilot & Rollout Planning</h3>
               <p>For organizations looking to adopt DEV-O as a core orchestration layer.</p>
             </div>
