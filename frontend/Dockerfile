@@ -23,6 +23,15 @@ COPY . .
 # Build for production
 RUN npm run build
 
+# Create a simple script to keep container running and preserve build output
+RUN echo "#!/bin/sh" > /app/keep-alive.sh && \
+    echo "echo 'Build completed. Keeping container alive to preserve volume...'" >> /app/keep-alive.sh && \
+    echo "tail -f /dev/null" >> /app/keep-alive.sh && \
+    chmod +x /app/keep-alive.sh
+
+# Use the keep-alive script as entrypoint
+CMD ["/app/keep-alive.sh"]
+
 # Development stage
 FROM node:20-alpine AS development
 
