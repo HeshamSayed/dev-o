@@ -105,7 +105,7 @@ const TrendingUpIcon = () => (
 
 const AboutPage = () => {
   return (
-    <div className="about-page wavy-scroll">
+    <div className="about-page">
       {/* Navigation */}
       <nav className="about-nav">
         <div className="about-nav-container">
@@ -125,10 +125,6 @@ const AboutPage = () => {
       {/* Hero Section */}
       <section className="about-hero">
         <div className="about-hero-content">
-          <div className="about-hero-badge">
-            <RocketIcon />
-            <span>About DEV-O</span>
-          </div>
           <h1>Digital Engineering Virtual Orchestrator</h1>
           <p className="about-hero-tagline">
             An AI-native layer that connects people, code, and systems so teams can 
