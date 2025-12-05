@@ -518,10 +518,10 @@
   overflow: hidden;
   background: radial-gradient(circle at top, rgba(255, 255, 255, 0.25), transparent 50%),
     linear-gradient(135deg, #5c6ac4, #764ba2 60%, #9a4dff);
-  border-radius: 16px;
-  padding: 50px 40px;
+  border-radius: 20px;
+  padding: 60px 50px;
   margin-bottom: 30px;
-  box-shadow: 0 20px 50px rgba(70, 30, 120, 0.35);
+  box-shadow: 0 20px 60px rgba(70, 30, 120, 0.4);
   text-align: center;
   color: #fff;
 }
@@ -530,57 +530,77 @@
   content: '';
   position: absolute;
   inset: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
   pointer-events: none;
 }
 
 .no-referrals-icon {
-  width: 76px;
-  height: 76px;
-  border-radius: 24px;
-  margin: 0 auto 20px;
-  font-size: 32px;
+  width: 90px;
+  height: 90px;
+  border-radius: 28px;
+  margin: 0 auto 24px;
+  font-size: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .no-referrals h3 {
-  font-size: 26px;
-  margin-bottom: 10px;
+  font-size: 32px;
+  margin-bottom: 16px;
   font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .no-referrals-message {
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 32px;
+  font-weight: 400;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .no-referrals-perks {
   list-style: none;
   padding: 0;
-  margin: 0 0 28px;
+  margin: 0 0 36px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .no-referrals-perks li {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  padding: 14px 16px;
-  font-size: 15px;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.95);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 18px 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ffffff;
+  font-weight: 500;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.no-referrals-perks li:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .no-referrals-actions {
@@ -593,29 +613,38 @@
 .no-referrals-btn {
   border: none;
   border-radius: 999px;
-  padding: 14px 28px;
-  font-size: 15px;
+  padding: 16px 32px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   color: #5c4b99;
   background: #fff;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  text-transform: none;
+  letter-spacing: 0.3px;
 }
 
 .no-referrals-btn.secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.15);
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: none;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   text-decoration: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .no-referrals-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  background: #f8f8ff;
+}
+
+.no-referrals-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 600px) {
