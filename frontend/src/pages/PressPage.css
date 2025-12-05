@@ -279,10 +279,11 @@
 }
 
 .press-boilerplate-content li::before {
-  content: "→";
+  content: "•";
   position: absolute;
   left: 0;
-  color: #7C8EFF;
+  color: #7C3AED;
+  font-size: 18px;
 }
 
 /* Key Messages Section */

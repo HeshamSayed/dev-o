@@ -516,10 +516,11 @@
 }
 
 .partner-type-benefits ul li::before {
-  content: '→';
+  content: '•';
   position: absolute;
   left: 0;
-  color: #7C8EFF;
+  color: #7C3AED;
+  font-size: 18px;
 }
 
 .partner-type-note {
@@ -698,10 +699,11 @@
 }
 
 .category-card ul li::before {
-  content: '→';
+  content: '•';
   position: absolute;
   left: 0;
-  color: #7C8EFF;
+  color: #7C3AED;
+  font-size: 18px;
 }
 
 /* How It Works Section */
