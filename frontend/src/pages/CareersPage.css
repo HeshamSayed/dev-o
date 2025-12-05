@@ -399,10 +399,11 @@
 }
 
 .careers-principle-content li::before {
-  content: "→";
+  content: "•";
   position: absolute;
   left: 0;
-  color: #6366f1;
+  color: #7C3AED;
+  font-size: 18px;
 }
 
 /* Teams Grid */

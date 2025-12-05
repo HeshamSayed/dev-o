@@ -372,10 +372,11 @@
 }
 
 .capability-block li::before {
-  content: '→';
+  content: '•';
   position: absolute;
   left: 0;
-  color: #a5b4fc;
+  color: #7C3AED;
+  font-size: 18px;
 }
 
 .automation-features {
