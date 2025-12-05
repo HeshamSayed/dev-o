@@ -111,7 +111,10 @@
 }
 
 .badge-icon {
-  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .pricing-title {
@@ -171,7 +174,9 @@
 }
 
 .early-adopter-icon {
-  font-size: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
@@ -275,7 +280,9 @@
 }
 
 .pricing-note .note-icon {
-  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -337,7 +344,9 @@
 }
 
 .plan-icon {
-  font-size: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 16px;
 }
 
@@ -454,7 +463,11 @@
 }
 
 .benefit-icon {
-  font-size: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
 }
 
@@ -488,10 +501,11 @@
 }
 
 .token-uses li::before {
-  content: '⚡';
+  content: '•';
   position: absolute;
   left: 0;
   font-size: 12px;
+  color: #7C3AED;
 }
 
 .tokens-note {
@@ -525,8 +539,9 @@
 }
 
 .scenario-icon {
-  font-size: 36px;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 16px;
 }
 
@@ -580,7 +595,9 @@
 }
 
 .card-icon {
-  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-header h3 {
@@ -665,6 +682,14 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
+.enterprise-feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
 .enterprise-cta {
   display: inline-block;
   padding: 16px 40px;
@@ -723,7 +748,9 @@
 }
 
 .point-icon {
-  font-size: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -803,7 +830,9 @@
 }
 
 .contact-icon {
-  font-size: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 16px;
 }
 

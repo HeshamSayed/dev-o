@@ -231,6 +231,22 @@
   margin-bottom: 10px;
 }
 
+.feature-heading,
+.reset-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feature-heading svg,
+.reset-heading svg {
+  flex-shrink: 0;
+}
+
+.reset-heading {
+  justify-content: center;
+}
+
 .feature-section ul {
   list-style: none;
   padding: 0;

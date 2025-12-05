@@ -39,8 +39,8 @@ const Footer: React.FC = () => {
             <h3>Resources</h3>
             <ul>
               <li><Link to="/blog">Blog</Link></li>
-              <li><a href="#">Community</a></li>
-              <li><a href="#">Support</a></li>
+              {/* <li><a href="#">Community</a></li> */}
+              {/* <li><a href="#">Support</a></li> */}
             </ul>
           </div>
 

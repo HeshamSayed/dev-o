@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { billingAPI, Plan } from '../api/billing';
 import Logo from '../components/Logo/Logo';
+import { PageIcon } from '../components/Icons/PageIcon';
 import './PricingPage.css';
 
 const PricingPage: React.FC = () => {
@@ -135,7 +136,10 @@ const PricingPage: React.FC = () => {
 
             <div className="plan-features">
               <div className="feature-section">
-                <h4>💬 Chat (per 2-hour window)</h4>
+                <h4 className="feature-heading">
+                  <PageIcon name="chat" size={16} />
+                  <span>Chat (per 2-hour window)</span>
+                </h4>
                 <ul>
                   <li>{formatLimit(plan.messages_per_window)} messages</li>
                   <li>{formatLimit(plan.max_conversations)} conversations</li>
@@ -166,14 +170,17 @@ const PricingPage: React.FC = () => {
               </div>
 
               <div className="feature-section">
-                <h4>📦 Storage & Features</h4>
+                <h4 className="feature-heading">
+                  <PageIcon name="package" size={16} />
+                  <span>Storage & Features</span>
+                </h4>
                 <ul>
                   <li>{formatLimit(plan.storage_limit_mb)} MB storage</li>
-                  {plan.has_thinking_mode && <li>✓ Thinking mode</li>}
-                  {plan.has_download && <li>✓ Project download</li>}
-                  {plan.has_git_integration && <li>✓ Git integration</li>}
-                  {plan.has_api_access && <li>✓ API access</li>}
-                  {plan.has_chat_search && <li>✓ Chat search</li>}
+                  {plan.has_thinking_mode && <li>Thinking mode</li>}
+                  {plan.has_download && <li>Project download</li>}
+                  {plan.has_git_integration && <li>Git integration</li>}
+                  {plan.has_api_access && <li>API access</li>}
+                  {plan.has_chat_search && <li>Chat search</li>}
                 </ul>
               </div>
             </div>
@@ -183,7 +190,10 @@ const PricingPage: React.FC = () => {
 
       <div className="pricing-footer">
         <div className="reset-info">
-          <h3>⏱️ 2-Hour Reset Windows</h3>
+          <h3 className="reset-heading">
+            <PageIcon name="dial" size={22} />
+            <span>2-Hour Reset Windows</span>
+          </h3>
           <p>
             Unlike other platforms with daily limits, DEV-O resets your quotas every 2 hours.
             That means <strong>12 fresh windows per day</strong> to keep you productive!

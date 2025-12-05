@@ -6,13 +6,54 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
+import { PageIcon, PageIconName } from '../components/Icons/PageIcon';
 import './PricingPageNew.css';
+
+interface PricingPlan {
+  id: string;
+  name: string;
+  subtitle: string;
+  ideal: string[];
+  includes: string[];
+  bestFor: string;
+  icon: PageIconName;
+  featured?: boolean;
+}
+
+interface TokenBenefit {
+  icon: PageIconName;
+  title: string;
+  description: string;
+}
+
+interface ScenarioItem {
+  title: string;
+  icon: PageIconName;
+  description: string;
+}
+
+interface EnterpriseFeature {
+  icon: PageIconName;
+  text: string;
+}
+
+interface ComparisonPoint {
+  icon: PageIconName;
+  text: string;
+}
+
+interface ContactCardInfo {
+  icon: PageIconName;
+  title: string;
+  description: string;
+  href: string;
+}
 
 const PricingPage: React.FC = () => {
   const navigate = useNavigate();
   const [activePlan, setActivePlan] = useState<string>('growth');
 
-  const plans = [
+  const plans: PricingPlan[] = [
     {
       id: 'starter',
       name: 'Starter',
@@ -29,7 +70,7 @@ const PricingPage: React.FC = () => {
         'Standard support and access to product updates'
       ],
       bestFor: 'Best when you want to prove value quickly in a single area before scaling.',
-      icon: '🚀'
+      icon: 'rocket'
     },
     {
       id: 'growth',
@@ -49,7 +90,7 @@ const PricingPage: React.FC = () => {
         'Access to advanced integrations and more environments'
       ],
       bestFor: 'Best when you want DEV-O to become a core layer in your engineering operations.',
-      icon: '📈'
+      icon: 'chart'
     },
     {
       id: 'enterprise',
@@ -69,7 +110,25 @@ const PricingPage: React.FC = () => {
         'Optional private or region-specific deployment models'
       ],
       bestFor: 'Best when you see DEV-O as your AI-native control plane across many teams, products, or business lines.',
-      icon: '🏢'
+      icon: 'building'
+    }
+  ];
+
+  const tokenBenefits: TokenBenefit[] = [
+    {
+      icon: 'chart',
+      title: 'Usage is spiky',
+      description: 'During a large transformation or migration, you may temporarily need much more AI assistance.'
+    },
+    {
+      icon: 'gear',
+      title: 'Workloads are complex',
+      description: 'Run deep workflows across many tools and services; tokens let you pay proportionally.'
+    },
+    {
+      icon: 'dial',
+      title: 'You want control',
+      description: 'Cap, monitor, and adjust token usage based on budget and priorities.'
     }
   ];
 
@@ -81,20 +140,20 @@ const PricingPage: React.FC = () => {
     'Using multi-agent scenarios where several specialized agents collaborate'
   ];
 
-  const scenarios = [
+  const scenarios: ScenarioItem[] = [
     {
       title: 'Pilot with Spiky Incidents',
-      icon: '🚨',
+      icon: 'alert',
       description: 'A team on the Starter plan uses DEV-O mainly for incident response. Most months, they stay within the included token balance. During a period of increased incidents (e.g., a major launch), they temporarily exceed the included usage. They add a one-time token pack to cover the spike, without changing plans.'
     },
     {
       title: 'Growing into Multi-Team Usage',
-      icon: '📊',
+      icon: 'chart',
       description: 'A company starts with Starter, validates value for incident workflows, then upgrades to Growth as more teams join. The Growth plan includes a larger monthly token balance that covers day-to-day usage across several teams. They keep a small buffer of extra tokens available for busy periods.'
     },
     {
       title: 'Enterprise with Complex Programs',
-      icon: '🏗️',
+      icon: 'construction',
       description: 'A large organization on Enterprise uses DEV-O as its AI-native control plane. Together, we size a custom monthly token allocation based on observed patterns and future projects. During a major modernization program, they may temporarily increase token capacity.'
     }
   ];
@@ -112,6 +171,36 @@ const PricingPage: React.FC = () => {
     'Multi-step orchestration workflows',
     'Complex knowledge queries or multi-agent operations',
     'Optional heavy features that are expensive to run compute-wise'
+  ];
+
+  const enterpriseFeatures: EnterpriseFeature[] = [
+    { icon: 'users', text: 'Tailored user and service counts' },
+    { icon: 'globe', text: 'Dedicated or region-specific infrastructure' },
+    { icon: 'clipboard', text: 'Specific SLAs and support options' },
+    { icon: 'package', text: 'Pre-committed token bundles' },
+    { icon: 'handshake', text: 'Joint planning for large projects' }
+  ];
+
+  const comparisonPoints: ComparisonPoint[] = [
+    { icon: 'link', text: 'Connects and coordinates many tools across your stack' },
+    { icon: 'brain', text: 'Maintains a living engineering knowledge graph' },
+    { icon: 'gear', text: 'Orchestrates workflows, not just prompts' },
+    { icon: 'users', text: 'Provides shared value across multiple teams and functions' }
+  ];
+
+  const contactCards: ContactCardInfo[] = [
+    {
+      icon: 'briefcase',
+      title: 'Sales & Product Exploration',
+      description: 'sales@dev-o.ai',
+      href: 'mailto:sales@dev-o.ai'
+    },
+    {
+      icon: 'hand',
+      title: 'General Inquiries',
+      description: 'hello@dev-o.ai',
+      href: 'mailto:hello@dev-o.ai'
+    }
   ];
 
   return (
@@ -137,7 +226,9 @@ const PricingPage: React.FC = () => {
       <section className="pricing-hero">
         <div className="pricing-hero-content">
           <div className="early-adopter-badge">
-            <span className="badge-icon">⭐</span>
+            <span className="badge-icon">
+              <PageIcon name="star" size={16} />
+            </span>
             <span>Early Adopter Benefits Available</span>
           </div>
           <h1 className="pricing-title">
@@ -154,7 +245,9 @@ const PricingPage: React.FC = () => {
       <section className="early-adopter-section">
         <div className="section-container">
           <div className="early-adopter-card">
-            <div className="early-adopter-icon">🎁</div>
+            <div className="early-adopter-icon">
+              <PageIcon name="gift" size={42} />
+            </div>
             <h2>Early Adopter Advantages</h2>
             <p>
               Early adopters of DEV-O will receive special benefits, including <strong>preferred pricing</strong>, 
@@ -194,7 +287,9 @@ const PricingPage: React.FC = () => {
             </div>
           </div>
           <div className="pricing-note">
-            <span className="note-icon">💡</span>
+            <span className="note-icon">
+              <PageIcon name="lightbulb" size={20} />
+            </span>
             <p>
               You can start with a plan, then add more tokens if your monthly usage spikes, 
               you're running complex projects, or need higher AI and orchestration consumption.
@@ -218,7 +313,9 @@ const PricingPage: React.FC = () => {
                 onClick={() => setActivePlan(plan.id)}
               >
                 {plan.featured && <div className="featured-badge">Recommended</div>}
-                <div className="plan-icon">{plan.icon}</div>
+                <div className="plan-icon">
+                  <PageIcon name={plan.icon} size={36} />
+                </div>
                 <h3 className="plan-name">{plan.name}</h3>
                 <p className="plan-subtitle">{plan.subtitle}</p>
                 
@@ -267,27 +364,17 @@ const PricingPage: React.FC = () => {
             <div className="tokens-info">
               <h3>When Token-Based Pricing Helps</h3>
               <div className="token-benefits">
-                <div className="token-benefit">
-                  <span className="benefit-icon">📈</span>
-                  <div>
-                    <strong>Usage is spiky</strong>
-                    <p>During a large transformation or migration, you may temporarily need much more AI assistance.</p>
+                {tokenBenefits.map((benefit, index) => (
+                  <div key={index} className="token-benefit">
+                    <span className="benefit-icon">
+                      <PageIcon name={benefit.icon} size={20} />
+                    </span>
+                    <div>
+                      <strong>{benefit.title}</strong>
+                      <p>{benefit.description}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="token-benefit">
-                  <span className="benefit-icon">⚙️</span>
-                  <div>
-                    <strong>Workloads are complex</strong>
-                    <p>Run deep workflows across many tools and services; tokens let you pay proportionally.</p>
-                  </div>
-                </div>
-                <div className="token-benefit">
-                  <span className="benefit-icon">🎛️</span>
-                  <div>
-                    <strong>You want control</strong>
-                    <p>Cap, monitor, and adjust token usage based on budget and priorities.</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -316,7 +403,9 @@ const PricingPage: React.FC = () => {
           <div className="scenarios-grid">
             {scenarios.map((scenario, index) => (
               <div key={index} className="scenario-card">
-                <span className="scenario-icon">{scenario.icon}</span>
+                <span className="scenario-icon">
+                  <PageIcon name={scenario.icon} size={28} />
+                </span>
                 <h3>{scenario.title}</h3>
                 <p>{scenario.description}</p>
               </div>
@@ -332,7 +421,9 @@ const PricingPage: React.FC = () => {
           <div className="included-grid">
             <div className="included-card">
               <div className="card-header included">
-                <span className="card-icon">✓</span>
+                <span className="card-icon">
+                  <PageIcon name="check" size={20} />
+                </span>
                 <h3>Included with Platform Plan</h3>
               </div>
               <ul>
@@ -343,7 +434,9 @@ const PricingPage: React.FC = () => {
             </div>
             <div className="included-card">
               <div className="card-header usage">
-                <span className="card-icon">⚡</span>
+                <span className="card-icon">
+                  <PageIcon name="bolt" size={20} />
+                </span>
                 <h3>Usage-Based (Tokens)</h3>
               </div>
               <ul>
@@ -364,26 +457,14 @@ const PricingPage: React.FC = () => {
             <p>If you have strict security or compliance requirements, highly variable operations, 
             or complex multi-region deployments, we can design custom pricing that matches your reality.</p>
             <div className="enterprise-features">
-              <div className="enterprise-feature">
-                <span>👥</span>
-                <span>Tailored user and service counts</span>
-              </div>
-              <div className="enterprise-feature">
-                <span>🌍</span>
-                <span>Dedicated or region-specific infrastructure</span>
-              </div>
-              <div className="enterprise-feature">
-                <span>📋</span>
-                <span>Specific SLAs and support options</span>
-              </div>
-              <div className="enterprise-feature">
-                <span>📦</span>
-                <span>Pre-committed token bundles</span>
-              </div>
-              <div className="enterprise-feature">
-                <span>🤝</span>
-                <span>Joint planning for large projects</span>
-              </div>
+                {enterpriseFeatures.map((feature, index) => (
+                  <div key={index} className="enterprise-feature">
+                    <span className="enterprise-feature-icon">
+                      <PageIcon name={feature.icon} size={20} />
+                    </span>
+                    <span>{feature.text}</span>
+                  </div>
+                ))}
             </div>
             <a href="mailto:sales@dev-o.ai?subject=Enterprise Inquiry" className="enterprise-cta">
               Talk to Sales
@@ -401,22 +482,14 @@ const PricingPage: React.FC = () => {
               DEV-O is an <strong>orchestration layer</strong>, not just a standalone AI assistant.
             </p>
             <div className="comparison-points">
-              <div className="comparison-point">
-                <span className="point-icon">🔗</span>
-                <p>Connects and coordinates many tools across your stack</p>
-              </div>
-              <div className="comparison-point">
-                <span className="point-icon">🧠</span>
-                <p>Maintains a living engineering knowledge graph</p>
-              </div>
-              <div className="comparison-point">
-                <span className="point-icon">⚙️</span>
-                <p>Orchestrates workflows, not just prompts</p>
-              </div>
-              <div className="comparison-point">
-                <span className="point-icon">👥</span>
-                <p>Provides shared value across multiple teams and functions</p>
-              </div>
+              {comparisonPoints.map((point, index) => (
+                <div key={index} className="comparison-point">
+                  <span className="point-icon">
+                    <PageIcon name={point.icon} size={20} />
+                  </span>
+                  <p>{point.text}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -449,16 +522,15 @@ const PricingPage: React.FC = () => {
           </div>
 
           <div className="contact-cards">
-            <a href="mailto:sales@dev-o.ai" className="contact-card">
-              <span className="contact-icon">💼</span>
-              <h3>Sales & Product Exploration</h3>
-              <p>sales@dev-o.ai</p>
-            </a>
-                      <a href="mailto:hello@dev-o.ai" className="contact-card">
-              <span className="contact-icon">👋</span>
-              <h3>General Inquiries</h3>
-                          <p>hello@dev-o.ai</p>
-            </a>
+            {contactCards.map((card, index) => (
+              <a key={index} href={card.href} className="contact-card">
+                <span className="contact-icon">
+                  <PageIcon name={card.icon} size={20} />
+                </span>
+                <h3>{card.title}</h3>
+                <p>{card.description}</p>
+              </a>
+            ))}
           </div>
         </div>
       </section>

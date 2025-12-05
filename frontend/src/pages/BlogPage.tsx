@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
+import { PageIcon, PageIconName } from '../components/Icons/PageIcon';
 import './BlogPage.css';
 
 interface BlogPost {
@@ -16,6 +17,43 @@ interface BlogPost {
   date: string;
   readTime: string;
   featured?: boolean;
+}
+
+interface Topic {
+  id: string;
+  number: string;
+  title: string;
+  description: string;
+  items: string[];
+  icon: PageIconName;
+}
+
+interface HighlightItem {
+  icon: PageIconName;
+  text: string;
+}
+
+interface SeriesItem {
+  icon: PageIconName;
+  title: string;
+  description: string;
+}
+
+interface ContentTypeItem {
+  icon: PageIconName;
+  title: string;
+  description: string;
+}
+
+interface AudienceItem {
+  icon: PageIconName;
+  title: string;
+  description: string;
+}
+
+interface ConnectOption {
+  icon: PageIconName;
+  text: string;
 }
 
 const BlogPage: React.FC = () => {
@@ -32,7 +70,14 @@ const BlogPage: React.FC = () => {
     { id: 'product', name: 'Product Updates' }
   ];
 
-  const topics = [
+  const blogHighlights: HighlightItem[] = [
+    { icon: 'microscope', text: 'Deep dives on AI + engineering' },
+    { icon: 'clipboard', text: 'Practical playbooks and frameworks' },
+    { icon: 'globe', text: 'Stories from the field' },
+    { icon: 'package', text: 'Updates from the DEV-O team' }
+  ];
+
+  const topics: Topic[] = [
     {
       id: 'ai-native',
       number: '1',
@@ -44,7 +89,7 @@ const BlogPage: React.FC = () => {
         'Aligning leadership, platform, and product around one AI strategy',
         'Measuring the real impact of AI on engineering performance'
       ],
-      icon: '🧠'
+      icon: 'brain'
     },
     {
       id: 'incidents',
@@ -57,7 +102,7 @@ const BlogPage: React.FC = () => {
         'Patterns for faster MTTR without burning out on-call teams',
         'How to learn from incidents and feed that back into your systems'
       ],
-      icon: '🚨'
+      icon: 'alert'
     },
     {
       id: 'platform',
@@ -70,7 +115,7 @@ const BlogPage: React.FC = () => {
         'Developer experience in AI-native environments',
         'Transitioning from ad-hoc scripts to governed workflows'
       ],
-      icon: '🛠️'
+      icon: 'wrench'
     },
     {
       id: 'governance',
@@ -83,7 +128,7 @@ const BlogPage: React.FC = () => {
         'Architecture reviews with AI in the loop',
         'Designing guardrails for multi-agent, multi-tool systems'
       ],
-      icon: '🛡️'
+      icon: 'shield'
     },
     {
       id: 'culture',
@@ -96,7 +141,7 @@ const BlogPage: React.FC = () => {
         'Remote, async-first collaboration patterns',
         'How to upskill teams for AI-native work'
       ],
-      icon: '👥'
+      icon: 'users'
     },
     {
       id: 'product',
@@ -109,46 +154,53 @@ const BlogPage: React.FC = () => {
         'Customer stories and case studies',
         'Roadmap previews and how we think about the future'
       ],
-      icon: '📦'
+      icon: 'package'
     }
   ];
 
-  const insightSeries = [
+  const insightSeries: SeriesItem[] = [
     {
-      icon: '🧠',
+      icon: 'brain',
       title: 'Building an AI-Native Engineering Org',
       description: 'Why AI-native engineering is different from traditional DevOps, how to design an AI-native control plane, and step-by-step journeys from isolated AI tools to full orchestration.'
     },
     {
-      icon: '🚨',
+      icon: 'alert',
       title: 'Incidents, Reliability & Learning',
       description: 'Real-world incident patterns, the anatomy of an effective incident co-pilot, and how to turn post-mortems into a living, searchable asset.'
     },
     {
-      icon: '🛠',
+      icon: 'wrench',
       title: 'Platform, Tools & Integrations',
       description: 'Designing integrations and workflows around DEV-O, best practices for connecting your engineering stack, and examples of custom agents.'
     },
     {
-      icon: '🌍',
+      icon: 'globe',
       title: 'The Future of Engineering Operations',
       description: 'From dashboards to immersive operations environments, the role of robotics, spatial computing, and AI in operations, and what "bionic" organizations might look like.'
     }
   ];
 
-  const contentTypes = [
-    { icon: '📖', title: 'Deep-Dive Articles', description: 'Long-form explorations with diagrams, patterns, and examples.' },
-    { icon: '📋', title: 'Playbooks & Checklists', description: 'Practical guides you can apply directly in your organization.' },
-    { icon: '📝', title: 'Field Notes', description: 'Shorter reflections from pilots, experiments, and customer work.' },
-    { icon: '🎤', title: 'Talks & Sessions', description: 'Recaps and recordings from DEV-O tech talks, guilds, and events.' },
-    { icon: '⚙️', title: 'Product Notes', description: 'Detailed explainers of new DEV-O features and their design choices.' }
+  const contentTypes: ContentTypeItem[] = [
+    { icon: 'book', title: 'Deep-Dive Articles', description: 'Long-form explorations with diagrams, patterns, and examples.' },
+    { icon: 'clipboard', title: 'Playbooks & Checklists', description: 'Practical guides you can apply directly in your organization.' },
+    { icon: 'note', title: 'Field Notes', description: 'Shorter reflections from pilots, experiments, and customer work.' },
+    { icon: 'mic', title: 'Talks & Sessions', description: 'Recaps and recordings from DEV-O tech talks, guilds, and events.' },
+    { icon: 'gear', title: 'Product Notes', description: 'Detailed explainers of new DEV-O features and their design choices.' }
   ];
 
-  const audience = [
-    { icon: '👔', title: 'CTOs & Heads of Engineering', description: 'Thinking about AI strategy, resilience, and organizational design.' },
-    { icon: '🔧', title: 'Platform & SRE Leaders', description: 'Designing the underlying systems, platforms, and guardrails.' },
-    { icon: '📊', title: 'Product & Delivery Leaders', description: 'Navigating speed, risk, and quality with AI in the mix.' },
-    { icon: '💻', title: 'Senior Engineers & Architects', description: 'Who want to design and operate AI-native systems responsibly.' }
+  const audience: AudienceItem[] = [
+    { icon: 'briefcase', title: 'CTOs & Heads of Engineering', description: 'Thinking about AI strategy, resilience, and organizational design.' },
+    { icon: 'wrench', title: 'Platform & SRE Leaders', description: 'Designing the underlying systems, platforms, and guardrails.' },
+    { icon: 'chart', title: 'Product & Delivery Leaders', description: 'Navigating speed, risk, and quality with AI in the mix.' },
+    { icon: 'laptop', title: 'Senior Engineers & Architects', description: 'Who want to design and operate AI-native systems responsibly.' }
+  ];
+
+  const connectOptions: ConnectOption[] = [
+    { icon: 'book', text: 'Browse the latest posts on this page' },
+    { icon: 'tag', text: 'Filter by topic (AI-native, incidents, platform, governance, culture, updates)' },
+    { icon: 'mail', text: 'Subscribe to updates to get new articles in your inbox' },
+    { icon: 'globe', text: 'Follow DEV-O and Bionicverse Inc. on social channels' }
   ];
 
   // Sample blog posts (placeholder)
@@ -206,7 +258,9 @@ const BlogPage: React.FC = () => {
       <section className="blog-hero">
         <div className="blog-hero-content">
           <div className="blog-badge">
-            <span className="badge-icon">📚</span>
+            <span className="badge-icon">
+              <PageIcon name="book" size={18} />
+            </span>
             <span>Blog & Insights</span>
           </div>
           <h1 className="blog-title">
@@ -220,10 +274,12 @@ const BlogPage: React.FC = () => {
             and build orchestrated, AI-native engineering systems in practice.
           </p>
           <div className="blog-highlights">
-            <span>🔬 Deep dives on AI + engineering</span>
-            <span>📋 Practical playbooks and frameworks</span>
-            <span>🌍 Stories from the field</span>
-            <span>📦 Updates from the DEV-O team</span>
+            {blogHighlights.map((item, index) => (
+              <span key={index} className="blog-highlight-item">
+                <PageIcon name={item.icon} size={18} />
+                {item.text}
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -260,7 +316,9 @@ const BlogPage: React.FC = () => {
             {topics.map((topic) => (
               <div key={topic.id} className="topic-card">
                 <div className="topic-header">
-                  <span className="topic-icon">{topic.icon}</span>
+                  <span className="topic-icon">
+                    <PageIcon name={topic.icon} size={28} />
+                  </span>
                   <span className="topic-number">{topic.number}</span>
                 </div>
                 <h3 className="topic-title">{topic.title}</h3>
@@ -289,7 +347,9 @@ const BlogPage: React.FC = () => {
           <div className="series-grid">
             {insightSeries.map((series, index) => (
               <div key={index} className="series-card">
-                <span className="series-icon">{series.icon}</span>
+                <span className="series-icon">
+                  <PageIcon name={series.icon} size={32} />
+                </span>
                 <h3 className="series-title">{series.title}</h3>
                 <p className="series-description">{series.description}</p>
               </div>
@@ -308,7 +368,9 @@ const BlogPage: React.FC = () => {
           <div className="content-types-grid">
             {contentTypes.map((type, index) => (
               <div key={index} className="content-type-card">
-                <span className="content-type-icon">{type.icon}</span>
+                <span className="content-type-icon">
+                  <PageIcon name={type.icon} size={26} />
+                </span>
                 <h4 className="content-type-title">{type.title}</h4>
                 <p className="content-type-description">{type.description}</p>
               </div>
@@ -325,7 +387,9 @@ const BlogPage: React.FC = () => {
           <div className="audience-grid">
             {audience.map((item, index) => (
               <div key={index} className="audience-card">
-                <span className="audience-icon">{item.icon}</span>
+                <span className="audience-icon">
+                  <PageIcon name={item.icon} size={30} />
+                </span>
                 <h4 className="audience-title">{item.title}</h4>
                 <p className="audience-description">{item.description}</p>
               </div>
@@ -361,22 +425,14 @@ const BlogPage: React.FC = () => {
           <h2 className="section-title">Stay Connected</h2>
           <p className="section-description">If you want to follow DEV-O's thinking:</p>
           <div className="connect-options">
-            <div className="connect-option">
-              <span className="connect-icon">📖</span>
-              <p>Browse the latest posts on this page</p>
-            </div>
-            <div className="connect-option">
-              <span className="connect-icon">🏷️</span>
-              <p>Filter by topic (AI-native, incidents, platform, governance, culture, updates)</p>
-            </div>
-            <div className="connect-option">
-              <span className="connect-icon">📧</span>
-              <p>Subscribe to updates to get new articles in your inbox</p>
-            </div>
-            <div className="connect-option">
-              <span className="connect-icon">🌐</span>
-              <p>Follow DEV-O and Bionicverse Inc. on social channels</p>
-            </div>
+            {connectOptions.map((option, index) => (
+              <div key={index} className="connect-option">
+                <span className="connect-icon">
+                  <PageIcon name={option.icon} size={28} />
+                </span>
+                <p>{option.text}</p>
+              </div>
+            ))}
           </div>
           <div className="subscribe-form">
             <input type="email" placeholder="Enter your email for updates" className="subscribe-input" />
