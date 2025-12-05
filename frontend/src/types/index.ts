@@ -77,7 +77,7 @@ export interface FileTreeNode {
 }
 
 export interface WSMessage {
-  type: 'connected' | 'token' | 'done' | 'error' | 'limit_exceeded' | 'project_state' | 'agent_working' | 'file_created' | 'file_tree_update' | 'message_received' | 'thinking_start' | 'thinking' | 'thinking_end' | 'crew_init' | 'agent_started' | 'agent_completed' | 'crew_completed' | 'crew_continuation' | 'agent_failed' | string;
+  type: 'connected' | 'token' | 'done' | 'error' | 'limit_exceeded' | 'project_state' | 'agent_working' | 'file_created' | 'file_tree_update' | 'message_received' | 'thinking_start' | 'thinking' | 'thinking_end' | string;
   content?: string;
   error?: string;
   // Limit exceeded fields
@@ -93,25 +93,12 @@ export interface WSMessage {
   messages?: ChatMessage[];
   files?: ProjectFile[];
   // Agent fields
-  agent?: string | {
+  agent?: {
     id: string;
     name: string;
     type: string;
-    status?: string;
   };
-  agents?: Array<{
-    name: string;
-    status: string;
-  }>;
   // File tree fields
   tree?: FileTree;
-  // CrewAI fields
-  files_created?: number;
-  total_files?: number;
-  // Continuation fields
-  can_continue?: boolean;
-  completed_agents?: string[];
-  failed_agent?: string;
-  continuation_message?: string;
   [key: string]: any;
 }

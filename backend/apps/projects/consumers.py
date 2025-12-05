@@ -11,7 +11,6 @@ from .models import Project, ProjectFile
 from apps.chat.models import Conversation, Message
 from apps.agents.models import Agent
 from services.agent_service import AgentService
-from services.crew_service import CrewService
 from services.usage_service import UsageService
 
 User = get_user_model()
@@ -55,8 +54,6 @@ class ProjectConsumer(AsyncWebsocketConsumer):
 
             if message_type == 'project_message':
                 await self.handle_project_message(data)
-            elif message_type == 'crew_message':
-                await self.handle_crew_message(data)
             elif message_type == 'get_file':
                 await self.handle_get_file(data)
             elif message_type == 'ping':
@@ -207,80 +204,6 @@ class ProjectConsumer(AsyncWebsocketConsumer):
 
         except Exception as e:
             logger.exception(f"[PROJECT] Error during agent execution: {e}")
-            await self.send_error(str(e))
-
-    async def handle_crew_message(self, data):
-        """Handle user message for CrewAI multi-agent pipeline."""
-        message_content = data.get('message')
-        continue_from_last = data.get('continue', False)  # Support continuation
-
-        logger.info(f"[CREW] Received crew message for project {self.project_id}: {message_content[:100]}... (continue={continue_from_last})")
-
-        if not message_content:
-            await self.send_error('Message content is required')
-            return
-
-        # Check usage limits
-        can_request, used, limit = await self.check_project_limit()
-        if not can_request:
-            logger.warning(f"[CREW] Usage limit exceeded for user {self.user.id}")
-            await self.send_limit_error('project', used, limit)
-            return
-
-        # Get or create project conversation
-        conversation = await self.get_or_create_conversation()
-        logger.info(f"[CREW] Using conversation {conversation.id}")
-
-        # Save user message
-        await self.save_message(conversation, 'user', message_content)
-        logger.info(f"[CREW] User message saved")
-
-        # Send acknowledgment
-        await self.send(text_data=json.dumps({
-            'type': 'message_received',
-            'message': message_content
-        }))
-
-        # Execute CrewAI pipeline
-        crew_service = CrewService()
-        start_time = time.time()
-
-        try:
-            logger.info(f"[CREW] Starting CrewAI pipeline...")
-            
-            async for event in crew_service.execute_development_crew(
-                project=self.project,
-                project_description=message_content,
-                continue_from_last=continue_from_last,
-            ):
-                logger.debug(f"[CREW] Event: {event.get('type')}")
-                await self.send(text_data=json.dumps(event))
-
-            # Record usage
-            duration_ms = int((time.time() - start_time) * 1000)
-            await self.record_project_usage(
-                project_id=str(self.project.id),
-                duration_ms=duration_ms
-            )
-            logger.info(f"[CREW] Usage recorded ({duration_ms}ms)")
-
-            # Save completion message
-            completion_msg = (
-                f"✓ CrewAI Development Team completed!\n\n"
-                f"All agents have finished their tasks. Your project is ready!"
-            )
-            await self.save_message(
-                conversation,
-                'agent',
-                completion_msg,
-                agent=None
-            )
-
-            # Send done event
-            await self.send(text_data=json.dumps({'type': 'done'}))
-
-        except Exception as e:
-            logger.exception(f"[CREW] Error during CrewAI execution: {e}")
             await self.send_error(str(e))
 
     async def handle_get_file(self, data):

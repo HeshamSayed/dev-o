@@ -181,11 +181,6 @@ AI_SERVICE = {
     'MAX_OUTPUT_TOKENS': int(os.getenv('AI_SERVICE_MAX_OUTPUT_TOKENS', '2048')),
 }
 
-# CrewAI Configuration
-CREWAI_VERBOSE = os.getenv('CREWAI_VERBOSE', 'True') == 'True'
-CREWAI_MAX_ITERATIONS = int(os.getenv('CREWAI_MAX_ITERATIONS', '10'))
-CREWAI_MEMORY = os.getenv('CREWAI_MEMORY', 'True') == 'True'
-
 # Frontend URL for referral links
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://chat.dev-o.ai')
 
