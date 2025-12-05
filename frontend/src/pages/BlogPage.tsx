@@ -235,7 +235,7 @@ const BlogPage: React.FC = () => {
   ];
 
   return (
-    <div className="blog-page wavy-scroll">
+    <div className="blog-page">
       {/* Navigation Header */}
       <header className="blog-header-nav">
         <div className="blog-header-container">
@@ -257,12 +257,7 @@ const BlogPage: React.FC = () => {
       {/* Hero Section */}
       <section className="blog-hero">
         <div className="blog-hero-content">
-          <div className="blog-badge">
-            <span className="badge-icon">
-              <PageIcon name="book" size={18} />
-            </span>
-            <span>Blog & Insights</span>
-          </div>
+          
           <h1 className="blog-title">
             DEV-O Blog & Insights
           </h1>

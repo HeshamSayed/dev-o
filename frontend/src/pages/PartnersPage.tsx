@@ -11,7 +11,7 @@ const PartnersPage = () => {
   };
 
   return (
-    <div className="partners-page wavy-scroll">
+    <div className="partners-page">
       {/* Navigation */}
       <nav className="partners-nav">
         <div className="partners-nav-container">
@@ -31,10 +31,7 @@ const PartnersPage = () => {
       {/* Hero Section */}
       <section className="partners-hero">
         <div className="partners-hero-content">
-          <div className="partners-hero-badge">
-            <PageIcon name="network" />
-            <span>Partners & Integrations</span>
-          </div>
+          
           <h1>Built to Work With the Tools You Trust</h1>
           <p>
             DEV-O partners with technology providers, systems integrators, and channel partners – 
@@ -165,14 +162,11 @@ const PartnersPage = () => {
                 <h3>Cloud & AI Partners</h3>
               </div>
               <p>DEV-O is designed to work with modern cloud and AI providers.</p>
-              <div className="partner-type-benefits">
-                <h4>Cloud and AI partners can:</h4>
-                <ul>
-                  <li>Provide infrastructure and data services that DEV-O orchestrates</li>
-                  <li>Offer AI models and runtimes that DEV-O agents can call under clear guardrails</li>
-                  <li>Collaborate on reference architectures and best practices for AI-native engineering</li>
-                </ul>
-              </div>
+              <ul>
+                <li>Provide infrastructure and data services that DEV-O orchestrates</li>
+                <li>Offer AI models and runtimes that DEV-O agents can call under clear guardrails</li>
+                <li>Collaborate on reference architectures and best practices for AI-native engineering</li>
+              </ul>
             </div>
 
             <div className="partner-type-card">

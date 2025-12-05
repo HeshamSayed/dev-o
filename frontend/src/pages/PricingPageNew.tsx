@@ -225,12 +225,6 @@ const PricingPage: React.FC = () => {
       {/* Hero Section */}
       <section className="pricing-hero">
         <div className="pricing-hero-content">
-          <div className="early-adopter-badge">
-            <span className="badge-icon">
-              <PageIcon name="star" size={16} />
-            </span>
-            <span>Early Adopter Benefits Available</span>
-          </div>
           <h1 className="pricing-title">
             Pricing & Plans
           </h1>

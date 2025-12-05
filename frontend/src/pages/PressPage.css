@@ -1,7 +1,7 @@
 /* Press Page Styles */
 .press-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+  background: linear-gradient(180deg, #050816 0%, #0a0f1e 50%, #050816 100%);
   color: #ffffff;
 }
 
@@ -11,10 +11,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 4rem;
-  background: rgba(10, 10, 15, 0.8);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 8, 22, 0.95);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -49,17 +49,23 @@
 }
 
 .press-nav-cta {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2, #A855F7);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   color: #ffffff !important;
+  transition: all 0.3s ease;
+}
+
+.press-nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.3);
 }
 
 /* Hero Section */
 .press-hero {
-  padding: 6rem 4rem;
+  padding: 8rem 4rem 4rem;
   text-align: center;
-  background: radial-gradient(ellipse at center top, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+  background: radial-gradient(ellipse at center top, rgba(88, 101, 242, 0.15) 0%, transparent 60%);
 }
 
 .press-hero-content {
@@ -68,10 +74,12 @@
 }
 
 .press-hero h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7C8EFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -85,28 +93,30 @@
 }
 
 .press-hero-description {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  font-family: var(--font-primary);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.8;
   margin-bottom: 2rem;
 }
 
 .press-hero-badge {
   display: inline-block;
-  background: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(124, 142, 255, 0.12), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(124, 142, 255, 0.2);
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  color: #7C8EFF;
 }
 
 /* Quick Links */
 .press-quick-links {
   padding: 2rem 4rem;
   background: rgba(255, 255, 255, 0.02);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .press-quick-links-grid {
@@ -123,10 +133,10 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -134,15 +144,16 @@
 }
 
 .press-quick-link:hover {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(168, 85, 247, 0.1));
+  border-color: #7C8EFF;
   color: #ffffff;
+  transform: translateY(-2px);
 }
 
 .press-quick-link svg {
   width: 18px;
   height: 18px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 /* Section Styles */
@@ -155,7 +166,7 @@
 }
 
 .press-section-highlight {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.08), rgba(168, 85, 247, 0.05));
 }
 
 .press-section-container {
@@ -164,11 +175,13 @@
 }
 
 .press-section h2 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
   font-weight: 700;
   text-align: center;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7C8EFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -176,8 +189,9 @@
 
 .press-section-intro {
   text-align: center;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  font-family: var(--font-primary);
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 3rem;
   max-width: 700px;
   margin-left: auto;
@@ -192,8 +206,8 @@
 }
 
 .press-boilerplate-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   overflow: hidden;
 }
@@ -203,8 +217,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .press-boilerplate-header h3 {
@@ -219,10 +233,10 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(168, 85, 247, 0.1));
+  border: 1px solid rgba(124, 142, 255, 0.2);
   border-radius: 6px;
-  color: #a5b4fc;
+  color: #7C8EFF;
   font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
@@ -230,8 +244,10 @@
 }
 
 .press-copy-btn:hover {
-  background: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.25), rgba(168, 85, 247, 0.15));
+  border-color: #7C8EFF;
   color: #ffffff;
+  transform: translateY(-2px);
 }
 
 .press-boilerplate-content {
@@ -263,10 +279,11 @@
 }
 
 .press-boilerplate-content li::before {
-  content: "→";
+  content: "•";
   position: absolute;
   left: 0;
-  color: #6366f1;
+  color: #7C3AED;
+  font-size: 18px;
 }
 
 /* Key Messages Section */
@@ -278,10 +295,17 @@
 }
 
 .press-message-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.press-message-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  border-color: #7C8EFF;
+  box-shadow: 0 8px 30px rgba(88, 101, 242, 0.12);
 }
 
 .press-message-card:last-child {
@@ -290,12 +314,12 @@
 
 .press-message-label {
   display: inline-block;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(168, 85, 247, 0.1));
   padding: 0.35rem 0.75rem;
   border-radius: 6px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #a5b4fc;
+  color: #7C8EFF;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 0.75rem;
@@ -308,8 +332,8 @@
 }
 
 .press-tagline-box {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.12), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(124, 142, 255, 0.2);
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
@@ -340,10 +364,17 @@
 }
 
 .press-company-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.press-company-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  border-color: #7C8EFF;
+  box-shadow: 0 8px 30px rgba(88, 101, 242, 0.12);
 }
 
 .press-company-card h3 {
@@ -378,8 +409,8 @@
 }
 
 .press-pillar {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
@@ -387,8 +418,10 @@
 }
 
 .press-pillar:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: #7C8EFF;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.15);
 }
 
 .press-pillar-icon {
@@ -398,9 +431,9 @@
   width: 48px;
   height: 48px;
   margin: 0 auto 1rem;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(124, 142, 255, 0.12), rgba(168, 85, 247, 0.08));
   border-radius: 12px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .press-pillar h4 {
@@ -418,8 +451,8 @@
 }
 
 .press-vision-box {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.12), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(124, 142, 255, 0.2);
   border-radius: 12px;
   padding: 1.5rem 2rem;
   text-align: center;
@@ -441,16 +474,18 @@
 }
 
 .press-use-case-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
   transition: all 0.3s ease;
 }
 
 .press-use-case-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: #7C8EFF;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.15);
 }
 
 .press-use-case-icon {
@@ -460,9 +495,9 @@
   width: 48px;
   height: 48px;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(124, 142, 255, 0.12), rgba(168, 85, 247, 0.08));
   border-radius: 12px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .press-use-case-card h3 {
@@ -497,12 +532,12 @@
 }
 
 .press-stakeholder-tag {
-  background: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(168, 85, 247, 0.1));
+  border: 1px solid rgba(124, 142, 255, 0.2);
   padding: 0.5rem 1rem;
   border-radius: 50px;
   font-size: 0.9rem;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 /* Brand Guidelines Section */
@@ -514,10 +549,17 @@
 }
 
 .press-brand-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.press-brand-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  border-color: #7C8EFF;
+  box-shadow: 0 8px 30px rgba(88, 101, 242, 0.12);
 }
 
 .press-brand-card h3 {
@@ -546,12 +588,13 @@
   content: "•";
   position: absolute;
   left: 0;
-  color: #6366f1;
+  color: #7C3AED;
+  font-size: 18px;
 }
 
 .press-brand-note {
-  background: rgba(99, 102, 241, 0.1);
-  border-left: 4px solid #6366f1;
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.12), rgba(168, 85, 247, 0.08));
+  border-left: 4px solid #7C8EFF;
   padding: 1rem 1.5rem;
   border-radius: 0 8px 8px 0;
 }
@@ -569,10 +612,17 @@
 }
 
 .press-description-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.press-description-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  border-color: #7C8EFF;
+  box-shadow: 0 8px 30px rgba(88, 101, 242, 0.12);
 }
 
 .press-description-header {
@@ -603,22 +653,25 @@
 }
 
 .press-angle-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
   transition: all 0.3s ease;
 }
 
 .press-angle-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: #7C8EFF;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.15);
 }
 
 .press-angle-card h3 {
   font-size: 1.05rem;
+  font-family: var(--font-heading);
   font-weight: 600;
-  color: #a5b4fc;
+  color: #7C8EFF;
   margin-bottom: 0.5rem;
 }
 
@@ -637,8 +690,8 @@
 }
 
 .press-asset-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
@@ -646,8 +699,10 @@
 }
 
 .press-asset-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: #7C8EFF;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.15);
 }
 
 .press-asset-icon {
@@ -657,9 +712,9 @@
   width: 48px;
   height: 48px;
   margin: 0 auto 1rem;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(124, 142, 255, 0.12), rgba(168, 85, 247, 0.08));
   border-radius: 12px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .press-asset-card h3 {
@@ -680,7 +735,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #a5b4fc;
+  color: #7C8EFF;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -688,7 +743,7 @@
 }
 
 .press-asset-link:hover {
-  color: #c7d2fe;
+  color: #A855F7;
 }
 
 .press-asset-link svg {
@@ -715,11 +770,18 @@
 }
 
 .press-contact-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.press-contact-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
+  border-color: #7C8EFF;
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.15);
 }
 
 .press-contact-icon {
@@ -729,9 +791,9 @@
   width: 56px;
   height: 56px;
   margin: 0 auto 1rem;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(168, 85, 247, 0.1));
   border-radius: 14px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .press-contact-card h3 {
@@ -750,15 +812,15 @@
 }
 
 .press-contact-email:hover {
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .press-mailing-address {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 1.5rem;
   max-width: 400px;
@@ -772,9 +834,9 @@
   width: 40px;
   height: 40px;
   min-width: 40px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(124, 142, 255, 0.12), rgba(168, 85, 247, 0.08));
   border-radius: 10px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 .press-address-content h4 {
@@ -794,7 +856,7 @@
 .press-closing {
   text-align: center;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .press-closing-title {
@@ -812,14 +874,14 @@
 
 .press-closing-cta {
   font-size: 1.1rem;
-  color: #a5b4fc;
+  color: #7C8EFF;
   font-style: italic;
 }
 
 /* Footer */
 .press-footer {
-  background: rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 8, 22, 0.9);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 2rem 4rem;
 }
 
