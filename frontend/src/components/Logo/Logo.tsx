@@ -17,11 +17,7 @@ const Logo: React.FC<LogoProps> = ({ size = 120, showText = true }) => {
         style={{ width: size, height: 'auto' }}
       />
 
-      {showText && (
-        <div className="logo-text">
-          <span className="logo-text-sub">Your Vision. AI Precision.</span>
-        </div>
-      )}
+      
     </div>
   );
 };
