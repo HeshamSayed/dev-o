@@ -1,92 +1,51 @@
-# DEV-O Platform
+# DEV-O LLM Inference Service
 
-AI-powered development platform with intelligent agents for software development.
+This branch contains **only** the LLM inference service for DEV-O platform.
 
-## Features
+## What's Here
 
-- **AI Chat Interface**: Interactive chat with AI agents for development assistance
-- **Project Management**: Create and manage development projects
-- **CrewAI Multi-Agent System**: Sequential pipeline of specialized agents (Product Owner, Backend Dev, Frontend Dev, QA Engineer) that generate complete production-ready applications
-- **Single-Agent Mode**: Use individual specialized agents for specific tasks
-- **Referral Program**: Share DEV-O with friends and earn bonus quotas
-- **Subscription Plans**: Flexible pricing with free and paid tiers
+This repository contains a standalone FastAPI service for running Mistral 7B model inference:
 
-## Technology Stack
-
-- **Frontend**: React + TypeScript + Vite
-- **Backend**: Django + Django REST Framework
-- **Database**: PostgreSQL
-- **Cache**: Redis
-- **Message Queue**: RabbitMQ
-- **Web Server**: Nginx
-- **Containerization**: Docker
+```
+inference_service/
+├── app/
+│   ├── __init__.py
+│   ├── main.py          # FastAPI application
+│   ├── config.py        # Configuration settings
+│   ├── model_loader.py  # Model loading logic
+│   └── models.py        # Pydantic models
+├── Dockerfile           # Docker configuration
+├── docker-compose.yml   # Docker Compose setup
+├── requirements.txt     # Python dependencies
+├── README.md           # Service documentation
+├── DEPLOYMENT.md       # Deployment guide
+└── test_service.py     # Service tests
+```
 
 ## Quick Start
 
 ```bash
-# Start all services
+cd inference_service
 docker-compose up -d
-
-# Check service status
-docker-compose ps
-
-# View logs
-docker-compose logs -f
 ```
 
-## Environment Setup
+The service will be available at `http://localhost:7000`
 
-Copy `.env.example` to `.env` and configure:
+## Documentation
 
-```bash
-cp .env.example .env
-```
+See [inference_service/README.md](inference_service/README.md) for detailed documentation.
 
-Key environment variables:
-- `OPENAI_API_KEY`: OpenAI API key for AI features
-- `STRIPE_SECRET_KEY`: Stripe key for payments
-- `FRONTEND_URL`: Production frontend URL
+## Main DEV-O Platform
 
-## Services
+For the complete DEV-O platform with CrewAI multi-agent system, see the `master` branch:
+- [Master Branch](https://github.com/HeshamSayed/dev-o/tree/master)
 
-- **Frontend**: https://chat.dev-o.ai
-- **Backend API**: https://api.dev-o.ai
-- **Admin Panel**: https://api.dev-o.ai/admin
+## About
 
-## Development
+This inference service provides:
+- Mistral 7B model hosting
+- OpenAI-compatible API endpoints
+- GPU acceleration support
+- Docker deployment
 
-```bash
-# Build frontend
-cd frontend
-npm install
-npm run build
-
-# Backend migrations
-docker-compose exec backend python manage.py migrate
-
-# Create superuser
-docker-compose exec backend python manage.py createsuperuser
-```
-
-## CrewAI Multi-Agent System
-
-DEV-O includes a powerful multi-agent system powered by CrewAI v1.6.1:
-
-- **Sequential Pipeline**: Product Owner → Backend Developer → Frontend Developer → QA Engineer
-- **Complete Applications**: Generate fully production-ready applications
-- **Real-time Streaming**: Watch agents work in real-time via WebSocket
-- **File Management**: All generated files saved to project workspace
-
-See [docs/CREWAI_INTEGRATION.md](docs/CREWAI_INTEGRATION.md) for detailed documentation.
-
-## Production Deployment
-
-The platform is configured for production deployment with:
-- SSL/TLS certificates via Certbot
-- Nginx reverse proxy
-- Production-ready Docker configuration
-- Environment-based settings
-
-## License
-
-Proprietary - All rights reserved
+Part of the DEV-O AI-powered development platform.
