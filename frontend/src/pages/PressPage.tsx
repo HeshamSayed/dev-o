@@ -173,7 +173,7 @@ DEV-O is developed by Bionicverse Inc. (USA), a company operating at the interse
       {/* Navigation */}
       <nav className="press-nav">
         <Link to="/" className="press-nav-logo">
-          <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="press-logo-img" />
+          <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="press-logo-img" />
         </Link>
         <div className="press-nav-links">
           <Link to="/features">Features</Link>

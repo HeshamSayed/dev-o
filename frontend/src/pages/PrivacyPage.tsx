@@ -43,7 +43,7 @@ const PrivacyPage = () => {
       <nav className="privacy-nav">
         <div className="privacy-nav-container">
           <Link to="/" className="privacy-logo">
-            <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="privacy-logo-image" />
+            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="privacy-logo-image" />
           </Link>
           <div className="privacy-nav-links">
             <Link to="/features">Features</Link>
@@ -494,7 +494,7 @@ const PrivacyPage = () => {
         <div className="privacy-footer-content">
           <div className="privacy-footer-brand">
             <Link to="/" className="privacy-footer-logo">
-              <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" />
+              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
             </Link>
             <p>Digital Engineering Virtual Orchestrator</p>
           </div>

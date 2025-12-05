@@ -126,7 +126,7 @@ const ContactPage = () => {
       <nav className="contact-nav">
         <div className="contact-nav-container">
           <Link to="/" className="contact-logo">
-            <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="contact-logo-image" />
+            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="contact-logo-image" />
           </Link>
           <div className="contact-nav-links">
             <Link to="/features">Features</Link>
@@ -558,7 +558,7 @@ const ContactPage = () => {
         <div className="contact-footer-content">
           <div className="contact-footer-brand">
             <Link to="/" className="contact-footer-logo">
-              <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" />
+              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
             </Link>
             <p>Digital Engineering Virtual Orchestrator</p>
           </div>

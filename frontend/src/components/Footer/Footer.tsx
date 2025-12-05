@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import XIcon from '../Icons/social-x.svg';
 import LinkedInIcon from '../Icons/social-linkedin.svg';
 import './Footer.css';
-import logoImage from '../Logo/DEV-O_Logo.png';
+import logoImage from '../Logo/logo+icon.png';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();

@@ -110,7 +110,7 @@ const AboutPage = () => {
       <nav className="about-nav">
         <div className="about-nav-container">
           <Link to="/" className="about-logo">
-            <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="about-logo-image" />
+            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="about-logo-image" />
           </Link>
           <div className="about-nav-links">
             <Link to="/features">Features</Link>
@@ -475,7 +475,7 @@ const AboutPage = () => {
         <div className="about-footer-content">
           <div className="about-footer-brand">
             <Link to="/" className="about-footer-logo">
-              <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" />
+              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
             </Link>
             <p>Digital Engineering Virtual Orchestrator</p>
           </div>

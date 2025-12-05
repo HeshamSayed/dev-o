@@ -150,7 +150,7 @@ const SecurityPage = () => {
       <nav className="security-nav">
         <div className="security-nav-container">
           <Link to="/" className="security-logo">
-            <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="security-logo-image" />
+            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="security-logo-image" />
           </Link>
           <div className="security-nav-links">
             <Link to="/features">Features</Link>
@@ -691,7 +691,7 @@ const SecurityPage = () => {
         <div className="security-footer-content">
           <div className="security-footer-brand">
             <Link to="/" className="security-footer-logo">
-              <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" />
+              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
             </Link>
             <p>Digital Engineering Virtual Orchestrator</p>
           </div>

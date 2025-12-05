@@ -211,7 +211,7 @@ const PartnersPage = () => {
       <nav className="partners-nav">
         <div className="partners-nav-container">
           <Link to="/" className="partners-logo">
-            <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="partners-logo-image" />
+            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="partners-logo-image" />
           </Link>
           <div className="partners-nav-links">
             <Link to="/features">Features</Link>
@@ -829,7 +829,7 @@ const PartnersPage = () => {
         <div className="partners-footer-content">
           <div className="partners-footer-brand">
             <Link to="/" className="partners-footer-logo">
-              <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" />
+              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
             </Link>
             <p>Digital Engineering Virtual Orchestrator</p>
           </div>

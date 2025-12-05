@@ -40,7 +40,7 @@ const TermsPage = () => {
       <nav className="terms-nav">
         <div className="terms-nav-container">
           <Link to="/" className="terms-logo">
-            <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="terms-logo-image" />
+            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="terms-logo-image" />
           </Link>
           <div className="terms-nav-links">
             <Link to="/features">Features</Link>
@@ -517,7 +517,7 @@ const TermsPage = () => {
         <div className="terms-footer-content">
           <div className="terms-footer-brand">
             <Link to="/" className="terms-footer-logo">
-              <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" />
+              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
             </Link>
             <p>Digital Engineering Virtual Orchestrator</p>
           </div>

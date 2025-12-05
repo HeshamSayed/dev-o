@@ -261,7 +261,7 @@ const CareersPage: React.FC = () => {
       {/* Navigation */}
       <nav className="careers-nav">
         <Link to="/" className="careers-nav-logo">
-          <img src="/src/components/Logo/DEV-O_Logo.png" alt="DEV-O" className="careers-logo-img" />
+          <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="careers-logo-img" />
         </Link>
         <div className="careers-nav-links">
           <Link to="/features">Features</Link>
