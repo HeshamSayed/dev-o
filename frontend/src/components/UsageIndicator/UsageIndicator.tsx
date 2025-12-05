@@ -4,6 +4,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { billingAPI, UsageSummary } from '../../api/billing';
+import { ChatBubbleIcon } from '../Icons/PageIcons';
 import './UsageIndicator.css';
 
 interface UsageIndicatorProps {
@@ -112,7 +113,7 @@ const UsageIndicator: React.FC<UsageIndicatorProps> = ({ compact = false }) => {
       <div className="usage-section">
         <div className="usage-item">
           <div className="usage-label">
-            <span>💬 Chat Messages</span>
+            <span><ChatBubbleIcon size={14} /> Chat Messages</span>
             <span className="usage-count">
               {usage.chat.used} / {formatLimit(usage.chat.limit)}
             </span>

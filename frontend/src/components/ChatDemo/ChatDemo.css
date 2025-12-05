@@ -1,9 +1,10 @@
 /* Professional Chat Demo - Enterprise Grade */
 .chat-demo {
-  padding: 0 24px 120px;
-  margin-top: -120px;
+  padding: 80px 24px 80px;
+  margin-top: 0;
   position: relative;
-  z-index: 100;
+  z-index: 10;
+  background: #0d1225;
 }
 
 .chat-demo-container {
@@ -72,7 +73,7 @@
   background: linear-gradient(135deg,
     rgba(88, 101, 242, 0.1),
     rgba(168, 85, 247, 0.05));
-  padding: 20px 24px;
+  padding: 22px 28px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
@@ -82,12 +83,12 @@
 .chat-header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .chat-status {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   background: #10B981;
   border-radius: 50%;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
@@ -106,16 +107,35 @@
 }
 
 .chat-header-title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .chat-header-subtitle {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-left: 8px;
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  margin-left: 12px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.12), rgba(168, 85, 247, 0.08));
+  border-radius: 16px;
+  border: 1px solid rgba(88, 101, 242, 0.25);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  letter-spacing: 0.01em;
+  transition: all 0.3s ease;
+}
+
+.chat-header-subtitle:hover {
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.18), rgba(168, 85, 247, 0.12));
+  border-color: rgba(88, 101, 242, 0.35);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* Messages Area */
@@ -426,8 +446,19 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .chat-demo {
-    padding: 0 16px 80px;
-    margin-top: -80px;
+    padding: 30px 16px 60px;
+    margin-top: 0;
+  }
+
+  .chat-header-subtitle {
+    max-width: 120px;
+    font-size: 12px;
+    padding: 5px 12px;
+    margin-left: 10px;
+  }
+
+  .chat-header-title {
+    font-size: 14px;
   }
 
   .chat-interface {
@@ -468,7 +499,8 @@
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
   .chat-demo {
-    margin-top: -100px;
+    padding: 40px 24px 70px;
+    margin-top: 0;
   }
 
   .chat-interface {

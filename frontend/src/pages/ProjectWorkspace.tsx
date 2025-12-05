@@ -8,6 +8,20 @@ import UpgradeModal from '../components/UpgradeModal';
 import apiClient from '../api/client';
 import { Project, ProjectFile, ChatMessage, WSMessage } from '../types';
 import { FileStreamParser } from '../utils/fileStreamParser';
+import {
+  RocketIcon,
+  WrenchIcon,
+  CheckCircleIcon,
+  RefreshIcon,
+  CrossIcon,
+  PartyIcon,
+  FolderIcon,
+  FileIcon,
+  StatusConnectedIcon,
+  StatusDisconnectedIcon,
+  GearIcon,
+  HourglassIcon,
+} from '../components/Icons/PageIcons';
 import './ProjectWorkspace.css';
 
 const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8000';
@@ -108,7 +122,8 @@ export default function ProjectWorkspace() {
           setCrewAgents(data.agents.map((a: any) => ({ name: a.name, status: 'pending' })));
           setMessages(prev => [...prev, {
             role: 'system',
-            content: '🚀 Initializing CrewAI Multi-Agent System...\n• Product Owner\n• Backend Developer\n• Frontend Developer\n• QA Engineer',
+            content: 'Initializing CrewAI Multi-Agent System...\n• Product Owner\n• Backend Developer\n• Frontend Developer\n• QA Engineer',
+            icon: 'rocket'
           }]);
         }
         break;
@@ -116,23 +131,25 @@ export default function ProjectWorkspace() {
         // Mark agent as working
         const startedAgentName = getAgentName(data.agent);
         setCurrentAgent(startedAgentName);
-        setCrewAgents(prev => prev.map(a => 
+        setCrewAgents(prev => prev.map(a =>
           a.name === startedAgentName ? { ...a, status: 'working' } : a
         ));
         setMessages(prev => [...prev, {
           role: 'system',
-          content: `🔧 ${startedAgentName} started working...`,
+          content: `${startedAgentName} started working...`,
+          icon: 'wrench'
         }]);
         break;
       case 'agent_completed':
         // Mark agent as completed
         const completedAgentName = getAgentName(data.agent);
-        setCrewAgents(prev => prev.map(a => 
+        setCrewAgents(prev => prev.map(a =>
           a.name === completedAgentName ? { ...a, status: 'completed' } : a
         ));
         setMessages(prev => [...prev, {
           role: 'system',
-          content: `✅ ${completedAgentName} completed! Created ${data.files_created || 0} file(s).`,
+          content: `${completedAgentName} completed! Created ${data.files_created || 0} file(s).`,
+          icon: 'check'
         }]);
         setCurrentAgent(null);
         break;
@@ -140,7 +157,8 @@ export default function ProjectWorkspace() {
         // Pipeline is continuing from a previous failure
         setMessages(prev => [...prev, {
           role: 'system',
-          content: `🔄 ${data.message}\nResuming pipeline...`,
+          content: `${data.message}\nResuming pipeline...`,
+          icon: 'refresh'
         }]);
         break;
       case 'agent_failed':
@@ -148,12 +166,13 @@ export default function ProjectWorkspace() {
         const failedAgentName = getAgentName(data.agent);
         setFailedAgent(failedAgentName);
         setCanContinue(data.can_continue || false);
-        setCrewAgents(prev => prev.map(a => 
+        setCrewAgents(prev => prev.map(a =>
           a.name === failedAgentName ? { ...a, status: 'failed' } : a
         ));
         setMessages(prev => [...prev, {
           role: 'system',
-          content: `❌ ${failedAgentName} failed: ${data.error}\n\n${data.can_continue ? '💡 You can continue from where it failed by sending another request.' : ''}`,
+          content: `${failedAgentName} failed: ${data.error}\n\n${data.can_continue ? 'You can continue from where it failed by sending another request.' : ''}`,
+          icon: 'cross'
         }]);
         setLoading(false);
         break;
@@ -165,7 +184,8 @@ export default function ProjectWorkspace() {
         setFailedAgent(null);
         setMessages(prev => [...prev, {
           role: 'system',
-          content: `🎉 ${data.message || 'CrewAI pipeline completed successfully!'}\nTotal files: ${data.total_files || 0}`,
+          content: `${data.message || 'CrewAI pipeline completed successfully!'}\nTotal files: ${data.total_files || 0}`,
+          icon: 'party'
         }]);
         break;
       case 'agent_working':
@@ -210,7 +230,8 @@ export default function ProjectWorkspace() {
               // File complete, show completion message
               setMessages(prev => [...prev, {
                 role: 'system',
-                content: `✓ Created ${event.data.path}`,
+                content: `Created ${event.data.path}`,
+                icon: 'check'
               }]);
               setStreamingFile(null);
               break;
@@ -257,9 +278,10 @@ export default function ProjectWorkspace() {
         if (data.can_continue) {
           setCanContinue(true);
           setFailedAgent(data.failed_agent || null);
-          setMessages(prev => [...prev, { 
-            role: 'system', 
-            content: `❌ Error: ${data.error}\n\n${data.continuation_message || 'You can continue from where it failed.'}` 
+          setMessages(prev => [...prev, {
+            role: 'system',
+            content: `Error: ${data.error}\n\n${data.continuation_message || 'You can continue from where it failed.'}`,
+            icon: 'cross'
           }]);
         } else {
           setMessages(prev => [...prev, { role: 'system', content: `Error: ${data.error}` }]);
@@ -327,7 +349,7 @@ export default function ProjectWorkspace() {
       if (node.type === 'directory') {
         return (
           <div key={fullPath} className="tree-directory">
-            <div className="tree-directory-name">📁 {key}</div>
+            <div className="tree-directory-name"><FolderIcon size={14} /> {key}</div>
             {node.children && (
               <div className="tree-directory-children">
                 {renderFileTree(node.children, fullPath)}
@@ -344,7 +366,7 @@ export default function ProjectWorkspace() {
             className={`tree-file ${isSelected ? 'selected' : ''}`}
             onClick={() => file && setSelectedFile(file)}
           >
-            📄 {key}
+            <FileIcon size={14} /> {key}
           </div>
         );
       }
@@ -436,9 +458,9 @@ export default function ProjectWorkspace() {
           <div className="chat-panel-header">
             <h3>AI Development Team</h3>
             {wsConnected ? (
-              <span className="status-connected">🟢 Connected</span>
+              <span className="status-connected"><StatusConnectedIcon size={12} /> Connected</span>
             ) : (
-              <span className="status-disconnected">🔴 Disconnected</span>
+              <span className="status-disconnected"><StatusDisconnectedIcon size={12} /> Disconnected</span>
             )}
           </div>
 
@@ -448,14 +470,14 @@ export default function ProjectWorkspace() {
               <div className="crew-progress-title">Multi-Agent Pipeline</div>
               <div className="crew-agents">
                 {crewAgents.map((agent, idx) => (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     className={`crew-agent crew-agent-${agent.status}`}
                   >
                     <div className="agent-icon">
-                      {agent.status === 'completed' ? '✅' : 
-                       agent.status === 'working' ? '⚙️' : 
-                       agent.status === 'failed' ? '❌' : '⏳'}
+                      {agent.status === 'completed' ? <CheckCircleIcon size={18} /> :
+                       agent.status === 'working' ? <GearIcon size={18} /> :
+                       agent.status === 'failed' ? <CrossIcon size={18} /> : <HourglassIcon size={18} />}
                     </div>
                     <div className="agent-info">
                       <div className="agent-name">{agent.name}</div>
@@ -469,14 +491,14 @@ export default function ProjectWorkspace() {
                 ))}
               </div>
               {canContinue && (
-                <button 
+                <button
                   className="continue-button"
                   onClick={() => {
                     setInput('continue');
                     handleSubmit(new Event('submit') as any);
                   }}
                 >
-                  🔄 Continue from {failedAgent || 'last checkpoint'}
+                  <RefreshIcon size={14} /> Continue from {failedAgent || 'last checkpoint'}
                 </button>
               )}
             </div>

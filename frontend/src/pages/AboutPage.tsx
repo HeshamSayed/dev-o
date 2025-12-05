@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { WarningIcon } from '../components/Icons/PageIcons';
 import './AboutPage.css';
 
 // SVG Icon Components
@@ -156,19 +157,19 @@ const AboutPage = () => {
           </p>
           <div className="pain-points">
             <div className="pain-point">
-              <span className="pain-icon">⚠️</span>
+              <span className="pain-icon"><WarningIcon size={20} /></span>
               <p>Teams lose time context-switching between tools.</p>
             </div>
             <div className="pain-point">
-              <span className="pain-icon">⚠️</span>
+              <span className="pain-icon"><WarningIcon size={20} /></span>
               <p>Knowledge is scattered across tickets, docs, chats, and repos.</p>
             </div>
             <div className="pain-point">
-              <span className="pain-icon">⚠️</span>
+              <span className="pain-icon"><WarningIcon size={20} /></span>
               <p>There is no single "brain" that understands how the business, systems, and workflows connect.</p>
             </div>
             <div className="pain-point">
-              <span className="pain-icon">⚠️</span>
+              <span className="pain-icon"><WarningIcon size={20} /></span>
               <p>AI experiments stay experiments – they rarely become reliable, governed, production-grade capabilities.</p>
             </div>
           </div>

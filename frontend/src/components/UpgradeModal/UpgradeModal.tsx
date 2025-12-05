@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import { TimerIcon } from '../Icons/PageIcons';
 import './UpgradeModal.css';
 
 interface UpgradeModalProps {
@@ -85,7 +86,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({
 
         <div className="modal-options">
           <div className="option wait">
-            <h3>⏱️ Wait for Reset</h3>
+            <h3><TimerIcon size={18} /> Wait for Reset</h3>
             <p>Your quota will refresh automatically in {formatTime(minutesUntilReset)}.</p>
             <button className="option-btn secondary" onClick={onClose}>
               I'll Wait

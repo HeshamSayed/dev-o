@@ -3,6 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-gfm';
 import { useState } from 'react';
+import { CheckmarkIcon } from '../Icons/PageIcons';
 import './MessageRenderer.css';
 
 interface MessageRendererProps {
@@ -65,7 +66,7 @@ function CodeBlock({ language, code }: CodeBlockProps) {
           onClick={handleCopy}
           title="Copy code"
         >
-          {copied ? '✓ Copied!' : 'Copy'}
+          {copied ? <><CheckmarkIcon size={12} /> Copied!</> : 'Copy'}
         </button>
       </div>
       <SyntaxHighlighter

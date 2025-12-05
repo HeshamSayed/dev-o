@@ -6,6 +6,7 @@ import UpgradeModal from '../components/UpgradeModal';
 import MessageRenderer from '../components/Chat/MessageRenderer';
 import ConversationSidebar from '../components/Chat/ConversationSidebar';
 import ThinkingDisplay from '../components/Chat/ThinkingDisplay';
+import { StatusConnectedIcon, StatusDisconnectedIcon } from '../components/Icons/PageIcons';
 import { chatApi, Conversation } from '../api/chat';
 import userApi from '../api/user';
 import { ChatMessage, WSMessage } from '../types';
@@ -271,9 +272,9 @@ export default function ChatPage() {
         <header className="chat-header">
         <div className="chat-header-left">
           {wsConnected ? (
-            <span className="connection-status connected">🟢 Connected</span>
+            <span className="connection-status connected"><StatusConnectedIcon size={12} /> Connected</span>
           ) : (
-            <span className="connection-status disconnected">🔴 Disconnected</span>
+            <span className="connection-status disconnected"><StatusDisconnectedIcon size={12} /> Disconnected</span>
           )}
         </div>
 

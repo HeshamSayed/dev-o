@@ -5,6 +5,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   position: relative;
   overflow: hidden;
+  margin-top: 60px;
 }
 
 .footer-container {

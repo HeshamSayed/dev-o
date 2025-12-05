@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BrainIcon } from '../Icons/PageIcons';
 import './ThinkingDisplay.css';
 
 interface ThinkingDisplayProps {
@@ -14,7 +15,7 @@ export default function ThinkingDisplay({ thinking, isLoading }: ThinkingDisplay
   return (
     <div className={`thinking-display ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="thinking-header" onClick={() => setIsCollapsed(!isCollapsed)}>
-        <div className="thinking-icon">🧠</div>
+        <div className="thinking-icon"><BrainIcon size={20} /></div>
         <span className="thinking-label">AI Thinking Process</span>
         <button className="thinking-toggle">
           {isCollapsed ? '▶' : '▼'}

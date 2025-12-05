@@ -7,16 +7,15 @@
 
 /* Professional Typography System */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-feature-settings: 'liga' 1, 'calt' 1;
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
 }
 
 /* Landing Page Container */
@@ -25,6 +24,14 @@ html {
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+}
+
+/* Section with wave transitions */
+.section-with-wave {
+  position: relative;
+  background: #0d1225;
+  margin-top: -80px;
+  padding-top: 0;
 }
 
 /* Professional Selection Colors */

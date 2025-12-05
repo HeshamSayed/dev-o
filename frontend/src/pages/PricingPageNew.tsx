@@ -6,6 +6,30 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
+import {
+  StarIcon,
+  GiftIcon,
+  RocketIcon,
+  ChartUpIcon,
+  BuildingIcon,
+  AlertIcon,
+  BarChartIcon,
+  ConstructionIcon,
+  GearIcon,
+  ControlKnobsIcon,
+  CheckmarkIcon,
+  LightningIcon,
+  UsersIcon,
+  GlobeIcon,
+  ClipboardIcon,
+  PackageIcon,
+  HandshakeIcon,
+  LinkIcon,
+  BrainIcon,
+  LightbulbIcon,
+  BriefcaseIcon,
+  WaveIcon,
+} from '../components/Icons/PageIcons';
 import './PricingPageNew.css';
 
 const PricingPage: React.FC = () => {
@@ -29,7 +53,7 @@ const PricingPage: React.FC = () => {
         'Standard support and access to product updates'
       ],
       bestFor: 'Best when you want to prove value quickly in a single area before scaling.',
-      icon: '🚀'
+      icon: <RocketIcon size={32} />
     },
     {
       id: 'growth',
@@ -49,7 +73,7 @@ const PricingPage: React.FC = () => {
         'Access to advanced integrations and more environments'
       ],
       bestFor: 'Best when you want DEV-O to become a core layer in your engineering operations.',
-      icon: '📈'
+      icon: <ChartUpIcon size={32} />
     },
     {
       id: 'enterprise',
@@ -69,7 +93,7 @@ const PricingPage: React.FC = () => {
         'Optional private or region-specific deployment models'
       ],
       bestFor: 'Best when you see DEV-O as your AI-native control plane across many teams, products, or business lines.',
-      icon: '🏢'
+      icon: <BuildingIcon size={32} />
     }
   ];
 
@@ -84,17 +108,17 @@ const PricingPage: React.FC = () => {
   const scenarios = [
     {
       title: 'Pilot with Spiky Incidents',
-      icon: '🚨',
+      icon: <AlertIcon size={28} />,
       description: 'A team on the Starter plan uses DEV-O mainly for incident response. Most months, they stay within the included token balance. During a period of increased incidents (e.g., a major launch), they temporarily exceed the included usage. They add a one-time token pack to cover the spike, without changing plans.'
     },
     {
       title: 'Growing into Multi-Team Usage',
-      icon: '📊',
+      icon: <BarChartIcon size={28} />,
       description: 'A company starts with Starter, validates value for incident workflows, then upgrades to Growth as more teams join. The Growth plan includes a larger monthly token balance that covers day-to-day usage across several teams. They keep a small buffer of extra tokens available for busy periods.'
     },
     {
       title: 'Enterprise with Complex Programs',
-      icon: '🏗️',
+      icon: <ConstructionIcon size={28} />,
       description: 'A large organization on Enterprise uses DEV-O as its AI-native control plane. Together, we size a custom monthly token allocation based on observed patterns and future projects. During a major modernization program, they may temporarily increase token capacity.'
     }
   ];
@@ -137,7 +161,7 @@ const PricingPage: React.FC = () => {
       <section className="pricing-hero">
         <div className="pricing-hero-content">
           <div className="early-adopter-badge">
-            <span className="badge-icon">⭐</span>
+            <span className="badge-icon"><StarIcon size={16} /></span>
             <span>Early Adopter Benefits Available</span>
           </div>
           <h1 className="pricing-title">
@@ -154,7 +178,7 @@ const PricingPage: React.FC = () => {
       <section className="early-adopter-section">
         <div className="section-container">
           <div className="early-adopter-card">
-            <div className="early-adopter-icon">🎁</div>
+            <div className="early-adopter-icon"><GiftIcon size={48} /></div>
             <h2>Early Adopter Advantages</h2>
             <p>
               Early adopters of DEV-O will receive special benefits, including <strong>preferred pricing</strong>, 
@@ -194,9 +218,9 @@ const PricingPage: React.FC = () => {
             </div>
           </div>
           <div className="pricing-note">
-            <span className="note-icon">💡</span>
+            <span className="note-icon"><LightbulbIcon size={20} /></span>
             <p>
-              You can start with a plan, then add more tokens if your monthly usage spikes, 
+              You can start with a plan, then add more tokens if your monthly usage spikes,
               you're running complex projects, or need higher AI and orchestration consumption.
             </p>
           </div>
@@ -268,21 +292,21 @@ const PricingPage: React.FC = () => {
               <h3>When Token-Based Pricing Helps</h3>
               <div className="token-benefits">
                 <div className="token-benefit">
-                  <span className="benefit-icon">📈</span>
+                  <span className="benefit-icon"><ChartUpIcon size={24} /></span>
                   <div>
                     <strong>Usage is spiky</strong>
                     <p>During a large transformation or migration, you may temporarily need much more AI assistance.</p>
                   </div>
                 </div>
                 <div className="token-benefit">
-                  <span className="benefit-icon">⚙️</span>
+                  <span className="benefit-icon"><GearIcon size={24} /></span>
                   <div>
                     <strong>Workloads are complex</strong>
                     <p>Run deep workflows across many tools and services; tokens let you pay proportionally.</p>
                   </div>
                 </div>
                 <div className="token-benefit">
-                  <span className="benefit-icon">🎛️</span>
+                  <span className="benefit-icon"><ControlKnobsIcon size={24} /></span>
                   <div>
                     <strong>You want control</strong>
                     <p>Cap, monitor, and adjust token usage based on budget and priorities.</p>
@@ -332,7 +356,7 @@ const PricingPage: React.FC = () => {
           <div className="included-grid">
             <div className="included-card">
               <div className="card-header included">
-                <span className="card-icon">✓</span>
+                <span className="card-icon"><CheckmarkIcon size={20} /></span>
                 <h3>Included with Platform Plan</h3>
               </div>
               <ul>
@@ -343,7 +367,7 @@ const PricingPage: React.FC = () => {
             </div>
             <div className="included-card">
               <div className="card-header usage">
-                <span className="card-icon">⚡</span>
+                <span className="card-icon"><LightningIcon size={20} /></span>
                 <h3>Usage-Based (Tokens)</h3>
               </div>
               <ul>
@@ -365,23 +389,23 @@ const PricingPage: React.FC = () => {
             or complex multi-region deployments, we can design custom pricing that matches your reality.</p>
             <div className="enterprise-features">
               <div className="enterprise-feature">
-                <span>👥</span>
+                <span><UsersIcon size={20} /></span>
                 <span>Tailored user and service counts</span>
               </div>
               <div className="enterprise-feature">
-                <span>🌍</span>
+                <span><GlobeIcon size={20} /></span>
                 <span>Dedicated or region-specific infrastructure</span>
               </div>
               <div className="enterprise-feature">
-                <span>📋</span>
+                <span><ClipboardIcon size={20} /></span>
                 <span>Specific SLAs and support options</span>
               </div>
               <div className="enterprise-feature">
-                <span>📦</span>
+                <span><PackageIcon size={20} /></span>
                 <span>Pre-committed token bundles</span>
               </div>
               <div className="enterprise-feature">
-                <span>🤝</span>
+                <span><HandshakeIcon size={20} /></span>
                 <span>Joint planning for large projects</span>
               </div>
             </div>
@@ -402,19 +426,19 @@ const PricingPage: React.FC = () => {
             </p>
             <div className="comparison-points">
               <div className="comparison-point">
-                <span className="point-icon">🔗</span>
+                <span className="point-icon"><LinkIcon size={20} /></span>
                 <p>Connects and coordinates many tools across your stack</p>
               </div>
               <div className="comparison-point">
-                <span className="point-icon">🧠</span>
+                <span className="point-icon"><BrainIcon size={20} /></span>
                 <p>Maintains a living engineering knowledge graph</p>
               </div>
               <div className="comparison-point">
-                <span className="point-icon">⚙️</span>
+                <span className="point-icon"><GearIcon size={20} /></span>
                 <p>Orchestrates workflows, not just prompts</p>
               </div>
               <div className="comparison-point">
-                <span className="point-icon">👥</span>
+                <span className="point-icon"><UsersIcon size={20} /></span>
                 <p>Provides shared value across multiple teams and functions</p>
               </div>
             </div>
@@ -450,14 +474,14 @@ const PricingPage: React.FC = () => {
 
           <div className="contact-cards">
             <a href="mailto:sales@dev-o.ai" className="contact-card">
-              <span className="contact-icon">💼</span>
+              <span className="contact-icon"><BriefcaseIcon size={24} /></span>
               <h3>Sales & Product Exploration</h3>
               <p>sales@dev-o.ai</p>
             </a>
-                      <a href="mailto:hello@dev-o.ai" className="contact-card">
-              <span className="contact-icon">👋</span>
+            <a href="mailto:hello@dev-o.ai" className="contact-card">
+              <span className="contact-icon"><WaveIcon size={24} /></span>
               <h3>General Inquiries</h3>
-                          <p>hello@dev-o.ai</p>
+              <p>hello@dev-o.ai</p>
             </a>
           </div>
         </div>

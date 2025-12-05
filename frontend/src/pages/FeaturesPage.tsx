@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
+import { SparkleIcon, LightbulbIcon } from '../components/Icons/PageIcons';
 import VisionIcon from '../components/Icons/context-aware.svg';
 import DecideIcon from '../components/Icons/DECIDE—AI_Lightning Intelligence.svg';
 import ActIcon from '../components/Icons/ACT—Target _Precision.svg';
@@ -388,7 +389,7 @@ const FeaturesPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="features-page wavy-scroll">
+    <div className="features-page">
       {/* Navigation Header */}
       <header className="features-header">
         <div className="features-header-container">
@@ -409,10 +410,6 @@ const FeaturesPage: React.FC = () => {
       {/* Hero Section */}
       <section className="features-hero">
         <div className="features-hero-content">
-          <div className="features-badge">
-            <span className="badge-icon">✨</span>
-            <span>Platform Features</span>
-          </div>
           <h1 className="features-title">
             The Digital Engineering<br />
             <span className="gradient-text">Virtual Orchestrator</span>
@@ -422,7 +419,7 @@ const FeaturesPage: React.FC = () => {
             Discover what the platform can do for your organization today and how it evolves with you over time.
           </p>
           <div className="features-hero-note">
-            <span className="note-icon">💡</span>
+            <span className="note-icon"><LightbulbIcon size={16} /></span>
             <span>DEV-O doesn't replace your stack – it orchestrates it.</span>
           </div>
         </div>

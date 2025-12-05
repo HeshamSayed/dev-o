@@ -63,12 +63,15 @@
 }
 
 .thinking-toggle-button.active::after {
-  content: '🧠';
+  content: '';
   position: absolute;
   top: -8px;
   right: -8px;
-  font-size: 16px;
-  background: #0B1220;
+  width: 20px;
+  height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310B981' stroke-width='2'%3E%3Cpath d='M9.5 2C10.3 2 11 2.4 11.5 3C11.8 2.4 12.5 2 13.5 2C14.9 2 16 3.1 16 4.5C16 5.2 15.7 5.8 15.3 6.2C16.3 6.5 17 7.4 17 8.5C17 9.2 16.7 9.8 16.2 10.3C17.3 10.7 18 11.7 18 13C18 14.3 17.2 15.4 16 15.8V19C16 20.1 15.1 21 14 21H10C8.9 21 8 20.1 8 19V15.8C6.8 15.4 6 14.3 6 13C6 11.7 6.7 10.7 7.8 10.3C7.3 9.8 7 9.2 7 8.5C7 7.4 7.7 6.5 8.7 6.2C8.3 5.8 8 5.2 8 4.5C8 3.1 9.1 2 10.5 2'/%3E%3Cpath d='M12 6V10M12 14V18'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+  background-color: #0B1220;
   border-radius: 50%;
   padding: 2px;
 }

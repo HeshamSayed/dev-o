@@ -6,6 +6,28 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
+import {
+  BookIcon,
+  BrainIcon,
+  AlertIcon,
+  ToolsIcon,
+  ShieldIcon,
+  UsersIcon,
+  PackageIcon,
+  GlobeIcon,
+  BookOpenIcon,
+  ClipboardIcon,
+  MemoIcon,
+  MicrophoneIcon,
+  GearIcon,
+  SuitIcon,
+  WrenchIcon,
+  BarChartIcon,
+  LaptopIcon,
+  TagIcon,
+  EmailIcon,
+  MicroscopeIcon,
+} from '../components/Icons/PageIcons';
 import './BlogPage.css';
 
 interface BlogPost {
@@ -44,7 +66,7 @@ const BlogPage: React.FC = () => {
         'Aligning leadership, platform, and product around one AI strategy',
         'Measuring the real impact of AI on engineering performance'
       ],
-      icon: '🧠'
+      icon: <BrainIcon size={24} />
     },
     {
       id: 'incidents',
@@ -57,7 +79,7 @@ const BlogPage: React.FC = () => {
         'Patterns for faster MTTR without burning out on-call teams',
         'How to learn from incidents and feed that back into your systems'
       ],
-      icon: '🚨'
+      icon: <AlertIcon size={24} />
     },
     {
       id: 'platform',
@@ -70,7 +92,7 @@ const BlogPage: React.FC = () => {
         'Developer experience in AI-native environments',
         'Transitioning from ad-hoc scripts to governed workflows'
       ],
-      icon: '🛠️'
+      icon: <ToolsIcon size={24} />
     },
     {
       id: 'governance',
@@ -83,7 +105,7 @@ const BlogPage: React.FC = () => {
         'Architecture reviews with AI in the loop',
         'Designing guardrails for multi-agent, multi-tool systems'
       ],
-      icon: '🛡️'
+      icon: <ShieldIcon size={24} />
     },
     {
       id: 'culture',
@@ -96,7 +118,7 @@ const BlogPage: React.FC = () => {
         'Remote, async-first collaboration patterns',
         'How to upskill teams for AI-native work'
       ],
-      icon: '👥'
+      icon: <UsersIcon size={24} />
     },
     {
       id: 'product',
@@ -109,46 +131,46 @@ const BlogPage: React.FC = () => {
         'Customer stories and case studies',
         'Roadmap previews and how we think about the future'
       ],
-      icon: '📦'
+      icon: <PackageIcon size={24} />
     }
   ];
 
   const insightSeries = [
     {
-      icon: '🧠',
+      icon: <BrainIcon size={28} />,
       title: 'Building an AI-Native Engineering Org',
       description: 'Why AI-native engineering is different from traditional DevOps, how to design an AI-native control plane, and step-by-step journeys from isolated AI tools to full orchestration.'
     },
     {
-      icon: '🚨',
+      icon: <AlertIcon size={28} />,
       title: 'Incidents, Reliability & Learning',
       description: 'Real-world incident patterns, the anatomy of an effective incident co-pilot, and how to turn post-mortems into a living, searchable asset.'
     },
     {
-      icon: '🛠',
+      icon: <ToolsIcon size={28} />,
       title: 'Platform, Tools & Integrations',
       description: 'Designing integrations and workflows around DEV-O, best practices for connecting your engineering stack, and examples of custom agents.'
     },
     {
-      icon: '🌍',
+      icon: <GlobeIcon size={28} />,
       title: 'The Future of Engineering Operations',
       description: 'From dashboards to immersive operations environments, the role of robotics, spatial computing, and AI in operations, and what "bionic" organizations might look like.'
     }
   ];
 
   const contentTypes = [
-    { icon: '📖', title: 'Deep-Dive Articles', description: 'Long-form explorations with diagrams, patterns, and examples.' },
-    { icon: '📋', title: 'Playbooks & Checklists', description: 'Practical guides you can apply directly in your organization.' },
-    { icon: '📝', title: 'Field Notes', description: 'Shorter reflections from pilots, experiments, and customer work.' },
-    { icon: '🎤', title: 'Talks & Sessions', description: 'Recaps and recordings from DEV-O tech talks, guilds, and events.' },
-    { icon: '⚙️', title: 'Product Notes', description: 'Detailed explainers of new DEV-O features and their design choices.' }
+    { icon: <BookOpenIcon size={24} />, title: 'Deep-Dive Articles', description: 'Long-form explorations with diagrams, patterns, and examples.' },
+    { icon: <ClipboardIcon size={24} />, title: 'Playbooks & Checklists', description: 'Practical guides you can apply directly in your organization.' },
+    { icon: <MemoIcon size={24} />, title: 'Field Notes', description: 'Shorter reflections from pilots, experiments, and customer work.' },
+    { icon: <MicrophoneIcon size={24} />, title: 'Talks & Sessions', description: 'Recaps and recordings from DEV-O tech talks, guilds, and events.' },
+    { icon: <GearIcon size={24} />, title: 'Product Notes', description: 'Detailed explainers of new DEV-O features and their design choices.' }
   ];
 
   const audience = [
-    { icon: '👔', title: 'CTOs & Heads of Engineering', description: 'Thinking about AI strategy, resilience, and organizational design.' },
-    { icon: '🔧', title: 'Platform & SRE Leaders', description: 'Designing the underlying systems, platforms, and guardrails.' },
-    { icon: '📊', title: 'Product & Delivery Leaders', description: 'Navigating speed, risk, and quality with AI in the mix.' },
-    { icon: '💻', title: 'Senior Engineers & Architects', description: 'Who want to design and operate AI-native systems responsibly.' }
+    { icon: <SuitIcon size={24} />, title: 'CTOs & Heads of Engineering', description: 'Thinking about AI strategy, resilience, and organizational design.' },
+    { icon: <WrenchIcon size={24} />, title: 'Platform & SRE Leaders', description: 'Designing the underlying systems, platforms, and guardrails.' },
+    { icon: <BarChartIcon size={24} />, title: 'Product & Delivery Leaders', description: 'Navigating speed, risk, and quality with AI in the mix.' },
+    { icon: <LaptopIcon size={24} />, title: 'Senior Engineers & Architects', description: 'Who want to design and operate AI-native systems responsibly.' }
   ];
 
   // Sample blog posts (placeholder)
@@ -206,7 +228,7 @@ const BlogPage: React.FC = () => {
       <section className="blog-hero">
         <div className="blog-hero-content">
           <div className="blog-badge">
-            <span className="badge-icon">📚</span>
+            <span className="badge-icon"><BookIcon size={16} /></span>
             <span>Blog & Insights</span>
           </div>
           <h1 className="blog-title">
@@ -220,10 +242,10 @@ const BlogPage: React.FC = () => {
             and build orchestrated, AI-native engineering systems in practice.
           </p>
           <div className="blog-highlights">
-            <span>🔬 Deep dives on AI + engineering</span>
-            <span>📋 Practical playbooks and frameworks</span>
-            <span>🌍 Stories from the field</span>
-            <span>📦 Updates from the DEV-O team</span>
+            <span><MicroscopeIcon size={16} /> Deep dives on AI + engineering</span>
+            <span><ClipboardIcon size={16} /> Practical playbooks and frameworks</span>
+            <span><GlobeIcon size={16} /> Stories from the field</span>
+            <span><PackageIcon size={16} /> Updates from the DEV-O team</span>
           </div>
         </div>
       </section>
@@ -362,19 +384,19 @@ const BlogPage: React.FC = () => {
           <p className="section-description">If you want to follow DEV-O's thinking:</p>
           <div className="connect-options">
             <div className="connect-option">
-              <span className="connect-icon">📖</span>
+              <span className="connect-icon"><BookOpenIcon size={20} /></span>
               <p>Browse the latest posts on this page</p>
             </div>
             <div className="connect-option">
-              <span className="connect-icon">🏷️</span>
+              <span className="connect-icon"><TagIcon size={20} /></span>
               <p>Filter by topic (AI-native, incidents, platform, governance, culture, updates)</p>
             </div>
             <div className="connect-option">
-              <span className="connect-icon">📧</span>
+              <span className="connect-icon"><EmailIcon size={20} /></span>
               <p>Subscribe to updates to get new articles in your inbox</p>
             </div>
             <div className="connect-option">
-              <span className="connect-icon">🌐</span>
+              <span className="connect-icon"><GlobeIcon size={20} /></span>
               <p>Follow DEV-O and Bionicverse Inc. on social channels</p>
             </div>
           </div>
