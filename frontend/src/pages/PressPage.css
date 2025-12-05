@@ -1,7 +1,7 @@
 /* Press Page Styles */
 .press-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+  background: linear-gradient(180deg, #050816 0%, #0a0f1e 50%, #050816 100%);
   color: #ffffff;
 }
 
@@ -11,10 +11,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 4rem;
-  background: rgba(10, 10, 15, 0.8);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 8, 22, 0.95);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -49,17 +49,23 @@
 }
 
 .press-nav-cta {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5865F2, #A855F7);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   color: #ffffff !important;
+  transition: all 0.3s ease;
+}
+
+.press-nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.3);
 }
 
 /* Hero Section */
 .press-hero {
-  padding: 6rem 4rem;
+  padding: 8rem 4rem 4rem;
   text-align: center;
-  background: radial-gradient(ellipse at center top, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+  background: radial-gradient(ellipse at center top, rgba(88, 101, 242, 0.15) 0%, transparent 60%);
 }
 
 .press-hero-content {
@@ -68,10 +74,12 @@
 }
 
 .press-hero h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7C8EFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -85,28 +93,30 @@
 }
 
 .press-hero-description {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  font-family: var(--font-primary);
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.8;
   margin-bottom: 2rem;
 }
 
 .press-hero-badge {
   display: inline-block;
-  background: rgba(99, 102, 241, 0.2);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(124, 142, 255, 0.12), rgba(168, 85, 247, 0.08));
+  border: 1px solid rgba(124, 142, 255, 0.2);
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  color: #7C8EFF;
 }
 
 /* Quick Links */
 .press-quick-links {
   padding: 2rem 4rem;
   background: rgba(255, 255, 255, 0.02);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .press-quick-links-grid {
@@ -123,10 +133,10 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -134,15 +144,16 @@
 }
 
 .press-quick-link:hover {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.15), rgba(168, 85, 247, 0.1));
+  border-color: #7C8EFF;
   color: #ffffff;
+  transform: translateY(-2px);
 }
 
 .press-quick-link svg {
   width: 18px;
   height: 18px;
-  color: #a5b4fc;
+  color: #7C8EFF;
 }
 
 /* Section Styles */
@@ -155,7 +166,7 @@
 }
 
 .press-section-highlight {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.08), rgba(168, 85, 247, 0.05));
 }
 
 .press-section-container {
@@ -164,11 +175,13 @@
 }
 
 .press-section h2 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
   font-weight: 700;
   text-align: center;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #7C8EFF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -176,8 +189,9 @@
 
 .press-section-intro {
   text-align: center;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  font-family: var(--font-primary);
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 3rem;
   max-width: 700px;
   margin-left: auto;
