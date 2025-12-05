@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import { SparkleIcon, LightbulbIcon } from '../components/Icons/PageIcons';
-import VisionIcon from '../components/Icons/context-aware.svg';
+import VisionIcon from '../components/Icons/context-aware-white.svg';
 import DecideIcon from '../components/Icons/DECIDE—AI_Lightning Intelligence.svg';
 import ActIcon from '../components/Icons/ACT—Target _Precision.svg';
 import LearnIcon from '../components/Icons/LEARN—Growth _Trend Graph.svg';
