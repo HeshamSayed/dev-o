@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import heroImage from './Hero Section.svg';
+import heroImage from './HeroSection.svg';
 import logoImage from '../Logo/logo+icon.png';
 import './Hero.css';
 
