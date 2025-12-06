@@ -2,24 +2,44 @@
 
 ## Quick Deployment (Recommended)
 
-The easiest way to deploy updates:
-
+### Frontend Only
 ```bash
 ./deploy.sh
 ```
 
-That's it! The script will:
+### Backend Only
+```bash
+./deploy-backend.sh
+```
+
+### Full Stack (Frontend + Backend)
+```bash
+./deploy-backend.sh && ./deploy.sh
+```
+
+---
+
+## What Each Script Does
+
+### `deploy.sh` (Frontend)
 1. Pull latest changes from git
 2. Build the frontend with production settings
 3. Restart nginx to ensure fresh serving
 4. Verify deployment was successful
 
+### `deploy-backend.sh` (Backend)
+1. Pull latest changes from git
+2. Rebuild containers if requirements.txt changed
+3. Run database migrations
+4. Collect static files
+5. Restart backend and celery services
+6. Verify services are running
+
 ---
 
 ## Manual Deployment
 
-If you prefer to run commands manually:
-
+### Frontend (Manual Steps)
 ```bash
 # 1. Pull latest changes
 git pull origin master
@@ -35,6 +55,53 @@ docker compose restart nginx
 # 4. Verify
 docker ps | grep devo_nginx
 ```
+
+### Backend (Manual Steps)
+```bash
+# 1. Pull latest changes
+git pull origin master
+
+# 2. If requirements.txt changed, rebuild containers
+docker compose build backend celery
+
+# 3. Run database migrations
+docker compose exec backend python manage.py migrate
+
+# 4. Collect static files
+docker compose exec backend python manage.py collectstatic --noinput
+
+# 5. Restart backend services
+docker compose restart backend celery
+
+# 6. Verify
+docker ps | grep -E "devo_backend|devo_celery"
+docker compose logs --tail=20 backend
+```
+
+---
+
+## When to Use Each Deployment
+
+### Frontend Only (`./deploy.sh`)
+- UI/UX changes
+- Frontend bug fixes
+- Component updates
+- Styling changes
+- No backend/API changes
+
+### Backend Only (`./deploy-backend.sh`)
+- API changes
+- Database model changes
+- Background task updates
+- Django admin changes
+- Backend bug fixes
+- No frontend changes
+
+### Full Stack (`./deploy-backend.sh && ./deploy.sh`)
+- Features requiring both frontend and backend changes
+- Major updates
+- New routes/endpoints with UI
+- After merging branches with full-stack changes
 
 ---
 
