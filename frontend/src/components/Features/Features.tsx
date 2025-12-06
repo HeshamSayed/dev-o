@@ -140,7 +140,7 @@ const Features: React.FC = () => {
                 <ul className="feature-benefits">
                   {feature.benefits.map((benefit, idx) => (
                     <li key={idx} className="feature-benefit">
-                      <img src={benefit.icon} alt="" className="benefit-icon" style={{ filter: 'brightness(0) invert(1)' }} />
+                      <img src={benefit.icon} alt="" className="benefit-icon" />
                       <span>{benefit.text}</span>
                     </li>
                   ))}
