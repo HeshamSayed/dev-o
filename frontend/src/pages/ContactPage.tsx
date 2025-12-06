@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PageIcon } from '../components/Icons/PageIcon';
+import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import './ContactPage.css';
 
@@ -64,7 +65,7 @@ const ContactPage = () => {
       <nav className="contact-nav">
         <div className="contact-nav-container">
           <Link to="/" className="contact-logo">
-            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="contact-logo-image" />
+            <Logo size={40} showText={false} />
           </Link>
           <div className="contact-nav-links">
             <Link to="/features">Features</Link>

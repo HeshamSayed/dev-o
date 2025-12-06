@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PageIcon } from '../components/Icons/PageIcon';
+import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import './PartnersPage.css';
 
@@ -17,7 +18,7 @@ const PartnersPage = () => {
       <nav className="partners-nav">
         <div className="partners-nav-container">
           <Link to="/" className="partners-logo">
-            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="partners-logo-image" />
+            <Logo size={40} showText={false} />
           </Link>
           <div className="partners-nav-links">
             <Link to="/features">Features</Link>

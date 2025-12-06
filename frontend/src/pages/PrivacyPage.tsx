@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import './PrivacyPage.css';
 
@@ -44,7 +45,7 @@ const PrivacyPage = () => {
       <nav className="privacy-nav">
         <div className="privacy-nav-container">
           <Link to="/" className="privacy-logo">
-            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="privacy-logo-image" />
+            <Logo size={40} showText={false} />
           </Link>
           <div className="privacy-nav-links">
             <Link to="/features">Features</Link>

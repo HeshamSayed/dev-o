@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import './TermsPage.css';
 
@@ -41,7 +42,7 @@ const TermsPage = () => {
       <nav className="terms-nav">
         <div className="terms-nav-container">
           <Link to="/" className="terms-logo">
-            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="terms-logo-image" />
+            <Logo size={40} showText={false} />
           </Link>
           <div className="terms-nav-links">
             <Link to="/features">Features</Link>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { WarningIcon } from '../components/Icons/PageIcons';
+import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import './AboutPage.css';
 
@@ -111,7 +112,7 @@ const AboutPage = () => {
       <nav className="about-nav">
         <div className="about-nav-container">
           <Link to="/" className="about-logo">
-            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="about-logo-image" />
+            <Logo size={40} showText={false} />
           </Link>
           <div className="about-nav-links">
             <Link to="/features">Features</Link>

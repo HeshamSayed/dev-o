@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageIcon } from '../components/Icons/PageIcon';
+import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import './CareersPage.css';
 
@@ -10,7 +11,7 @@ const CareersPage: React.FC = () => {
       {/* Navigation */}
       <nav className="careers-nav">
         <Link to="/" className="careers-nav-logo">
-          <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="careers-logo-img" />
+          <Logo size={40} showText={false} />
         </Link>
         <div className="careers-nav-links">
           <Link to="/features">Features</Link>

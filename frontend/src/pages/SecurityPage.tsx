@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Logo from '../components/Logo/Logo';
 import Footer from '../components/Footer/Footer';
 import './SecurityPage.css';
 
@@ -151,7 +152,7 @@ const SecurityPage = () => {
       <nav className="security-nav">
         <div className="security-nav-container">
           <Link to="/" className="security-logo">
-            <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" className="security-logo-image" />
+            <Logo size={40} showText={false} />
           </Link>
           <div className="security-nav-links">
             <Link to="/features">Features</Link>
