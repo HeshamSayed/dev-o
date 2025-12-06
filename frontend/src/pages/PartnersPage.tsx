@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PageIcon } from '../components/Icons/PageIcon';
+import Footer from '../components/Footer/Footer';
 import './PartnersPage.css';
 
 const PartnersPage = () => {
@@ -623,37 +624,7 @@ const PartnersPage = () => {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="partners-footer">
-        <div className="partners-footer-content">
-          <div className="partners-footer-brand">
-            <Link to="/" className="partners-footer-logo">
-              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
-            </Link>
-            <p>Digital Engineering Virtual Orchestrator</p>
-          </div>
-          <div className="partners-footer-links">
-            <div className="footer-link-group">
-              <h4>Product</h4>
-              <Link to="/features">Features</Link>
-              <Link to="/pricing">Pricing</Link>
-            </div>
-            <div className="footer-link-group">
-              <h4>Company</h4>
-              <Link to="/careers">Careers</Link>
-              <Link to="/press">Press</Link>
-            </div>
-            <div className="footer-link-group">
-              <h4>Resources</h4>
-              <Link to="/blog">Blog</Link>
-              <Link to="/partners">Partners</Link>
-            </div>
-          </div>
-        </div>
-        <div className="partners-footer-bottom">
-          <p>© {new Date().getFullYear()} DEV-O by Bionicverse Inc. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer/Footer';
 import './PrivacyPage.css';
 
 // SVG Icon Components
@@ -490,39 +491,7 @@ const PrivacyPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="privacy-footer">
-        <div className="privacy-footer-content">
-          <div className="privacy-footer-brand">
-            <Link to="/" className="privacy-footer-logo">
-              <img src="/src/components/Logo/logo+icon.png" alt="DEV-O" />
-            </Link>
-            <p>Digital Engineering Virtual Orchestrator</p>
-          </div>
-          <div className="privacy-footer-links">
-            <div className="footer-link-group">
-              <h4>Legal</h4>
-              <Link to="/privacy">Privacy Policy</Link>
-              <Link to="/terms">Terms of Service</Link>
-              <Link to="/security">Security</Link>
-            </div>
-            <div className="footer-link-group">
-              <h4>Company</h4>
-              <Link to="/careers">Careers</Link>
-              <Link to="/press">Press</Link>
-              <Link to="/partners">Partners</Link>
-            </div>
-            <div className="footer-link-group">
-              <h4>Resources</h4>
-              <Link to="/features">Features</Link>
-              <Link to="/pricing">Pricing</Link>
-              <Link to="/blog">Blog</Link>
-            </div>
-          </div>
-        </div>
-        <div className="privacy-footer-bottom">
-          <p>© {new Date().getFullYear()} DEV-O by Bionicverse Inc. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
