@@ -6,6 +6,14 @@
   min-height: 100vh;
   background: linear-gradient(180deg, #050816 0%, #0a0f1e 50%, #050816 100%);
   color: #e2e8f0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.pricing-page-new *,
+.pricing-page-new *::before,
+.pricing-page-new *::after {
+  box-sizing: border-box;
 }
 
 /* Navigation Header */
@@ -343,7 +351,7 @@
 
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   gap: 24px;
   padding-top: 10px;
 }
@@ -591,7 +599,7 @@
 
 .scenarios-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 24px;
 }
 
@@ -1030,21 +1038,28 @@
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .plans-grid {
-    grid-template-columns: 1fr;
-    max-width: 500px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    max-width: 900px;
     margin: 0 auto;
   }
 
   .scenarios-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   }
 
   .tokens-content {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
 
   .comparison-points {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+
+  .pricing-blocks {
     grid-template-columns: 1fr;
+    max-width: 600px;
+    margin: 0 auto;
   }
 }
 
@@ -1054,19 +1069,25 @@
   }
 
   .pricing-header-links {
-    gap: 16px;
+    gap: 12px;
   }
 
-  .pricing-header-links .nav-link {
+  .pricing-header-links .nav-link:not(.nav-cta) {
     display: none;
   }
 
+  .pricing-header-links .nav-cta {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
   .pricing-hero {
-    padding: 120px 16px 60px;
+    padding: 110px 16px 50px;
   }
 
   .pricing-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    line-height: 1.2;
   }
 
   .early-adopter-card,
@@ -1103,19 +1124,41 @@
 }
 
 @media (max-width: 480px) {
+  .pricing-hero {
+    padding: 100px 12px 40px;
+  }
+
   .section-title {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .section-description {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .plan-card {
-    padding: 24px 20px;
+    padding: 24px 16px;
   }
 
   .scenario-card {
-    padding: 24px 20px;
+    padding: 24px 16px;
+  }
+
+  .early-adopter-card,
+  .enterprise-card {
+    padding: 28px 16px;
+  }
+
+  .pricing-blocks {
+    gap: 20px;
+  }
+
+  .pricing-block {
+    padding: 24px 16px;
+  }
+
+  .cta-button.primary {
+    padding: 14px 24px;
+    font-size: 15px;
   }
 }

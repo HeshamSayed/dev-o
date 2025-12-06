@@ -4,6 +4,14 @@
   color: #ffffff;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   position: relative;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.contact-page *,
+.contact-page *::before,
+.contact-page *::after {
+  box-sizing: border-box;
 }
 
 /* Navigation */
@@ -202,6 +210,8 @@
 .form-group input,
 .form-group select,
 .form-group textarea {
+  width: 100%;
+  max-width: 100%;
   padding: 0.875rem 1rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -762,11 +772,16 @@
   }
 
   .contact-form-section {
-    padding: 2rem;
+    padding: 1.5rem;
   }
 
   .form-row {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contact-form {
+    gap: 1rem;
   }
 
   .email-grid {
@@ -810,7 +825,19 @@
   }
 
   .contact-form-section {
-    padding: 1.5rem;
+    padding: 1rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
   }
 
   .contact-footer-links {

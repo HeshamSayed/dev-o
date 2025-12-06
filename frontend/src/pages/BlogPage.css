@@ -2,6 +2,14 @@
   min-height: 100vh;
   background: linear-gradient(180deg, #050816 0%, #0a0f1e 50%, #050816 100%);
   color: #e2e8f0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.blog-page *,
+.blog-page *::before,
+.blog-page *::after {
+  box-sizing: border-box;
 }
 
 /* Navigation Header */
