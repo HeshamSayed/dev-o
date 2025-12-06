@@ -71,7 +71,7 @@ services:
         - VITE_WS_URL=wss://api.dev-o.ai
     container_name: devo_frontend
     volumes:
-      - frontend_build:/app/dist
+      - ./frontend/dist:/app/dist
     depends_on:
       - backend
 
@@ -84,9 +84,9 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - frontend_build:/usr/share/nginx/html/dashboard:ro
-      - frontend_build:/usr/share/nginx/html/chat:ro
-      - frontend_build:/var/www/landing:ro
+      - ./frontend/dist:/usr/share/nginx/html/dashboard:ro
+      - ./frontend/dist:/usr/share/nginx/html/chat:ro
+      - ./frontend/dist:/var/www/landing:ro
       - ./backend:/app/backend:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
       - /var/www/certbot:/var/www/certbot:ro
@@ -97,4 +97,3 @@ services:
 
 volumes:
   postgres_data:
-  frontend_build:
