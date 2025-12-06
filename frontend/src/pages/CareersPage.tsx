@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageIcon } from '../components/Icons/PageIcon';
+import Footer from '../components/Footer/Footer';
 import './CareersPage.css';
 
 const CareersPage: React.FC = () => {
@@ -638,17 +639,7 @@ const CareersPage: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="careers-footer">
-        <div className="careers-footer-content">
-          <p>© {new Date().getFullYear()} DEV-O by Bionicverse Inc. All rights reserved.</p>
-          <div className="careers-footer-links">
-            <Link to="/">Home</Link>
-            <Link to="/features">Features</Link>
-            <Link to="/pricing">Pricing</Link>
-            <Link to="/blog">Blog</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

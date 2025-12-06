@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer/Footer';
 import './PressPage.css';
 
 // SVG Icon Components
@@ -695,18 +696,7 @@ DEV-O is developed by Bionicverse Inc. (USA), a company operating at the interse
       </section>
 
       {/* Footer */}
-      <footer className="press-footer">
-        <div className="press-footer-content">
-          <p>© {new Date().getFullYear()} DEV-O by Bionicverse Inc. All rights reserved.</p>
-          <div className="press-footer-links">
-            <Link to="/">Home</Link>
-            <Link to="/features">Features</Link>
-            <Link to="/pricing">Pricing</Link>
-            <Link to="/blog">Blog</Link>
-            <Link to="/careers">Careers</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
